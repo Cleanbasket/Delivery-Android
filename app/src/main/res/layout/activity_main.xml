@@ -1,81 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#83dbd1">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
 
-    <ImageView
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:id="@+id/imageView"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/logo"
-        android:layout_marginTop="100dp" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_marginTop="40dp">
-
-        <EditText
-            android:id="@+id/et_login_email"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:hint="이메일"
-            android:inputType="textEmailAddress"
-            android:padding="10dp"
-            android:textSize="12sp"
-            android:background="#ebffffff"
-            android:textColor="#eb000000" />
-
-        <EditText
-            android:id="@+id/et_login_password"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:hint="비밀번호"
-            android:inputType="textPassword"
-            android:padding="10dp"
-            android:textSize="12sp"
-            android:background="#ebffffff"
-            android:layout_marginTop="5dp"
-            android:autoText="false"
-            android:textColor="#eb000000" />
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:openDrawer="start">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="5dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/bt_login"
-                android:layout_width="147.5dp"
-                android:layout_height="40dp"
-                android:padding="10dp"
-                android:textSize="13sp"
-                android:text="로그인"
-                android:background="#ebffffff"
-                android:textColor="#60ccbf"
-                android:layout_marginRight="2.5dp"
-                android:textStyle="bold" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="전체주문" />
 
-            <Button
-                android:id="@+id/bt_sign_up"
-                android:layout_width="147.5dp"
-                android:layout_height="40dp"
-                android:padding="10dp"
-                android:textSize="13sp"
-                android:text="배달자 등록"
-                android:background="#ebffffff"
-                android:textColor="#60ccbf"
-                android:layout_marginLeft="2.5dp"
-                android:textStyle="bold" />
+            <FrameLayout
+                android:id="@+id/content_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
-    </LinearLayout>
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/nav_header"
+            app:itemTextColor="@color/nav_view_colors"
+            app:menu="@menu/drawer_menu"
+            app:insetForeground="#4000"/>
 
-</LinearLayout>
+    </android.support.v4.widget.DrawerLayout>
+
+</layout>

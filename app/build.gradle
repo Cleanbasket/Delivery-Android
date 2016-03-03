@@ -26,4 +26,5 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.google.code.gson:gson:2.6.2'
     compile project(':simple-crop-image-lib')
+    compile 'com.android.support:design:23.2.0'
 }

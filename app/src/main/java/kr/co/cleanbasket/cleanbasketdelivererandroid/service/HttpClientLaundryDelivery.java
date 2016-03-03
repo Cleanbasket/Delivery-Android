@@ -15,11 +15,21 @@ import java.util.concurrent.ThreadPoolExecutor;
 import cz.msebera.android.httpclient.client.params.ClientPNames;
 import cz.msebera.android.httpclient.cookie.Cookie;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.AddressManager;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
 
 /**
- * Created by theodore on 16. 2. 29..
+ *  HttpClientLaundryDelivery.java
+ *  CleanBasket Deliverer Android
+ *
+ *  Created by Yongbin Cha
+ *  Copyright (c) 2016 WashAppKorea. All rights reserved.
+ *
  */
+
 public class HttpClientLaundryDelivery {
+
+    private static final String TAG = LogUtils.makeTag(HttpClientLaundryDelivery.class);
+
     private static final String BASE_URL = AddressManager.SERVER_ADDRESS;
 
     private static AsyncHttpClient client = new AsyncHttpClient();
@@ -49,10 +59,10 @@ public class HttpClientLaundryDelivery {
         client.getHttpClient().getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, true);
         client.setThreadPool((ThreadPoolExecutor) Executors.newCachedThreadPool());
         client.setUserAgent("wash");
-        Log.i("CleanBasket ::", "initConfiguration");
+        Log.i(TAG, "initConfiguration");
 
         for(Cookie cookie : myCookieStore.getCookies()) {
-            Log.i("CleanBasket ::", cookie.getValue() + " / " +cookie.getName());
+            Log.i(TAG, cookie.getValue() + " / " +cookie.getName());
         }
     }
 

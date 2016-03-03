@@ -1,8 +1,14 @@
 package kr.co.cleanbasket.cleanbasketdelivererandroid.utils;
 
 /**
- * Created by theodore on 16. 2. 29..
+ *  Config.java
+ *  CleanBasket Deliverer Android
+ *
+ *  Created by Yongbin Cha
+ *  Copyright (c) 2016 WashAppKorea. All rights reserved.
+ *
  */
+
 public class Config {
     public final static String DAUM_MAP_API = "ed518de9a2cb643cc334a8f3fa8008fb";
     public final static String DAUM_MAP_LOCAL_API = "ed518de9a2cb643cc334a8f3fa8008fb";

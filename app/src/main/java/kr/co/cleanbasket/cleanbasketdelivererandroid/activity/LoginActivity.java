@@ -1,4 +1,4 @@
-package kr.co.cleanbasket.cleanbasketdelivererandroid.ui;
+package kr.co.cleanbasket.cleanbasketdelivererandroid.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,17 +15,25 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import cz.msebera.android.httpclient.Header;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.MainActivity;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.AddressManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.JsonData;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.ServerConstants;
 
 /**
- * Created by theodore on 16. 2. 29..
+ *  LoginActivity.java
+ *  CleanBasket Deliverer Android
+ *
+ *  Created by Yongbin Cha
+ *  Copyright (c) 2016 WashAppKorea. All rights reserved.
+ *
  */
+
 public class LoginActivity extends AppCompatActivity {
+
+    private static final String TAG = LogUtils.makeTag(LoginActivity.class);
 
     // UI Element
     private EditText etEmail;
@@ -97,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                Log.v("CleanBasket :: ", responseString);
+                Log.v(TAG, responseString);
 
                 JsonData jsonData = gson.fromJson(responseString, JsonData.class);
 

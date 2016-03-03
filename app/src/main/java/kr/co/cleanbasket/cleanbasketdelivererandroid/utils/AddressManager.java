@@ -1,5 +1,14 @@
 package kr.co.cleanbasket.cleanbasketdelivererandroid.utils;
 
+/**
+ *  AddressManager.java
+ *  CleanBasket Deliverer Android
+ *
+ *  Created by Yongbin Cha
+ *  Copyright (c) 2016 WashAppKorea. All rights reserved.
+ *
+ */
+
 public class AddressManager {
 	public final static String SERVER_ADDRESS = Config.SERVER_ADDRESS;
 

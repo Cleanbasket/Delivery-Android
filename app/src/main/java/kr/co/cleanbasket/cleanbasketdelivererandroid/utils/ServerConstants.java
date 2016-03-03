@@ -1,5 +1,14 @@
 package kr.co.cleanbasket.cleanbasketdelivererandroid.utils;
 
+/**
+ *  ServerConstants.java
+ *  CleanBasket Deliverer Android
+ *
+ *  Created by Yongbin Cha
+ *  Copyright (c) 2016 WashAppKorea. All rights reserved.
+ *
+ */
+
 public class ServerConstants {
 	public int constant = 0;
 	public String message = "";

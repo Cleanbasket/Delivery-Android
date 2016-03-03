@@ -13,6 +13,15 @@ import java.io.OutputStream;
 
 import eu.janmuller.android.simplecropimage.CropImage;
 
+/**
+ *  ImageManager.java
+ *  CleanBasket Deliverer Android
+ *
+ *  Created by Yongbin Cha
+ *  Copyright (c) 2016 WashAppKorea. All rights reserved.
+ *
+ */
+
 public class ImageManager {
 	
 	// Device Density

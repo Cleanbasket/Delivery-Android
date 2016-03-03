@@ -1,4 +1,4 @@
-package kr.co.cleanbasket.cleanbasketdelivererandroid.ui;
+package kr.co.cleanbasket.cleanbasketdelivererandroid.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,20 +11,27 @@ import com.google.gson.Gson;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import cz.msebera.android.httpclient.Header;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.MainActivity;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.AddressManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.JsonData;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.ServerConstants;
 
 /**
- * Created by theodore on 16. 2. 29..
+ *  StartActivity.java
+ *  CleanBasket Deliverer Android
+ *
+ *  Created by Yongbin Cha
+ *  Copyright (c) 2016 WashAppKorea. All rights reserved.
+ *
  */
+
 public class StartActivity extends AppCompatActivity {
 
-    private Gson gson;
+    private static final String TAG = LogUtils.makeTag(StartActivity.class);
 
+    private Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +62,7 @@ public class StartActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                Log.v("CleanBasket :: ", responseString);
+                Log.v(TAG, responseString);
                 JsonData jsonData = gson.fromJson(responseString, JsonData.class);
                 switch (jsonData.constant) {
                     case ServerConstants.SESSION_EXPIRED:

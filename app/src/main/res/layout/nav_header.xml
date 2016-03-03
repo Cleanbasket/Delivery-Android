@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="io.github.droidkaigi.confsched.R" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/drawer_header"
+        android:background="@drawable/img_default_cover_auto_mirrored"
+        android:orientation="vertical"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#4D000000" />
+
+        <ImageView
+            android:id="@+id/img_nav_header_icon"
+            android:layout_width="@dimen/drawer_header_icon"
+            android:layout_height="@dimen/drawer_header_icon"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="40dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_speaker_placeholder" />
+
+        <TextView
+            android:id="@+id/txt_nav_header_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_nav_header_icon"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="aaaaaaaaaaaaa"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_nav_header_title"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="aaaaaaaaa"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+</layout>
