@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="10dp" >
+
+            <ImageView
+                android:id="@+id/iv_register_profilimage"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/logo_white"
+                android:background="#83dbd1"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="프로필을 선택하여 사진을 추가해주세요."
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:textColor="#d8727272"
+                android:layout_marginBottom="10dp" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_register_email"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="6dp"
+            android:hint="이메일 (최대80자)"
+            android:inputType="textEmailAddress"
+            android:maxLength="80"
+            android:padding="10dp"
+            android:textSize="14sp"
+            android:background="@drawable/register_outline" />
+
+        <EditText
+            android:id="@+id/et_register_password"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/register_outline"
+            android:hint="비밀번호 (6자리 이상 10자리 이하)"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/et_register_name"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:background="@drawable/register_outline"
+            android:layout_marginBottom="6dp"
+            android:hint="이름 (최대 5자)"
+            android:maxLength="5"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/et_register_birth"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/register_outline"
+            android:hint="생년월일 (6자리)"
+            android:maxLength="6"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/et_register_phonenumber"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/register_outline"
+            android:hint="연락처 (-없이 입력)"
+            android:maxLength="15"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/iv_btn_register_confirm"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:text="회원가입"
+        android:background="@drawable/register_button"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:textIsSelectable="false" />
+
+</LinearLayout>
