@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#76dbcf</color>
     <color name="colorAccent">#FF4081</color>
     <color name="primary_text_default_material_light">#ecffffff</color>
+    <color name="blue">#0D99FF</color>
+    <color name="skyblue">#0CC5E8</color>
 </resources>

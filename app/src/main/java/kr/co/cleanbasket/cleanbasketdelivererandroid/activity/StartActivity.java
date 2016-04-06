@@ -71,6 +71,7 @@ public class StartActivity extends AppCompatActivity {
                         break;
                     case ServerConstants.SESSION_VALID:
                         intent = new Intent(StartActivity.this, MainActivity.class);
+                        intent.putExtra("userID",jsonData.data);
                         break;
                 }
                 startActivity(intent);

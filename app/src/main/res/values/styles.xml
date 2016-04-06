@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorPrimary">@color/abc_primary_text_material_dark</item>
+        <item name="colorButtonNormal">@color/blue</item>
     </style>
 
     <!-- Base application theme. -->
@@ -16,6 +17,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorPrimary">@color/abc_primary_text_material_dark</item>
+        <item name="colorButtonNormal">@color/colorPrimary</item>
     </style>
 
 </resources>

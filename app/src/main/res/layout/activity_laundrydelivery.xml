@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#ffffff" >
+    android:background="#83DBD1" >
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/splash_white"
-        android:scaleType="centerInside" />
+        android:src="@drawable/img_main_logo"
+        android:scaleType="centerInside"
+        android:background="#83DBD1" />
 
 </LinearLayout>
