@@ -10,25 +10,15 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.Header;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.json.OrderInfo;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.AddressManager;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
-
-import static android.graphics.Color.DKGRAY;
 
 /**
  * ViewAllOrderAdapter.java
@@ -80,7 +70,7 @@ public class ViewAllOrderAdapter extends BaseAdapter {
 
         LayoutInflater inflater = context.getLayoutInflater();
 
-        convertView = inflater.inflate(R.layout.view_all_detail, null, true);
+        convertView = inflater.inflate(R.layout.item_view_all, null, true);
 
         TextView tv_order_number = (TextView) convertView.findViewById(R.id.order_number);
         TextView tv_pickup_time = (TextView) convertView.findViewById(R.id.pickup_time);

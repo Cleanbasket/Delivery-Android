@@ -2,7 +2,6 @@ package kr.co.cleanbasket.cleanbasketdelivererandroid.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,7 +57,7 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.my_order_fragment, container, false);
+        View v = inflater.inflate(R.layout.fragment_my_order, container, false);
 
         tabHost = (MaterialTabHost) v.findViewById(R.id.materialTabHost);
         detail = (ListView) v.findViewById(R.id.lv_detail);

@@ -3,7 +3,6 @@ package kr.co.cleanbasket.cleanbasketdelivererandroid.adapter;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,10 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
@@ -73,7 +70,7 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
 
-        View row = inflater.inflate(R.layout.drop_off_detail, null, true);
+        View row = inflater.inflate(R.layout.item_drop_off, null, true);
 
         TextView order_number = (TextView) row.findViewById(R.id.order_number);
         TextView price = (TextView) row.findViewById(R.id.price);
@@ -108,7 +105,7 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
         // Get the layout inflater
         LayoutInflater inflater = context.getLayoutInflater();
 
-        final View view = inflater.inflate(R.layout.alter_detail, null);
+        final View view = inflater.inflate(R.layout.dialog_order1, null);
 
         TextView order_number = (TextView) view.findViewById(R.id.order_number);
         TextView price = (TextView) view.findViewById(R.id.price);

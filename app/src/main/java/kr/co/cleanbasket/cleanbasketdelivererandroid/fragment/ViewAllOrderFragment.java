@@ -17,11 +17,8 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -40,8 +37,6 @@ import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import it.neokree.materialtabs.MaterialTabHost;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.activity.MainActivity;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.activity.OrderDetailActivity;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.adapter.ViewAllOrderAdapter;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.json.DelivererInfo;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.json.OrderInfo;
@@ -87,7 +82,7 @@ public class ViewAllOrderFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.view_all_fragment, container, false);
+        View v = inflater.inflate(R.layout.fragment_view_all, container, false);
 
         detail = (ListView) v.findViewById(R.id.lv_detail);
 
@@ -279,7 +274,7 @@ public class ViewAllOrderFragment extends Fragment{
         // Get the layout inflater
         LayoutInflater inflater = context.getLayoutInflater();
 
-        final View view = inflater.inflate(R.layout.order_detail_dialog, null);
+        final View view = inflater.inflate(R.layout.dialog_order2, null);
 
         TextView order_number = (TextView) view.findViewById(R.id.order_number);
         TextView price = (TextView) view.findViewById(R.id.price);

@@ -43,7 +43,7 @@ public class MyOrderAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
 
-        View row = inflater.inflate(R.layout.my_order_detail, null, true);
+        View row = inflater.inflate(R.layout.item_my_order, null, true);
 
         return row;
     }

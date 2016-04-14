@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
@@ -30,8 +28,6 @@ import kr.co.cleanbasket.cleanbasketdelivererandroid.json.OrderInfo;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.AddressManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.JsonData;
-
-import static android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT;
 
 /**
  * OrderDetailActivity.java
@@ -63,7 +59,7 @@ public class OrderDetailActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.view_all_detail_activity);
+        setContentView(R.layout.activity_view_detail);
 
         gson = new Gson();
 
