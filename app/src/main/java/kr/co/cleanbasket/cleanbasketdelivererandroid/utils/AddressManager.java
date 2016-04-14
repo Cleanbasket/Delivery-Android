@@ -16,7 +16,12 @@ public class AddressManager {
 	public final static String DELIVERER_PICKUP = "deliverer/pickup";
 	public final static String DELIVERER_DROPOFF = "deliverer/dropoff";
 	public final static String DELIVERER_JOIN = "deliverer/join";
-	
+	public final static String DELIVERER_ORDER = "deliverer/order";
+	public final static String DELIVERER_LIST = "deliverer/list";
+	public final static String ASSIGN_PICKUP = "deliverer/pickup/assign";
+	public final static String ASSIGN_DROPOFF = "deliverer/dropoff/assign";
+
+
 	public final static String LOGIN_CHECK = "auth/check";
 	public final static String CONFIRM_PICKUP = "deliverer/pickup/complete";
 	public final static String CONFIRM_DROPOFF = "deliverer/dropoff/complete";

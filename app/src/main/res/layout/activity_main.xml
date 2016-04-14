@@ -40,7 +40,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
-            app:headerLayout="@layout/nav_header"
             app:itemTextColor="@color/nav_view_colors"
             app:menu="@menu/drawer_menu"
             app:insetForeground="#4000"/>

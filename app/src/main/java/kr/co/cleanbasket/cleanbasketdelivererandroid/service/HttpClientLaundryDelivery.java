@@ -12,6 +12,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.client.params.ClientPNames;
 import cz.msebera.android.httpclient.cookie.Cookie;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.AddressManager;
@@ -40,12 +41,30 @@ public class HttpClientLaundryDelivery {
         client.post(getAbsoluteUrl(url), params, responseHandler);
     }
 
+    public static void post(Context context, String url, HttpEntity entity, String contentType, AsyncHttpResponseHandler responseHandler) {
+        client.post(context, getAbsoluteUrl(url), entity, contentType, responseHandler);
+    }
+
+    public static void post(String url, RequestParams params, TextHttpResponseHandler responseHandler) {
+        client.post(getAbsoluteUrl(url), params, responseHandler);
+    }
+
     public static void post(String url, AsyncHttpResponseHandler responseHandler) {
         client.post(getAbsoluteUrl(url), responseHandler);
     }
 
     public static void post(Context context, String url, RequestParams requestEntity, TextHttpResponseHandler handler ) {
         client.post(getAbsoluteUrl(url), requestEntity, handler);
+    }
+
+    // GET
+
+    public static void get(String url, AsyncHttpResponseHandler responseHandler) {
+        client.get(getAbsoluteUrl(url), responseHandler);
+    }
+
+    public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        client.get(getAbsoluteUrl(url), params ,responseHandler);
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {

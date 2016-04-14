@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="cb_button">
+        <item name="android:colorButtonNormal">@color/colorPrimary</item>
+    </style>
+</resources>

@@ -8,4 +8,6 @@ package kr.co.cleanbasket.cleanbasketdelivererandroid.json;
  * Copyright (c) 2016 WashAppKorea. All rights reserved.
  */
 public class DelivererInfo {
+    public String name = "";
+    public Integer uid = 0;
 }
