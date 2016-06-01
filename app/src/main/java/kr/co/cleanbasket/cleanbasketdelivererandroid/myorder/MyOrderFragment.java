@@ -1,4 +1,4 @@
-package kr.co.cleanbasket.cleanbasketdelivererandroid.fragment;
+package kr.co.cleanbasket.cleanbasketdelivererandroid.myorder;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -22,12 +22,10 @@ import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.adapter.MyOrderDropOffAdapter;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.adapter.MyOrderPickUpAdapter;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.json.OrderInfo;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.AddressManager;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.JsonData;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 
 /**
  * MyOrderFragment.java
@@ -42,12 +40,19 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
     private ListView detail;
 
     private Gson gson;
-    private ArrayList<OrderInfo> orderArrayList;
+    private ArrayList<OrderInfo> dropoffList;
+    private ArrayList<OrderInfo> pickUpList;
 
     private MyOrderDropOffAdapter myOrderDropOffAdapter;
     private MyOrderPickUpAdapter myOrderPickUpAdapter;
 
     private Activity context;
+
+    private static final String TAG = "DEV_myOrderFragment";
+
+    public MyOrderFragment(){
+
+    }
 
     public MyOrderFragment(Activity context){
         gson = new Gson();
@@ -109,13 +114,13 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
 
     }
 
-    private void pickupData(){
-        orderArrayList = new ArrayList<OrderInfo>();
+    private ArrayList<OrderInfo> pickupData(){
+        pickUpList = new ArrayList<OrderInfo>();
 
         HttpClientLaundryDelivery.post(AddressManager.DELIVERER_PICKUP, new RequestParams(), new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
+                Log.e(TAG,"POST FAILED TO " + AddressManager.DELIVERER_PICKUP + " : " + throwable.getMessage());
             }
 
             @Override
@@ -125,31 +130,37 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
 
                 JsonData jsonData = gson.fromJson(responseString, JsonData.class);
 
-                orderArrayList = gson.fromJson(jsonData.data, new TypeToken<ArrayList<OrderInfo>>() {
+                pickUpList = gson.fromJson(jsonData.data, new TypeToken<ArrayList<OrderInfo>>() {
                 }.getType());
 
-                myOrderPickUpAdapter = new MyOrderPickUpAdapter(context, orderArrayList);
-                detail.setAdapter(myOrderPickUpAdapter);
 
-                detail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                setMyOrderPickUpAdapter();
 
-                        myOrderPickUpAdapter.showOrderDetailDialog(position);
-                    }
-                });
+            }
+        });
+        return pickUpList;
+    }
 
+    private void setMyOrderPickUpAdapter() {
+        myOrderPickUpAdapter = new MyOrderPickUpAdapter(context, pickUpList);
+        detail.setAdapter(myOrderPickUpAdapter);
+
+        detail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                myOrderPickUpAdapter.showOrderDetailDialog(position);
             }
         });
     }
 
-    private void dropoffData(){
-        orderArrayList = new ArrayList<OrderInfo>();
+    private ArrayList<OrderInfo> dropoffData(){
+        dropoffList = new ArrayList<OrderInfo>();
 
         HttpClientLaundryDelivery.post(AddressManager.DELIVERER_DROPOFF, new RequestParams(), new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
+                Log.e(TAG,"POST FAILED TO " + AddressManager.DELIVERER_PICKUP + " : " + throwable.getMessage());
             }
 
             @Override
@@ -159,20 +170,25 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
 
                 JsonData jsonData = gson.fromJson(responseString, JsonData.class);
 
-                orderArrayList = gson.fromJson(jsonData.data, new TypeToken<ArrayList<OrderInfo>>() {
+                dropoffList = gson.fromJson(jsonData.data, new TypeToken<ArrayList<OrderInfo>>() {
                 }.getType());
+                Log.i("TEST",dropoffList.get(0).dropoff_date);
+                setOrderDropOffAdatper();
 
-                myOrderDropOffAdapter = new MyOrderDropOffAdapter(context, orderArrayList);
-                detail.setAdapter(myOrderDropOffAdapter);
+            }
+        });
+        return dropoffList;
+    }
 
-                detail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    private void setOrderDropOffAdatper() {
+        myOrderDropOffAdapter = new MyOrderDropOffAdapter(context, dropoffList);
+        detail.setAdapter(myOrderDropOffAdapter);
 
-                        myOrderDropOffAdapter.showOrderDetailDialog(position);
-                    }
-                });
+        detail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                myOrderDropOffAdapter.showOrderDetailDialog(position);
             }
         });
     }

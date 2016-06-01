@@ -15,7 +15,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.client.params.ClientPNames;
 import cz.msebera.android.httpclient.cookie.Cookie;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.AddressManager;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
 
 /**

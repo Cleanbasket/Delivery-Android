@@ -13,7 +13,7 @@
         <item
             android:id="@+id/nav_pickup"
             android:icon="@drawable/ic_content_paste_grey_600_24dp"
-            android:title="수거배정" />
+            android:title="오늘 주문 배정" />
         <item
             android:id="@+id/nav_deliver"
             android:icon="@drawable/ic_content_paste_grey_600_24dp"

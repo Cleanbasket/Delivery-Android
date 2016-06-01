@@ -1,4 +1,4 @@
-package kr.co.cleanbasket.cleanbasketdelivererandroid.json;
+package kr.co.cleanbasket.cleanbasketdelivererandroid.vo;
 
 /**
  * Item.java

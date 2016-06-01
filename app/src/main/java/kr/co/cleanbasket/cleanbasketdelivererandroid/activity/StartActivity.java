@@ -13,10 +13,10 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import cz.msebera.android.httpclient.Header;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.AddressManager;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.JsonData;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.ServerConstants;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.ServerConstants;
 
 /**
  *  StartActivity.java

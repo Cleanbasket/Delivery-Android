@@ -1,4 +1,4 @@
-package kr.co.cleanbasket.cleanbasketdelivererandroid.adapter;
+package kr.co.cleanbasket.cleanbasketdelivererandroid.myorder;
 
 import android.Manifest;
 import android.app.Activity;
@@ -26,26 +26,26 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.json.OrderInfo;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.AddressManager;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.JsonData;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 
 /**
- * MyOrderPickUpAdapter.java
+ * MyOrderDropOffAdapter.java
  * CleanBasket Deliverer Android
  * <p/>
- * Created by Yongbin Cha on 16. 4. 6..
+ * Created by Yongbin Cha on 16. 3. 11..
  * Copyright (c) 2016 WashAppKorea. All rights reserved.
  */
-public class MyOrderPickUpAdapter extends BaseAdapter {
+public class MyOrderDropOffAdapter extends BaseAdapter {
 
     private Activity context;
     private ArrayList<OrderInfo> orderArrayList;
     private Gson gson;
 
+    public MyOrderDropOffAdapter(Activity context,ArrayList<OrderInfo> orderArrayList){
 
-    public MyOrderPickUpAdapter(Activity context, ArrayList<OrderInfo> orderArrayList) {
         this.context = context;
         this.orderArrayList = orderArrayList;
         gson = new Gson();
@@ -70,32 +70,29 @@ public class MyOrderPickUpAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
 
-        View row = inflater.inflate(R.layout.item_pick_up, null, true);
+        View row = inflater.inflate(R.layout.item_drop_off, null, true);
 
-        // 정보 입력
         TextView order_number = (TextView) row.findViewById(R.id.order_number);
-        TextView pickup_date = (TextView) row.findViewById(R.id.pickup_date);
-        TextView address = (TextView) row.findViewById(R.id.address);
         TextView price = (TextView) row.findViewById(R.id.price);
-        TextView memo = (TextView) row.findViewById(R.id.memo);
+        TextView dropoff_date = (TextView) row.findViewById(R.id.dropoff_date);
+        TextView address = (TextView) row.findViewById(R.id.address);
         TextView item = (TextView) row.findViewById(R.id.item);
-
-        order_number.setText(orderArrayList.get(position).order_number);
-        pickup_date.setText(orderArrayList.get(position).pickup_date);
-        address.setText(orderArrayList.get(position).address + orderArrayList.get(position).addr_number +
-                orderArrayList.get(position).addr_building + orderArrayList.get(position).addr_remainder);
+        TextView memo = (TextView) row.findViewById(R.id.memo);
 
         DecimalFormat df = new DecimalFormat("#,##0");
+
+        order_number.setText(orderArrayList.get(position).order_number);
+
         String price_str  = String.valueOf(df.format(orderArrayList.get(0).price));
         price.setText(price_str);
 
-        memo.setText(orderArrayList.get(position).memo);
+        dropoff_date.setText(orderArrayList.get(position).dropoff_date);
+        address.setText(orderArrayList.get(position).address + orderArrayList.get(position).addr_number +
+                orderArrayList.get(position).addr_building + orderArrayList.get(position).addr_remainder);
         item.setText(makeItem(position));
+        memo.setText(orderArrayList.get(position).memo);
 
-
-        // 완료 건에 대한 색 변경
-
-        if(orderArrayList.get(position).state >= 2){
+        if(orderArrayList.get(position).state == 4){
             row.setBackgroundColor(Color.GRAY);
         }
 
@@ -104,7 +101,7 @@ public class MyOrderPickUpAdapter extends BaseAdapter {
 
     public void showOrderDetailDialog(final int position){
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
         // Get the layout inflater
         LayoutInflater inflater = context.getLayoutInflater();
 
@@ -130,9 +127,9 @@ public class MyOrderPickUpAdapter extends BaseAdapter {
         String price_str = "";
 
         if (orderArrayList.get(0).coupon.isEmpty()){
-            price_str = String.valueOf(df.format(orderArrayList.get(0).price));
+            price_str = String.valueOf(df.format(orderArrayList.get(0).price) + " (" + getPriceStatus(position) + ")");
         }else {
-            price_str = String.valueOf(df.format(orderArrayList.get(0).price)) + " (" + orderArrayList.get(position).coupon.get(0).name + " )";
+            price_str = String.valueOf(df.format(orderArrayList.get(0).price)) + " (" + getPriceStatus(position) + "/" + orderArrayList.get(position).coupon.get(0).name + " )";
         }
         price.setText(price_str);
 
@@ -152,23 +149,23 @@ public class MyOrderPickUpAdapter extends BaseAdapter {
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(view)
                 // Add action buttons
-                .setPositiveButton("수거완료", new DialogInterface.OnClickListener() {
+                .setPositiveButton("배달완료", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        String value = note.getText().toString();
                         RequestParams requestEntity = new RequestParams();
                         requestEntity.setUseJsonStreamer(true);
                         requestEntity.put("oid", orderArrayList.get(position).oid);
                         requestEntity.put("note", note.getText().toString());
-                        HttpClientLaundryDelivery.post(null, AddressManager.CONFIRM_PICKUP, requestEntity, new TextHttpResponseHandler() {
+                        HttpClientLaundryDelivery.post(null, AddressManager.CONFIRM_DROPOFF, requestEntity, new TextHttpResponseHandler() {
 
                             @Override
                             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                Log.i("kang", responseString);
+
                             }
 
                             @Override
-                            public void onSuccess(int statusCode, Header[] headers, String responseBody) {
+                            public void onSuccess(int statusCode, Header[] headers,
+                                                  String responseBody) {
                                 Log.v("hongs", responseBody);
                                 JsonData jsonData = gson.fromJson(responseBody, JsonData.class);
                                 notifyDataSetChanged();
@@ -190,11 +187,24 @@ public class MyOrderPickUpAdapter extends BaseAdapter {
 
     }
 
+    private String getPriceStatus(int position){
+        switch (orderArrayList.get(position).payment_method){
+            case 0:
+                return "현장 현금 결제";
+            case 1:
+                return "현장 카드 결제";
+            case 2:
+                return "계좌이체";
+            case 3:
+                return "인앱결제";
+        }
+        return "";
+    }
 
     public void showConfirmDialog(final int oid) {
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
 
-        alert.setTitle("수거확인");
+        alert.setTitle("배달확인");
 //			alert.setMessage("수거완료 처리하시겠습니까?");
         final EditText input = new EditText(context);
         input.setHint("변동사항 있을시 입력, 없으면 바로 OK");
@@ -208,15 +218,16 @@ public class MyOrderPickUpAdapter extends BaseAdapter {
                 requestEntity.setUseJsonStreamer(true);
                 requestEntity.put("oid", oid);
                 requestEntity.put("note", value);
-                HttpClientLaundryDelivery.post(null, AddressManager.CONFIRM_PICKUP, requestEntity, new TextHttpResponseHandler() {
+                HttpClientLaundryDelivery.post(null, AddressManager.CONFIRM_DROPOFF, requestEntity, new TextHttpResponseHandler() {
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        Log.i("kang", responseString);
+
                     }
 
                     @Override
-                    public void onSuccess(int statusCode, Header[] headers, String responseBody) {
+                    public void onSuccess(int statusCode, Header[] headers,
+                                          String responseBody) {
                         Log.v("hongs", responseBody);
                         JsonData jsonData = gson.fromJson(responseBody, JsonData.class);
                     }
