@@ -21,13 +21,11 @@ import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.OrderDetailDialog;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.myorder.MyOrderDropOffAdapter;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.myorder.MyOrderPickUpAdapter;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.OrderDetailDialog;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
 
 public class ViewAllTodayOrderFragment extends android.app.Fragment  implements MaterialTabListener {
 
@@ -75,41 +73,6 @@ public class ViewAllTodayOrderFragment extends android.app.Fragment  implements 
         tabHost.addTab(tabHost.newTab().setText("배달").setTabListener(this));
     }
 
-
-    //DATA 관련 시작
-
-    private ArrayList<OrderInfo> showTodayPickups(){
-        orderArrayList = new ArrayList<OrderInfo>();
-
-        HttpClientLaundryDelivery.post(AddressManager.DELIVERER_TODAY_PIKUP, new RequestParams(), new TextHttpResponseHandler() {
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e(TAG,"POST FAILED TO " + AddressManager.DELIVERER_TODAY_PIKUP);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-
-                Log.i("test pickup", responseString);
-
-                JsonData jsonData = gson.fromJson(responseString, JsonData.class);
-
-                orderArrayList = gson.fromJson(jsonData.data, new TypeToken<ArrayList<OrderInfo>>() {
-                }.getType());
-
-
-                setMyOrderPickUpAdapter();
-
-            }
-        });
-        return orderArrayList;
-    }
-
-    private void setMyOrderPickUpAdapter() {
-        viewAllTodayOrderAdapter = new ViewAllTodayOrderAdapter(context, orderArrayList);
-        detail.setAdapter(viewAllTodayOrderAdapter);
-    }
-
     //Tab 관련
 
     @Override
@@ -149,6 +112,42 @@ public class ViewAllTodayOrderFragment extends android.app.Fragment  implements 
     public void onTabUnselected(MaterialTab tab) {
 
     }
+
+    //DATA 관련 시작
+
+    private ArrayList<OrderInfo> showTodayPickups(){
+        orderArrayList = new ArrayList<OrderInfo>();
+
+        HttpClientLaundryDelivery.post(AddressManager.DELIVERER_TODAY_PIKUP, new RequestParams(), new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e(TAG,"POST FAILED TO " + AddressManager.DELIVERER_TODAY_PIKUP);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+
+                Log.i("test pickup", responseString);
+
+                JsonData jsonData = gson.fromJson(responseString, JsonData.class);
+
+                orderArrayList = gson.fromJson(jsonData.data, new TypeToken<ArrayList<OrderInfo>>() {
+                }.getType());
+
+
+                setMyOrderPickUpAdapter();
+
+            }
+        });
+        return orderArrayList;
+    }
+
+    private void setMyOrderPickUpAdapter() {
+        viewAllTodayOrderAdapter = new ViewAllTodayOrderAdapter(context, orderArrayList);
+        detail.setAdapter(viewAllTodayOrderAdapter);
+    }
+
+
 
     private ArrayList<OrderInfo> showTodayDropoffs(){
         orderArrayList = new ArrayList<kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo>();

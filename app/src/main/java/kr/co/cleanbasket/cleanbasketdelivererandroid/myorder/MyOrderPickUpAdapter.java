@@ -1,14 +1,12 @@
 package kr.co.cleanbasket.cleanbasketdelivererandroid.myorder;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
@@ -26,10 +25,16 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * MyOrderPickUpAdapter.java
@@ -44,11 +49,19 @@ public class MyOrderPickUpAdapter extends BaseAdapter {
     private ArrayList<OrderInfo> orderArrayList;
     private Gson gson;
 
+    private Network network;
+    private Retrofit retrofit;
+    private MyOrderService service;
+
 
     public MyOrderPickUpAdapter(Activity context, ArrayList<OrderInfo> orderArrayList) {
         this.context = context;
         this.orderArrayList = orderArrayList;
         gson = new Gson();
+
+        network = new Network(context);
+        retrofit = network.getRetrofit();
+        service = retrofit.create(MyOrderService.class);
     }
 
     @Override
@@ -115,7 +128,7 @@ public class MyOrderPickUpAdapter extends BaseAdapter {
         TextView pickup_date = (TextView) view.findViewById(R.id.pickup_date);
         TextView dropoff_date = (TextView) view.findViewById(R.id.dropoff_date);
         TextView address = (TextView) view.findViewById(R.id.address);
-        TextView item = (TextView) view.findViewById(R.id.items);
+        TextView item = (TextView) view.findViewById(R.id.itemCodes);
         TextView memo = (TextView) view.findViewById(R.id.memo);
         TextView phone = (TextView) view.findViewById(R.id.phone);
 
@@ -156,33 +169,33 @@ public class MyOrderPickUpAdapter extends BaseAdapter {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         String value = note.getText().toString();
-                        RequestParams requestEntity = new RequestParams();
-                        requestEntity.setUseJsonStreamer(true);
-                        requestEntity.put("oid", orderArrayList.get(position).oid);
-                        requestEntity.put("note", note.getText().toString());
-                        HttpClientLaundryDelivery.post(null, AddressManager.CONFIRM_PICKUP, requestEntity, new TextHttpResponseHandler() {
-
+                        Call<JsonData> response = service.sendPickupComplete(new OrderRequest("" +orderArrayList.get(position).oid, value));
+                        response.enqueue(new Callback<JsonData>() {
                             @Override
-                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                Log.i("kang", responseString);
+                            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
+                                JsonData jsonData = response.body();
+                                notifyDataSetChanged();
                             }
 
                             @Override
-                            public void onSuccess(int statusCode, Header[] headers, String responseBody) {
-                                Log.v("hongs", responseBody);
-                                JsonData jsonData = gson.fromJson(responseBody, JsonData.class);
-                                notifyDataSetChanged();
+                            public void onFailure(Call<JsonData> call, Throwable t) {
+
                             }
                         });
                     }
                 })
-                .setNegativeButton("전화연결", new DialogInterface.OnClickListener() {
+                .setNegativeButton("번호 복사", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + orderArrayList.get(position).phone));
-                        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                            return;
-                        }
-                        context.startActivity(intent);
+//                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + orderArrayList.get(position).phone));
+//                        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                            return;
+//                        }
+//                        context.startActivity(intent);
+
+                        ClipboardManager clipboardManage = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clipData = ClipData.newPlainText(orderArrayList.get(position).phone,orderArrayList.get(position).phone);
+                        clipboardManage.setPrimaryClip(clipData);
+                        Toast.makeText(context,"번호 복사가 완료되었습니다.",Toast.LENGTH_SHORT).show();
                     }
                 });
         builder.create();

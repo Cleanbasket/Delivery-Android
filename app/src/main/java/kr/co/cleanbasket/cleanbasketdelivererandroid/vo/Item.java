@@ -17,4 +17,5 @@ public class Item {
     public Integer count = 0;
     public String img = "";
     public String rdate = "";
+
 }

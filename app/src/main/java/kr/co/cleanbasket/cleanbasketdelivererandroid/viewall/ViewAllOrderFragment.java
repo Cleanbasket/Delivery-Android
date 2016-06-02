@@ -13,20 +13,22 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.Header;
 import it.neokree.materialtabs.MaterialTabHost;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.OrderDetailDialog;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * ViewAllOrderFragment.java
@@ -52,10 +54,17 @@ public class ViewAllOrderFragment extends Fragment {
     private ArrayList<OrderInfo> orderArrayList;
     private ArrayList<OrderInfo> moreArrayList;
 
+    private Network network;
+    private Retrofit retrofit;
+    private ViewAllService service;
+
     public ViewAllOrderFragment(Activity context) {
         this.context = context;
         gson = new Gson();
         mLockListView = false;
+        network = new Network(context);
+        retrofit = network.getRetrofit();
+        service = retrofit.create(ViewAllService.class);
     }
 
     @Override
@@ -102,25 +111,15 @@ public class ViewAllOrderFragment extends Fragment {
 
         moreArrayList = new ArrayList<OrderInfo>();
 
-        RequestParams params = new RequestParams();
-        params.setUseJsonStreamer(true);
         int size = orderArrayList.size();
-        Log.d("_oid", String.valueOf(orderArrayList.get(size - 1).oid));
-        params.put("oid", orderArrayList.get(size - 1).oid);
-
-        HttpClientLaundryDelivery.post(AddressManager.DELIVERER_ORDER, params, new TextHttpResponseHandler() {
+        Call<JsonData> result = service.getAllOrderList(new OrderRequest( orderArrayList.get(size - 1).oid + ""));
+        result.enqueue(new Callback<JsonData>() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e(TAG, throwable.toString());
-            }
+            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                Log.i(TAG, responseString);
+                JsonData jsonData = response.body();
 
-                JsonData jsonData = gson.fromJson(responseString, JsonData.class);
-
-                Log.i(TAG, jsonData.data);
+                Log.i(TAG, jsonData.data.toString());
 
                 moreArrayList = gson.fromJson(jsonData.data, new TypeToken<ArrayList<OrderInfo>>() {
                 }.getType());
@@ -133,6 +132,11 @@ public class ViewAllOrderFragment extends Fragment {
                 viewAllOrderAdapter.notifyDataSetChanged();
                 mLockListView = false;
             }
+
+            @Override
+            public void onFailure(Call<JsonData> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
         });
     }
 
@@ -140,24 +144,13 @@ public class ViewAllOrderFragment extends Fragment {
     private ArrayList<OrderInfo> getOrderData() {
 
         orderArrayList = new ArrayList<OrderInfo>();
-        RequestParams params = new RequestParams();
-        params.setUseJsonStreamer(true);
-        params.put("oid", "0");
 
-        HttpClientLaundryDelivery.post(AddressManager.DELIVERER_ORDER, params, new TextHttpResponseHandler() {
+        Call<JsonData> result =  service.getAllOrderList(new OrderRequest("0"));
+        result.enqueue(new Callback<JsonData>() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e(TAG, throwable.toString());
-            }
+            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-
-                Log.i(TAG, responseString);
-
-                JsonData jsonData = gson.fromJson(responseString, JsonData.class);
-
-                Log.i(TAG, jsonData.data);
+                JsonData jsonData = response.body();
 
                 orderArrayList = gson.fromJson(jsonData.data, new TypeToken<ArrayList<OrderInfo>>() {
                 }.getType());
@@ -174,7 +167,11 @@ public class ViewAllOrderFragment extends Fragment {
 
                 viewAllOrderAdapter = new ViewAllOrderAdapter(context, orderArrayList);
                 detail.setAdapter(viewAllOrderAdapter);
+            }
 
+            @Override
+            public void onFailure(Call<JsonData> call, Throwable t) {
+                Log.e(TAG,"POST FAILED TO " + AddressManager.DELIVERER_PICKUP + " : " + t.getMessage());
             }
         });
 

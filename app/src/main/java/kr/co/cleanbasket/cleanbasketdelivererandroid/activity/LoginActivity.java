@@ -11,24 +11,22 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.PersistentCookieStore;
-import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 
-import cz.msebera.android.httpclient.Header;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.ServerConstants;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
- *  LoginActivity.java
- *  CleanBasket Deliverer Android
- *
- *  Created by Yongbin Cha
- *  Copyright (c) 2016 WashAppKorea. All rights reserved.
- *
+ * LoginActivity.java
+ * CleanBasket Deliverer Android
+ * <p/>
+ * Created by Yongbin Cha
+ * Copyright (c) 2016 WashAppKorea. All rights reserved.
  */
 
 public class LoginActivity extends AppCompatActivity {
@@ -88,28 +86,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void login(){
+    private void login() {
 
-        RequestParams requestParams = new RequestParams();
-        requestParams.put("email", etEmail.getText().toString());
-        requestParams.put("password", etPassword.getText().toString());
-        requestParams.put("remember", true);
-        requestParams.put("regid", "");
-
-
-        HttpClientLaundryDelivery.post(AddressManager.LOGIN, requestParams, new TextHttpResponseHandler() {
+        LoginService service = new Network(this).getRetrofit().create(LoginService.class);
+        Call<JsonData> result= service.login(etEmail.getText().toString(),etPassword.getText().toString(),true,"");
+        result.enqueue(new Callback<JsonData>() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(LoginActivity.this, "인터넷 환경을 확인해주시길 바랍니다.", Toast.LENGTH_SHORT).show();
-            }
+            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
+                JsonData jsonData = response.body();
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                Log.v(TAG, responseString);
-
-                JsonData jsonData = gson.fromJson(responseString, JsonData.class);
-
-                switch(jsonData.constant) {
+                switch (jsonData.constant) {
                     case ServerConstants.SESSION_EXPIRED:
 
                         break;
@@ -129,6 +115,12 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                         break;
                 }
+            }
+
+            @Override
+            public void onFailure(Call<JsonData> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "인터넷 환경을 확인해주시길 바랍니다.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, t.toString());
             }
         });
 

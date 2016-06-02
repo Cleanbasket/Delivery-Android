@@ -11,7 +11,6 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,10 +31,15 @@ import cz.msebera.android.httpclient.entity.StringEntity;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.AssignProxy;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.DelivererInfo;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.PD;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by gingeraebi on 2016. 6. 1..
@@ -49,23 +52,25 @@ public class OrderDetailDialog {
     private ArrayList<DelivererInfo> delivererInfo;
     private ArrayAdapter<String> pdAdapter;
     private BaseAdapter adapter;
+    private AssignProxy proxy;
 
     public OrderDetailDialog(Activity context, BaseAdapter adapter) {
         this.context = context;
-        this.pd = new PD();
+        this.pd = new PD(context);
+        proxy = new AssignProxy(context);
 
-        pd.getDelivererInfo(new TextHttpResponseHandler() {
+        pd.getDelivererInfo(new Callback<JsonData>() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
+            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
+                Log.i("PD", "GET PD SUCCESS");
+                JsonData jsonData = response.body();
+                delivererInfo = gson.fromJson(jsonData.data, new TypeToken<ArrayList<DelivererInfo>>() {
+                }.getType());
             }
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                Log.i("PD", "GET PD SUCCESS");
-                JsonData jsonData = gson.fromJson(responseString, JsonData.class);
-                delivererInfo = gson.fromJson(jsonData.data, new TypeToken<ArrayList<DelivererInfo>>() {
-                }.getType());
+            public void onFailure(Call<JsonData> call, Throwable t) {
+
             }
         });
         this.adapter = adapter;
@@ -80,12 +85,12 @@ public class OrderDetailDialog {
 
         final View view = inflater.inflate(R.layout.dialog_order2, null);
 
-        TextView order_number = (TextView) view.findViewById(R.id.order_number);
+        final TextView order_number = (TextView) view.findViewById(R.id.order_number);
         TextView price = (TextView) view.findViewById(R.id.price);
         TextView pickup_date = (TextView) view.findViewById(R.id.pickup_date);
         TextView dropoff_date = (TextView) view.findViewById(R.id.dropoff_date);
         TextView address = (TextView) view.findViewById(R.id.address);
-        TextView item = (TextView) view.findViewById(R.id.items);
+        TextView item = (TextView) view.findViewById(R.id.itemCodes);
         TextView memo = (TextView) view.findViewById(R.id.memo);
         final TextView status = (TextView) view.findViewById(R.id.status);
         TextView phone = (TextView) view.findViewById(R.id.phone);
@@ -127,6 +132,18 @@ public class OrderDetailDialog {
                             return;
                         }
                         context.startActivity(intent);
+                    }
+                })
+                .setNeutralButton("현장수거", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ItemListDialog itemListDialog = ItemListDialog.newInstance(new ItemListDialog.OnTransferListener() {
+                            @Override
+                            public void onTransfer(ItemListDialog dialog) {
+
+                            }
+                        }, order_number.getText().toString());
+                        itemListDialog.show(context.getFragmentManager(), "show");
                     }
                 });
         builder.create();
@@ -213,40 +230,21 @@ public class OrderDetailDialog {
     }
 
     //network 통신 관련 함수 2개
+
+
     private void assignOrderPickup(int uid) {
         int oid = orderInfo.oid;
-
-        JSONObject jsonParams = new JSONObject();
-        try {
-            jsonParams.put("oid", orderInfo.oid.toString());
-            jsonParams.put("uid", String.valueOf(uid));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        StringEntity params = null;
-        try {
-            params = new StringEntity(jsonParams.toString());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        Log.i("Json test", params.toString());
-
-        Log.i("test", oid + "  " + uid);
-
-        HttpClientLaundryDelivery.post(context, AddressManager.ASSIGN_PICKUP, params, "application/json", new TextHttpResponseHandler() {
+        OrderRequest orderRequest = new OrderRequest("" + oid, uid);
+        proxy.assignPickUp(orderRequest, new Callback<JsonData>() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.i("test fail", String.valueOf(responseString));
+            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
+                JsonData jsonData = response.body();
+                adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            public void onFailure(Call<JsonData> call, Throwable t) {
 
-                JsonData jsonData = gson.fromJson(responseString, JsonData.class);
-                adapter.notifyDataSetChanged();
-
-                Log.i("test success", String.valueOf(jsonData));
             }
         });
 
@@ -254,39 +252,20 @@ public class OrderDetailDialog {
 
     private void assignOrderDropoff(int uid) {
         int oid = orderInfo.oid;
-
-        JSONObject jsonParams = new JSONObject();
-        try {
-            jsonParams.put("oid", orderInfo.oid.toString());
-            jsonParams.put("uid", String.valueOf(uid));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        StringEntity params = null;
-        try {
-            params = new StringEntity(jsonParams.toString());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        Log.i("Json test", params.toString());
-
-        Log.i("test", oid + "  " + uid);
-
-        HttpClientLaundryDelivery.post(context, AddressManager.ASSIGN_DROPOFF, params, "application/json", new TextHttpResponseHandler() {
+        OrderRequest orderRequest = new OrderRequest("" + oid, uid);
+        proxy.assignDropOff(orderRequest, new Callback<JsonData>() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.i("test fail", String.valueOf(responseString));
+            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
+                JsonData jsonData = response.body();
+                adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            public void onFailure(Call<JsonData> call, Throwable t) {
 
-                JsonData jsonData = gson.fromJson(responseString, JsonData.class);
-                adapter.notifyDataSetChanged();
-                Log.i("test success", String.valueOf(jsonData));
             }
         });
+
 
     }
 

@@ -12,20 +12,21 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.Header;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * MyOrderFragment.java
@@ -39,6 +40,10 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
     private MaterialTabHost tabHost;
     private ListView detail;
 
+    private Network network;
+    private Retrofit retrofit;
+    private MyOrderService service;
+
     private Gson gson;
     private ArrayList<OrderInfo> dropoffList;
     private ArrayList<OrderInfo> pickUpList;
@@ -50,13 +55,16 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
 
     private static final String TAG = "DEV_myOrderFragment";
 
-    public MyOrderFragment(){
+    public MyOrderFragment() {
 
     }
 
-    public MyOrderFragment(Activity context){
+    public MyOrderFragment(Activity context) {
         gson = new Gson();
         this.context = context;
+        network = new Network(context);
+        retrofit = network.getRetrofit();
+        service = retrofit.create(MyOrderService.class);
     }
 
     @Override
@@ -80,7 +88,7 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
     public void onTabSelected(MaterialTab tab) {
 //        pager.setCurrentItem(tab.getPosition());
 
-        switch (tab.getPosition()){
+        switch (tab.getPosition()) {
             case 0:
                 Log.i("TabSelect", String.valueOf(tab.getPosition()));
                 pickupData();
@@ -96,7 +104,7 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
     @Override
     public void onTabReselected(MaterialTab tab) {
 
-        switch (tab.getPosition()){
+        switch (tab.getPosition()) {
             case 0:
                 Log.i("TabSelect", String.valueOf(tab.getPosition()));
                 pickupData();
@@ -114,30 +122,26 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
 
     }
 
-    private ArrayList<OrderInfo> pickupData(){
+    private ArrayList<OrderInfo> pickupData() {
         pickUpList = new ArrayList<OrderInfo>();
-
-        HttpClientLaundryDelivery.post(AddressManager.DELIVERER_PICKUP, new RequestParams(), new TextHttpResponseHandler() {
+        Call<JsonData> result = service.sendPickUpData();
+        result.enqueue(new Callback<JsonData>() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e(TAG,"POST FAILED TO " + AddressManager.DELIVERER_PICKUP + " : " + throwable.getMessage());
-            }
+            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-
-                Log.i("test pickup", responseString);
-
-                JsonData jsonData = gson.fromJson(responseString, JsonData.class);
-
-                pickUpList = gson.fromJson(jsonData.data, new TypeToken<ArrayList<OrderInfo>>() {
+                JsonData result = response.body();
+                pickUpList = gson.fromJson(result.data, new TypeToken<ArrayList<OrderInfo>>() {
                 }.getType());
 
-
                 setMyOrderPickUpAdapter();
+            }
 
+            @Override
+            public void onFailure(Call<JsonData> call, Throwable t) {
+                Log.e(TAG, "POST FAILED TO " + AddressManager.DELIVERER_PICKUP + " : " + t.getMessage());
             }
         });
+
         return pickUpList;
     }
 
@@ -154,29 +158,27 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
         });
     }
 
-    private ArrayList<OrderInfo> dropoffData(){
+    private ArrayList<OrderInfo> dropoffData() {
         dropoffList = new ArrayList<OrderInfo>();
 
-        HttpClientLaundryDelivery.post(AddressManager.DELIVERER_DROPOFF, new RequestParams(), new TextHttpResponseHandler() {
+        Call<JsonData> result = service.sendDropOffData();
+        result.enqueue(new Callback<JsonData>() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e(TAG,"POST FAILED TO " + AddressManager.DELIVERER_PICKUP + " : " + throwable.getMessage());
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-
-                Log.i("test pickup", responseString);
-
-                JsonData jsonData = gson.fromJson(responseString, JsonData.class);
-
+            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
+                JsonData jsonData = response.body();
                 dropoffList = gson.fromJson(jsonData.data, new TypeToken<ArrayList<OrderInfo>>() {
                 }.getType());
-                Log.i("TEST",dropoffList.get(0).dropoff_date);
+                Log.i("TEST", dropoffList.get(0).dropoff_date);
                 setOrderDropOffAdatper();
 
             }
+
+            @Override
+            public void onFailure(Call<JsonData> call, Throwable t) {
+                Log.e(TAG, "POST FAILED TO " + AddressManager.DELIVERER_DROPOFF + " : " + t.getMessage());
+            }
         });
+
         return dropoffList;
     }
 

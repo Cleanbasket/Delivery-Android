@@ -15,6 +15,9 @@ public class AddressManager {
 	public final static String SERVER_ADDRESS = Config.SERVER_ADDRESS;
 
 	public final static String LOGIN = "auth";
+
+	public final static String GET_ORDER_ITEM = "item";
+
 	public final static String DELIVERER_PICKUP = "deliverer/pickup";
 	public final static String DELIVERER_DROPOFF = "deliverer/dropoff";
 	public final static String DELIVERER_JOIN = "deliverer/join";

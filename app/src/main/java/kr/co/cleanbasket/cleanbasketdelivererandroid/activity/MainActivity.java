@@ -79,22 +79,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new ViewAllOrderFragment(this);
                 toolbar.setTitle("전체 주문");
                 break;
-            case R.id.nav_pickup:
-                fragment = new ViewAllTodayOrderFragment(this);
-                toolbar.setTitle("오늘 주문");
-                break;
-            case R.id.nav_deliver:
-//                fragment = new MyOrderFragment();
-//                setTitle("내 주문");
-                break;
-            case R.id.nav_notice:
-//                fragment = new MyOrderFragment();
-//                setTitle("내 주문");
-                break;
-            case R.id.nav_settings:
-//                fragment = new MyOrderFragment();
-//                setTitle("내 주문");
-                break;
+//            case R.id.nav_pickup:
+////                fragment = new ViewAllTodayOrderFragment(this);
+////                toolbar.setTitle("오늘 주문");
+//                break;
+//            case R.id.nav_deliver:
+////                fragment = new MyOrderFragment();
+////                setTitle("내 주문");
+//                break;
+//            case R.id.nav_notice:
+////                fragment = new MyOrderFragment();
+////                setTitle("내 주문");
+//                break;
+//            case R.id.nav_settings:
+////                fragment = new MyOrderFragment();
+////                setTitle("내 주문");
+//                break;
         }
 
         FragmentManager fragmentManager = getFragmentManager();
