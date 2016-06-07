@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import java.io.IOException;
 import java.util.HashSet;
 
+import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.SharedPreferenceBase;
 import okhttp3.Interceptor;
 import okhttp3.Response;
 
@@ -15,11 +16,6 @@ import okhttp3.Response;
  */
 public class ReceivedCookiesInterceptor implements Interceptor {
 
-    private Activity context;
-
-    public ReceivedCookiesInterceptor(Activity context) {
-        this.context = context;
-    }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -32,12 +28,7 @@ public class ReceivedCookiesInterceptor implements Interceptor {
                 cookies.add(header);
             }
 
-            SharedPreferences pref = context.getSharedPreferences("Cookies", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = pref.edit();
-
-            // Preference에 cookies를 넣어주는 작업을 수행
-            editor.putStringSet("Cookies",cookies);
-            editor.commit();
+            SharedPreferenceBase.putSharedPreference("Cookies",cookies);
         }
 
         return originalResponse;

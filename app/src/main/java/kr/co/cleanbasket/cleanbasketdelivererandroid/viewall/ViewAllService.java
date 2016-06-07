@@ -14,6 +14,7 @@ import retrofit2.http.POST;
  */
 public interface ViewAllService {
 
+
     @POST(AddressManager.DELIVERER_ORDER)
     Call<JsonData> getAllOrderList(@Body OrderRequest oid);
 
@@ -26,4 +27,7 @@ public interface ViewAllService {
     @POST(AddressManager.ASSIGN_PICKUP)
     Call<JsonData> assignPickUP(@Body OrderRequest orderRequest);
 
+
 }
+
+

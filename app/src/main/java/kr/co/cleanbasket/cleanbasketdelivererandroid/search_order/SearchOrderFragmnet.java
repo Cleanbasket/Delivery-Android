@@ -51,8 +51,6 @@ public class SearchOrderFragmnet extends Fragment {
     private EditText orderNumberEdit;
     private Button find;
 
-    private Network network;
-    private Retrofit retrofit;
     private SearchOrderService service;
     private Gson gson = new Gson();
 
@@ -62,9 +60,7 @@ public class SearchOrderFragmnet extends Fragment {
 
     public SearchOrderFragmnet(Activity context) {
         this.context = context;
-        network = new Network(context);
-        retrofit = network.getRetrofit();
-        service = retrofit.create(SearchOrderService.class);
+        service = Network.getInstance().getRetrofit().create(SearchOrderService.class);
 
     }
 

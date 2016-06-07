@@ -49,8 +49,6 @@ public class MyOrderPickUpAdapter extends BaseAdapter {
     private ArrayList<OrderInfo> orderArrayList;
     private Gson gson;
 
-    private Network network;
-    private Retrofit retrofit;
     private MyOrderService service;
 
 
@@ -59,9 +57,7 @@ public class MyOrderPickUpAdapter extends BaseAdapter {
         this.orderArrayList = orderArrayList;
         gson = new Gson();
 
-        network = new Network(context);
-        retrofit = network.getRetrofit();
-        service = retrofit.create(MyOrderService.class);
+        service = Network.getInstance().getRetrofit().create(MyOrderService.class);
     }
 
     @Override

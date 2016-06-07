@@ -17,7 +17,13 @@ public class Network {
 
     private Retrofit retrofit;
 
-    public Network(Activity context) {
+    private static Network instance;
+
+    public static Network getInstance() {
+        return instance != null ? instance : new Network();
+    }
+
+    private Network() {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -26,8 +32,8 @@ public class Network {
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
-        httpClient.addInterceptor(new AddCookieInterceptor(context));
-        httpClient.addInterceptor(new ReceivedCookiesInterceptor(context));
+        httpClient.addInterceptor(new AddCookieInterceptor());
+        httpClient.addInterceptor(new ReceivedCookiesInterceptor());
 
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://cleanbasket.co.kr")
@@ -35,8 +41,6 @@ public class Network {
                 .client(httpClient.build())
                 .build();
     }
-
-
 
     public Retrofit getRetrofit() {
         return retrofit;

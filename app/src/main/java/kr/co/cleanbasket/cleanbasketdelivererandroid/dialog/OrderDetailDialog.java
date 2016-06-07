@@ -48,8 +48,8 @@ public class OrderDetailDialog {
 
     public OrderDetailDialog(Activity context, BaseAdapter adapter) {
         this.context = context;
-        this.pd = new PD(context);
-        proxy = new AssignProxy(context);
+        this.pd = new PD();
+        proxy = new AssignProxy();
 
         pd.getDelivererInfo(new Callback<JsonData>() {
             @Override

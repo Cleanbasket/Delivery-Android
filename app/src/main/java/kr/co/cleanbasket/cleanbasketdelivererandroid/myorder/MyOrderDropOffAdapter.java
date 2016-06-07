@@ -47,22 +47,16 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
 
     private Activity context;
     private ArrayList<OrderInfo> orderArrayList;
-    private Gson gson;
+    private Gson gson = new Gson();
     private MyOrderDropOffAdapter myOrderDropOffAdapter;
 
-    private Network network;
-    private Retrofit retrofit;
     private MyOrderService service;
 
-    public MyOrderDropOffAdapter(Activity context,ArrayList<OrderInfo> orderArrayList){
+    public MyOrderDropOffAdapter(Activity context, ArrayList<OrderInfo> orderArrayList) {
         myOrderDropOffAdapter = this;
         this.context = context;
         this.orderArrayList = orderArrayList;
-        gson = new Gson();
-
-        network = new Network(context);
-        retrofit = network.getRetrofit();
-        service = retrofit.create(MyOrderService.class);
+        service = Network.getInstance().getRetrofit().create(MyOrderService.class);
     }
 
     @Override
@@ -97,7 +91,7 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
 
         order_number.setText(orderArrayList.get(position).order_number);
 
-        String price_str  = String.valueOf(df.format(orderArrayList.get(position).price));
+        String price_str = String.valueOf(df.format(orderArrayList.get(position).price));
         Log.i("MyDropOff", "PRICE : " + price_str);
         price.setText(price_str);
 
@@ -107,14 +101,14 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
         item.setText(makeItem(position));
         memo.setText(orderArrayList.get(position).memo);
 
-        if(orderArrayList.get(position).state == 4){
+        if (orderArrayList.get(position).state == 4) {
             row.setBackgroundColor(Color.GRAY);
         }
 
         return row;
     }
 
-    public void showOrderDetailDialog(final int position){
+    public void showOrderDetailDialog(final int position) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         // Get the layout inflater
@@ -141,9 +135,9 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
 
         String price_str = "";
 
-        if (orderArrayList.get(position).coupon.isEmpty()){
+        if (orderArrayList.get(position).coupon.isEmpty()) {
             price_str = String.valueOf(df.format(orderArrayList.get(position).price) + " (" + getPriceStatus(position) + ")");
-        }else {
+        } else {
             price_str = String.valueOf(df.format(orderArrayList.get(position).price)) + " (" + getPriceStatus(position) + "/" + orderArrayList.get(position).coupon.get(position).name + " )";
         }
         price.setText(price_str);
@@ -156,7 +150,7 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
         memo.setText(orderArrayList.get(position).memo);
         phone.setText(orderArrayList.get(position).phone);
 
-        if(!orderArrayList.get(position).note.equals("")){
+        if (!orderArrayList.get(position).note.equals("")) {
             note.setText(orderArrayList.get(position).note);
         }
 
@@ -168,7 +162,7 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         String value = note.getText().toString();
-                        Call<JsonData> response = service.sendDropOffComplete(new OrderRequest("" +orderArrayList.get(position).oid, value));
+                        Call<JsonData> response = service.sendDropOffComplete(new OrderRequest("" + orderArrayList.get(position).oid, value));
                         response.enqueue(new Callback<JsonData>() {
                             @Override
                             public void onResponse(Call<JsonData> call, Response<JsonData> response) {
@@ -186,9 +180,9 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
                 .setNegativeButton("번호 복사", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         ClipboardManager clipboardManage = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clipData = ClipData.newPlainText(orderArrayList.get(position).phone,orderArrayList.get(position).phone);
+                        ClipData clipData = ClipData.newPlainText(orderArrayList.get(position).phone, orderArrayList.get(position).phone);
                         clipboardManage.setPrimaryClip(clipData);
-                        Toast.makeText(context,"번호 복사가 완료되었습니다.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "번호 복사가 완료되었습니다.", Toast.LENGTH_SHORT).show();
 //                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + orderArrayList.get(position).phone));
 //                        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
 //                            return;
@@ -201,8 +195,8 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
 
     }
 
-    private String getPriceStatus(int position){
-        switch (orderArrayList.get(position).payment_method){
+    private String getPriceStatus(int position) {
+        switch (orderArrayList.get(position).payment_method) {
             case 0:
                 return "현장 현금 결제";
             case 1:
@@ -215,9 +209,9 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
         return "";
     }
 
-    private String makeItem(int position){
+    private String makeItem(int position) {
         String strItem = orderArrayList.get(position).item.get(0).name + "(" + orderArrayList.get(position).item.get(0).count + ")";
-        for(int i=1; i<orderArrayList.get(position).item.size(); i++) {
+        for (int i = 1; i < orderArrayList.get(position).item.size(); i++) {
             strItem += ", " + orderArrayList.get(position).item.get(i).name + "(" + orderArrayList.get(position).item.get(i).count + ")";
         }
         return strItem;

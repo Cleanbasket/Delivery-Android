@@ -13,14 +13,10 @@ import retrofit2.Retrofit;
  * Created by gingeraebi on 2016. 6. 2..
  */
 public class AssignProxy {
-    Network network;
-    Retrofit retrofit;
     ViewAllService service;
 
-    public AssignProxy(Activity context) {
-        network = new Network(context);
-        retrofit = network.getRetrofit();
-        service = retrofit.create(ViewAllService.class);
+    public AssignProxy() {
+        service = Network.getInstance().getRetrofit().create(ViewAllService.class);
     }
 
     public void assignDropOff(OrderRequest request, Callback<JsonData> assignCallback) {

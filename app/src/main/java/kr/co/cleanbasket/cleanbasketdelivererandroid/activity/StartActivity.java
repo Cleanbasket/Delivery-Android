@@ -15,6 +15,7 @@ import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.SharedPreferenceBase;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.ViewAllService;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
@@ -37,10 +38,8 @@ public class StartActivity extends AppCompatActivity {
 
     private static final String TAG = LogUtils.makeTag(StartActivity.class);
 
-    private Gson gson;
+    private Gson gson = new Gson();
 
-    private Network network;
-    private Retrofit retrofit;
     private LoginService service;
 
     @Override
@@ -48,10 +47,10 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laundrydelivery);
 
+        SharedPreferenceBase.init(this);
+        service = Network.getInstance().getRetrofit().create(LoginService.class);
+
         Handler delayStartActivityHandler = new Handler();
-        network = new Network(this);
-        retrofit = network.getRetrofit();
-        service = retrofit.create(LoginService.class);
         delayStartActivityHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -61,7 +60,6 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void loginCheck(){
-        gson = new Gson();
 
         Call<JsonData> response = service.loginCheck();
         response.enqueue(new Callback<JsonData>() {

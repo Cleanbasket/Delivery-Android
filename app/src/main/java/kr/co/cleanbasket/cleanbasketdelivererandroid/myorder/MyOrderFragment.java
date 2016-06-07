@@ -40,8 +40,6 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
     private MaterialTabHost tabHost;
     private ListView detail;
 
-    private Network network;
-    private Retrofit retrofit;
     private MyOrderService service;
 
     private Gson gson;
@@ -55,16 +53,11 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
 
     private static final String TAG = "DEV_myOrderFragment";
 
-    public MyOrderFragment() {
 
-    }
 
     public MyOrderFragment(Activity context) {
         gson = new Gson();
-        this.context = context;
-        network = new Network(context);
-        retrofit = network.getRetrofit();
-        service = retrofit.create(MyOrderService.class);
+        service = Network.getInstance().getRetrofit().create(MyOrderService.class);
     }
 
     @Override

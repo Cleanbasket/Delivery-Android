@@ -26,17 +26,12 @@ import retrofit2.Retrofit;
  */
 public class PD {
 
-    private Network network;
-    private ViewAllService service;
-    private Retrofit retrofit;
-
+    ViewAllService service;
     ArrayList<DelivererInfo> delivererInfo;
     Gson gson = new Gson();
 
-    public PD(Activity context) {
-        network = new Network(context);
-        retrofit = network.getRetrofit();
-        service = retrofit.create(ViewAllService.class);
+    public PD() {
+        service = Network.getInstance().getRetrofit().create(ViewAllService.class);
     }
 
 

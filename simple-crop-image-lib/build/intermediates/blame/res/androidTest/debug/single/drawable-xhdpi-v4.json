@@ -1,15 +1,15 @@
 [
     {
-        "merged": "/Users/gingeraebi/Android/DeliveryAndroid/simple-crop-image-lib/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/indicator_autocrop.png",
-        "source": "/Users/gingeraebi/Android/DeliveryAndroid/simple-crop-image-lib/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/indicator_autocrop.png"
+        "merged": "/Users/gingeraebi/Android/DeliveryAndroid/simple-crop-image-lib/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/camera_crop_width.png",
+        "source": "/Users/gingeraebi/Android/DeliveryAndroid/simple-crop-image-lib/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/camera_crop_width.png"
     },
     {
         "merged": "/Users/gingeraebi/Android/DeliveryAndroid/simple-crop-image-lib/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_rotate_left.png",
         "source": "/Users/gingeraebi/Android/DeliveryAndroid/simple-crop-image-lib/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ic_rotate_left.png"
     },
     {
-        "merged": "/Users/gingeraebi/Android/DeliveryAndroid/simple-crop-image-lib/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/camera_crop_width.png",
-        "source": "/Users/gingeraebi/Android/DeliveryAndroid/simple-crop-image-lib/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/camera_crop_width.png"
+        "merged": "/Users/gingeraebi/Android/DeliveryAndroid/simple-crop-image-lib/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/indicator_autocrop.png",
+        "source": "/Users/gingeraebi/Android/DeliveryAndroid/simple-crop-image-lib/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/indicator_autocrop.png"
     },
     {
         "merged": "/Users/gingeraebi/Android/DeliveryAndroid/simple-crop-image-lib/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/btn_crop_pressed.9.png",

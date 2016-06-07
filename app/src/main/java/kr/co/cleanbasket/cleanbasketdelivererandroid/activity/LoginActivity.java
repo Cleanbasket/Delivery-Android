@@ -40,18 +40,12 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private Button btnRegister;
 
-    private Gson gson;
+    private Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        // Cookie init
-        PersistentCookieStore myCookieStore = new PersistentCookieStore(getApplicationContext());
-        myCookieStore.clear();
-
-        gson = new Gson();
 
         // Init UI Element
         etEmail = (EditText) findViewById(R.id.et_login_email);
@@ -88,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login() {
 
-        LoginService service = new Network(this).getRetrofit().create(LoginService.class);
+        LoginService service = Network.getInstance().getRetrofit().create(LoginService.class);
         Call<JsonData> result= service.login(etEmail.getText().toString(),etPassword.getText().toString(),true,"");
         result.enqueue(new Callback<JsonData>() {
             @Override

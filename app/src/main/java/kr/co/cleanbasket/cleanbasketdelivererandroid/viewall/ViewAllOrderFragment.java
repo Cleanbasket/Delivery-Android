@@ -54,17 +54,14 @@ public class ViewAllOrderFragment extends Fragment {
     private ArrayList<OrderInfo> orderArrayList;
     private ArrayList<OrderInfo> moreArrayList;
 
-    private Network network;
-    private Retrofit retrofit;
     private ViewAllService service;
 
     public ViewAllOrderFragment(Activity context) {
         this.context = context;
         gson = new Gson();
         mLockListView = false;
-        network = new Network(context);
-        retrofit = network.getRetrofit();
-        service = retrofit.create(ViewAllService.class);
+
+        service = Network.getInstance().getRetrofit().create(ViewAllService.class);
     }
 
     @Override

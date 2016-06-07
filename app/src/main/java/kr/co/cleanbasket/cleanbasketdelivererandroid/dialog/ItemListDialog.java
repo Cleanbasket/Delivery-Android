@@ -97,6 +97,7 @@ public class ItemListDialog extends DialogFragment {
                 getOrderByOid(oid);
             }
         });
+
         //Next버튼
         rootView.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +105,7 @@ public class ItemListDialog extends DialogFragment {
 
             }
         });
+
         //Cancel버튼
         rootView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
