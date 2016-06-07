@@ -168,9 +168,7 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
                 JsonData jsonData = response.body();
                 dropoffList = gson.fromJson(jsonData.data, new TypeToken<ArrayList<OrderInfo>>() {
                 }.getType());
-                Log.i("TEST", dropoffList.get(0).dropoff_date);
                 setOrderDropOffAdatper();
-
             }
 
             @Override

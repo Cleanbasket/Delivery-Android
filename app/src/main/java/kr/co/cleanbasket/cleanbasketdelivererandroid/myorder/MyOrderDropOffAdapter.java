@@ -48,13 +48,14 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
     private Activity context;
     private ArrayList<OrderInfo> orderArrayList;
     private Gson gson;
+    private MyOrderDropOffAdapter myOrderDropOffAdapter;
 
     private Network network;
     private Retrofit retrofit;
     private MyOrderService service;
 
     public MyOrderDropOffAdapter(Activity context,ArrayList<OrderInfo> orderArrayList){
-
+        myOrderDropOffAdapter = this;
         this.context = context;
         this.orderArrayList = orderArrayList;
         gson = new Gson();
@@ -71,7 +72,7 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return position;
+        return orderArrayList.get(position);
     }
 
     @Override
@@ -96,7 +97,8 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
 
         order_number.setText(orderArrayList.get(position).order_number);
 
-        String price_str  = String.valueOf(df.format(orderArrayList.get(0).price));
+        String price_str  = String.valueOf(df.format(orderArrayList.get(position).price));
+        Log.i("MyDropOff", "PRICE : " + price_str);
         price.setText(price_str);
 
         dropoff_date.setText(orderArrayList.get(position).dropoff_date);
@@ -139,10 +141,10 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
 
         String price_str = "";
 
-        if (orderArrayList.get(0).coupon.isEmpty()){
-            price_str = String.valueOf(df.format(orderArrayList.get(0).price) + " (" + getPriceStatus(position) + ")");
+        if (orderArrayList.get(position).coupon.isEmpty()){
+            price_str = String.valueOf(df.format(orderArrayList.get(position).price) + " (" + getPriceStatus(position) + ")");
         }else {
-            price_str = String.valueOf(df.format(orderArrayList.get(0).price)) + " (" + getPriceStatus(position) + "/" + orderArrayList.get(position).coupon.get(0).name + " )";
+            price_str = String.valueOf(df.format(orderArrayList.get(position).price)) + " (" + getPriceStatus(position) + "/" + orderArrayList.get(position).coupon.get(position).name + " )";
         }
         price.setText(price_str);
 
@@ -171,7 +173,7 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
                             @Override
                             public void onResponse(Call<JsonData> call, Response<JsonData> response) {
                                 JsonData jsonData = response.body();
-                                notifyDataSetChanged();
+                                myOrderDropOffAdapter.notifyDataSetChanged();
                             }
 
                             @Override
@@ -211,50 +213,6 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
                 return "인앱결제";
         }
         return "";
-    }
-
-    public void showConfirmDialog(final int oid) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-
-        alert.setTitle("배달확인");
-//			alert.setMessage("수거완료 처리하시겠습니까?");
-        final EditText input = new EditText(context);
-        input.setHint("변동사항 있을시 입력, 없으면 바로 OK");
-        input.setTextSize(13);
-        alert.setView(input);
-
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                String value = input.getText().toString();
-                RequestParams requestEntity = new RequestParams();
-                requestEntity.setUseJsonStreamer(true);
-                requestEntity.put("oid", oid);
-                requestEntity.put("note", value);
-                HttpClientLaundryDelivery.post(null, AddressManager.CONFIRM_DROPOFF, requestEntity, new TextHttpResponseHandler() {
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers,
-                                          String responseBody) {
-                        Log.v("hongs", responseBody);
-                        JsonData jsonData = gson.fromJson(responseBody, JsonData.class);
-                    }
-                });
-            }
-        });
-
-        alert.setNegativeButton("Cancel",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
-                    }
-                });
-
-        alert.show();
     }
 
     private String makeItem(int position){

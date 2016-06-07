@@ -37,10 +37,13 @@ public class OrderInfo {
     public String dropoff_date = "";
     public String rdate = "";
     public Integer payment_method = 0;
-    public ArrayList<Item> item = null;
-    public ArrayList<Coupon> coupon = null;
     public JsonObject pickupInfo = null;
     public JsonObject dropoffInfo = null;
+    public ArrayList<Item> item = null;
+    public ArrayList<Coupon> coupon = null;
+
+    public OrderInfo(){}
+
 
     public Integer getOid() {
         return oid;

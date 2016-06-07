@@ -10,6 +10,10 @@
             android:id="@+id/nav_all_order"
             android:icon="@drawable/ic_event_note_grey_600_24dp"
             android:title="전체주문" />
+        <item
+            android:id="@+id/nav_search_order"
+            android:icon="@drawable/ic_event_note_grey_600_24dp"
+            android:title="주문 검색" />
         <!--<item-->
             <!--android:id="@+id/nav_pickup"-->
             <!--android:icon="@drawable/ic_content_paste_grey_600_24dp"-->

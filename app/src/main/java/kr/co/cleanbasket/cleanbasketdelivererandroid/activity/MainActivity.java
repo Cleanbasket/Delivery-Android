@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.myorder.MyOrderFragment;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.search_order.SearchOrderFragmnet;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall_today.ViewAllTodayOrderFragment;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.ViewAllOrderFragment;
 
@@ -78,6 +79,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_all_order:
                 fragment = new ViewAllOrderFragment(this);
                 toolbar.setTitle("전체 주문");
+                break;
+            case R.id.nav_search_order:
+                fragment = new SearchOrderFragmnet(this);
+                toolbar.setTitle("주문 검색");
                 break;
 //            case R.id.nav_pickup:
 ////                fragment = new ViewAllTodayOrderFragment(this);
