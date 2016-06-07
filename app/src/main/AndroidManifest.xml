@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/FullScreen"
         android:largeHeap="true"
-        android:name=".service.ApplicationLaundryDelivery">
+        android:name=".activity.ApplicationLaundryDelivery">
+
         <activity android:name=".activity.StartActivity"
             android:theme="@style/FullScreen"
             android:screenOrientation="portrait">
@@ -25,17 +26,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LoginActivity"
+        <activity android:name=".auth.LoginActivity"
             android:theme="@style/FullScreen"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.RegisterActivity"
+        <activity android:name=".auth.RegisterActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.OrderDetailActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait">
-        </activity>
+        <!--<activity android:name=".activity.OrderDetailActivity"-->
+            <!--android:theme="@style/AppTheme"-->
+            <!--android:screenOrientation="portrait">-->
+        <!--</activity>-->
         <activity android:name=".activity.MainActivity"
             android:theme="@style/FullScreen"
             android:screenOrientation="portrait">

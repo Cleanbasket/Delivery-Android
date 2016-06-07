@@ -5,7 +5,9 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -106,10 +108,30 @@ public class OrderInfo {
     }
 
     public String getPickup_date() {
+        long time =  System.currentTimeMillis();
+        Date date= new Date(time);
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+        String today = sf.format(date);
+
+        if(pickup_date.startsWith(today)) {
+            pickup_date = "오늘 " + pickup_date.split(" ")[1];
+        }
         return pickup_date;
     }
 
     public String getDropoff_date() {
+
+        long time =  System.currentTimeMillis();
+        Date date= new Date(time);
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+        String today = sf.format(date);
+
+        if(dropoff_date.startsWith(today)) {
+            dropoff_date = "오늘 " + dropoff_date.split(" ")[1];
+        }
+
         return dropoff_date;
     }
 

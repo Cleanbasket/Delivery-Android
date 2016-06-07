@@ -1,4 +1,4 @@
-package kr.co.cleanbasket.cleanbasketdelivererandroid.activity;
+package kr.co.cleanbasket.cleanbasketdelivererandroid.auth;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,31 +16,31 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
-import cz.msebera.android.httpclient.Header;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.ServerConstants;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.ImageManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.InputValidationChecker;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.ServerConstants;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
- *  RegisterActivity.java
- *  CleanBasket Deliverer Android
- *
- *  Created by Yongbin Cha
- *  Copyright (c) 2016 WashAppKorea. All rights reserved.
- *
+ * RegisterActivity.java
+ * CleanBasket Deliverer Android
+ * <p/>
+ * Created by Yongbin Cha
+ * Copyright (c) 2016 WashAppKorea. All rights reserved.
  */
 
 public class RegisterActivity extends AppCompatActivity {
@@ -59,7 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Button btnRegister;
 
-    Gson gson;
+    private Gson gson = new Gson();
 
     File mFileTemp;
     boolean isProfilFilled = false;
@@ -87,12 +87,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    class BtnOnCLickListener implements View.OnClickListener{
+    class BtnOnCLickListener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
             ImageManager.setTempPhotoFileName("tempimage.jpg");
-            switch(v.getId()) {
+            switch (v.getId()) {
                 case R.id.iv_register_profilimage:
                     alertDialogCamera();
                     break;
@@ -104,7 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void alertDialogCamera(){
+    private void alertDialogCamera() {
         CharSequence[] array = {"카메라", "앨범"};
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("프로필 사진 업로드");
@@ -129,40 +129,27 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void requestRegistration() {
-        if(!checkInvalidation()) {
+        if (!checkInvalidation()) {
             return;
         }
 
-        RequestParams params = new RequestParams();
-        try {
-            params.put("file", getTempFile());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        params.put("email", etEmail.getText().toString());
-        params.put("password", etPassword.getText().toString());
-        params.put("name", etName.getText().toString());
-        params.put("phone", etPhoneNumber.getText().toString());
-        params.put("birthday", etBirth.getText().toString());
+        AuthService authService = Network.getInstance().getRetrofit().create(AuthService.class);
 
-        HttpClientLaundryDelivery.post(AddressManager.DELIVERER_JOIN, params, new TextHttpResponseHandler() {
+        File file = getTempFile();
+
+        RequestBody requestFile =
+                RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+        Call<JsonData> call = authService.requestJoin(body, etEmail.getText().toString(), etPassword.getText().toString(), etName.getText().toString(), etPhoneNumber.getText().toString(), etBirth.getText().toString());
+
+        call.enqueue(new Callback<JsonData>() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e(TAG, throwable.getLocalizedMessage());
-            }
+            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers,
-                                  String responseBody) {
-                Log.v(TAG, responseBody);
+                JsonData jsonData = response.body();
 
-                JsonData jsonData = null;
-
-                try{
-                    jsonData = gson.fromJson(responseBody, JsonData.class);
-                }catch (NullPointerException e){
-                    Log.e(TAG, e.getLocalizedMessage());
-                }
                 switch (jsonData.constant) {
                     case ServerConstants.ERROR:
                         Toast.makeText(RegisterActivity.this, "일시적인 오류로 회원가입 처리에 실패했습니다.", Toast.LENGTH_SHORT).show();
@@ -178,11 +165,18 @@ public class RegisterActivity extends AppCompatActivity {
                         break;
                 }
             }
+
+            @Override
+            public void onFailure(Call<JsonData> call, Throwable t) {
+                Log.e(TAG, t.getLocalizedMessage());
+            }
         });
+
+
     }
 
     private boolean checkInvalidation() {
-        if(!isProfilFilled) {
+        if (!isProfilFilled) {
             Toast.makeText(this, "프로필 이미지를 등록해주세요.", Toast.LENGTH_SHORT).show();
             return false;
         }

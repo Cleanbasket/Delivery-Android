@@ -17,24 +17,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.Header;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * MyOrderDropOffAdapter.java
@@ -95,9 +89,8 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
         Log.i("MyDropOff", "PRICE : " + price_str);
         price.setText(price_str);
 
-        dropoff_date.setText(orderArrayList.get(position).dropoff_date);
-        address.setText(orderArrayList.get(position).address + orderArrayList.get(position).addr_number +
-                orderArrayList.get(position).addr_building + orderArrayList.get(position).addr_remainder);
+        dropoff_date.setText(orderArrayList.get(position).getDropoff_date());
+        address.setText(orderArrayList.get(position).getFullAddress());
         item.setText(makeItem(position));
         memo.setText(orderArrayList.get(position).memo);
 
@@ -144,8 +137,7 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
 
         pickup_date.setText(orderArrayList.get(position).pickup_date);
         dropoff_date.setText(orderArrayList.get(position).dropoff_date);
-        address.setText(orderArrayList.get(position).address + orderArrayList.get(position).addr_number +
-                orderArrayList.get(position).addr_building + orderArrayList.get(position).addr_remainder);
+        address.setText(orderArrayList.get(position).getFullAddress());
         item.setText(makeItem(position));
         memo.setText(orderArrayList.get(position).memo);
         phone.setText(orderArrayList.get(position).phone);

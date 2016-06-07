@@ -29,5 +29,4 @@ public class AssignProxy {
         call.enqueue(assignCallback);
     }
 
-
 }

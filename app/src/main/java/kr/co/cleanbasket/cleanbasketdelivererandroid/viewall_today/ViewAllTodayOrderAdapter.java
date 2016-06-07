@@ -90,8 +90,5 @@ public class ViewAllTodayOrderAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void changeList(ArrayList<OrderInfo>  orderInfos) {
-        this.orderInfos = orderInfos;
-    }
 
 }

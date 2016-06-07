@@ -4,26 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.loopj.android.http.TextHttpResponseHandler;
 
-import cz.msebera.android.httpclient.Header;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.SharedPreferenceBase;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.ViewAllService;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.auth.LoginActivity;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.auth.AuthService;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.ServerConstants;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.SharedPreferenceBase;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  *  StartActivity.java
@@ -40,7 +35,7 @@ public class StartActivity extends AppCompatActivity {
 
     private Gson gson = new Gson();
 
-    private LoginService service;
+    private AuthService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +43,7 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_laundrydelivery);
 
         SharedPreferenceBase.init(this);
-        service = Network.getInstance().getRetrofit().create(LoginService.class);
+        service = Network.getInstance().getRetrofit().create(AuthService.class);
 
         Handler delayStartActivityHandler = new Handler();
         delayStartActivityHandler.postDelayed(new Runnable() {

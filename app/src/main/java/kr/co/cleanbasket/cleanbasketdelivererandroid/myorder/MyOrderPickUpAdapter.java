@@ -7,7 +7,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,24 +16,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.Header;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * MyOrderPickUpAdapter.java
@@ -90,9 +83,8 @@ public class MyOrderPickUpAdapter extends BaseAdapter {
         TextView item = (TextView) row.findViewById(R.id.item);
 
         order_number.setText(orderArrayList.get(position).order_number);
-        pickup_date.setText(orderArrayList.get(position).pickup_date);
-        address.setText(orderArrayList.get(position).address + orderArrayList.get(position).addr_number +
-                orderArrayList.get(position).addr_building + orderArrayList.get(position).addr_remainder);
+        pickup_date.setText(orderArrayList.get(position).getPickup_date());
+        address.setText(orderArrayList.get(position).getFullAddress());
 
         DecimalFormat df = new DecimalFormat("#,##0");
         String price_str  = String.valueOf(df.format(orderArrayList.get(position).price));

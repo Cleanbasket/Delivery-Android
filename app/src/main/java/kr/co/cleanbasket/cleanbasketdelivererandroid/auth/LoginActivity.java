@@ -1,4 +1,4 @@
-package kr.co.cleanbasket.cleanbasketdelivererandroid.activity;
+package kr.co.cleanbasket.cleanbasketdelivererandroid.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,13 +10,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.loopj.android.http.PersistentCookieStore;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.activity.MainActivity;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.ServerConstants;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login() {
 
-        LoginService service = Network.getInstance().getRetrofit().create(LoginService.class);
+        AuthService service = Network.getInstance().getRetrofit().create(AuthService.class);
         Call<JsonData> result= service.login(etEmail.getText().toString(),etPassword.getText().toString(),true,"");
         result.enqueue(new Callback<JsonData>() {
             @Override

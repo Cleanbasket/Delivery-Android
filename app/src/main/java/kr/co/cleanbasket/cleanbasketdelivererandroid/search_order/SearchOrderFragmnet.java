@@ -3,11 +3,9 @@ package kr.co.cleanbasket.cleanbasketdelivererandroid.search_order;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,23 +18,18 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.neokree.materialtabs.MaterialTabHost;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.OrderDetailDialog;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitOrder;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.ViewAllOrderAdapter;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.ViewAllService;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Order;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Phone;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * ViewAllOrderFragment.java
@@ -51,7 +44,7 @@ public class SearchOrderFragmnet extends Fragment {
     private EditText orderNumberEdit;
     private Button find;
 
-    private SearchOrderService service;
+    private RetrofitOrder.ItemService service;
     private Gson gson = new Gson();
 
     private ViewAllOrderAdapter viewAllOrderAdapter;
@@ -60,7 +53,7 @@ public class SearchOrderFragmnet extends Fragment {
 
     public SearchOrderFragmnet(Activity context) {
         this.context = context;
-        service = Network.getInstance().getRetrofit().create(SearchOrderService.class);
+        service = Network.getInstance().getRetrofit().create(RetrofitOrder.ItemService.class);
 
     }
 

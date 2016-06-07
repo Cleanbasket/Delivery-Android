@@ -56,6 +56,7 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
 
 
     public MyOrderFragment(Activity context) {
+        this.context = context;
         gson = new Gson();
         service = Network.getInstance().getRetrofit().create(MyOrderService.class);
     }

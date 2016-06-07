@@ -11,23 +11,22 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.Header;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.OrderDetailDialog;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.service.HttpClientLaundryDelivery;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class ViewAllTodayOrderFragment extends android.app.Fragment  implements MaterialTabListener {
+public class ViewAllTodayOrderFragment extends android.app.Fragment implements MaterialTabListener {
 
     private MaterialTabHost tabHost;
     private ListView detail;
@@ -40,11 +39,14 @@ public class ViewAllTodayOrderFragment extends android.app.Fragment  implements 
 
     private static final String TAG = "DEV_todayOrderFragment";
 
+    private RetrofitViewAllToday retrofitViewAllToday;
+
 
     public ViewAllTodayOrderFragment(Activity context) {
         // Required empty public constructor
         gson = new Gson();
         this.context = context;
+        retrofitViewAllToday = new RetrofitViewAllToday();
 
     }
 
@@ -79,7 +81,7 @@ public class ViewAllTodayOrderFragment extends android.app.Fragment  implements 
     public void onTabSelected(MaterialTab tab) {
 //        pager.setCurrentItem(tab.getPosition());
 
-        switch (tab.getPosition()){
+        switch (tab.getPosition()) {
             case 0:
                 Log.i("TabSelect", String.valueOf(tab.getPosition()));
                 showTodayPickups();
@@ -95,7 +97,7 @@ public class ViewAllTodayOrderFragment extends android.app.Fragment  implements 
     @Override
     public void onTabReselected(MaterialTab tab) {
 
-        switch (tab.getPosition()){
+        switch (tab.getPosition()) {
             case 0:
                 Log.i("TabSelect", String.valueOf(tab.getPosition()));
                 showTodayPickups();
@@ -115,31 +117,25 @@ public class ViewAllTodayOrderFragment extends android.app.Fragment  implements 
 
     //DATA 관련 시작
 
-    private ArrayList<OrderInfo> showTodayPickups(){
+    private void showTodayPickups() {
         orderArrayList = new ArrayList<OrderInfo>();
 
-        HttpClientLaundryDelivery.post(AddressManager.DELIVERER_TODAY_PIKUP, new RequestParams(), new TextHttpResponseHandler() {
+        retrofitViewAllToday.getTodayPickUp(new Callback<JsonData>() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e(TAG,"POST FAILED TO " + AddressManager.DELIVERER_TODAY_PIKUP);
-            }
+            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-
-                Log.i("test pickup", responseString);
-
-                JsonData jsonData = gson.fromJson(responseString, JsonData.class);
-
+                JsonData jsonData = response.body();
                 orderArrayList = gson.fromJson(jsonData.data, new TypeToken<ArrayList<OrderInfo>>() {
                 }.getType());
 
-
                 setMyOrderPickUpAdapter();
+            }
 
+            @Override
+            public void onFailure(Call<JsonData> call, Throwable t) {
+                Log.e(TAG, "POST FAILED TO " + AddressManager.DELIVERER_TODAY_PIKUP);
             }
         });
-        return orderArrayList;
     }
 
     private void setMyOrderPickUpAdapter() {
@@ -148,29 +144,26 @@ public class ViewAllTodayOrderFragment extends android.app.Fragment  implements 
     }
 
 
-
-    private ArrayList<OrderInfo> showTodayDropoffs(){
+    private ArrayList<OrderInfo> showTodayDropoffs() {
         orderArrayList = new ArrayList<kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo>();
 
-        HttpClientLaundryDelivery.post(AddressManager.DELIVERER_TODAY_DROPOFF, new RequestParams(), new TextHttpResponseHandler() {
+        retrofitViewAllToday.getTodayDropOff(new Callback<JsonData>() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-
-                Log.i("test pickup", responseString);
-
-                JsonData jsonData = gson.fromJson(responseString, JsonData.class);
+            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
+                JsonData jsonData = response.body();
 
                 orderArrayList = gson.fromJson(jsonData.data, new TypeToken<ArrayList<kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo>>() {
                 }.getType());
 
                 setMyOrderPickUpAdapter();
             }
+
+            @Override
+            public void onFailure(Call<JsonData> call, Throwable t) {
+
+            }
         });
+
         return orderArrayList;
     }
 

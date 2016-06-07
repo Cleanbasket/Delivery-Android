@@ -11,18 +11,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.Header;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.network.ItemNetwork;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitOrder;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Item;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.ItemCode;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.ItemInfo;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Order;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by gingeraebi on 2016. 6. 1..
@@ -43,7 +44,7 @@ public class ItemListDialog extends DialogFragment {
     private ItemListAdapter itemListAdapter;
     private OnTransferListener onTransferListener;
 
-    private ItemNetwork itemNetwork;
+    private RetrofitOrder retrofitOrder;
 
     private int oid;
 
@@ -78,23 +79,21 @@ public class ItemListDialog extends DialogFragment {
 
         tv_orderNumber.setText(orderNumber);
 
-        itemNetwork = new ItemNetwork();
+        retrofitOrder = new RetrofitOrder();
         itemCodes = new ArrayList<>();
         items = new ArrayList<>();
-        itemNetwork.getOrderItem(new TextHttpResponseHandler() {
+        retrofitOrder.getOrderItem(new Callback<JsonData>() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e(TAG,"GET Item List Fail");
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                Log.v(TAG, responseString);
-
-                JsonData jsonData = gson.fromJson(responseString, JsonData.class);
+            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
+                JsonData jsonData = response.body();
                 ItemInfo itemInfo = gson.fromJson(jsonData.data, ItemInfo.class);
                 setItemCodes(itemInfo);
                 getOrderByOid(oid);
+            }
+
+            @Override
+            public void onFailure(Call<JsonData> call, Throwable t) {
+                Log.e(TAG,"GET Item List Fail");
             }
         });
 
@@ -124,22 +123,20 @@ public class ItemListDialog extends DialogFragment {
     }
 
     private void getOrderByOid(int oid) {
-        itemNetwork.getOrderByOid(
-                new TextHttpResponseHandler() {
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        Log.e(TAG,"GET Order By Order Id Fail");
-                    }
+        retrofitOrder.getOrderByOid(new Callback<JsonData>() {
+            @Override
+            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
+                JsonData jsonData = response.body();
+                Order order = gson.fromJson(jsonData.data, Order.class);
+                items = order.item;
+                itemListAdapter = new ItemListAdapter(getActivity(), itemCodes, items);
+                itemList.setAdapter(itemListAdapter);
+            }
 
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                        JsonData jsonData = gson.fromJson(responseString, JsonData.class);
-                        Order order = gson.fromJson(jsonData.data, Order.class);
-                        items = order.item;
-                        itemListAdapter = new ItemListAdapter(getActivity(), itemCodes, items);
-                        itemList.setAdapter(itemListAdapter);
-                    }
-                }
-                , oid);
+            @Override
+            public void onFailure(Call<JsonData> call, Throwable t) {
+                Log.e(TAG,"GET Order By Order Id Fail");
+            }
+        }, oid);
     }
 }
