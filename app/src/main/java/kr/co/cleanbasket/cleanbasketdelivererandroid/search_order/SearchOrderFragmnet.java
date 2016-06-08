@@ -20,7 +20,6 @@ import java.util.List;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.OrderDetailDialog;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitOrder;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.ViewAllOrderAdapter;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
@@ -53,10 +52,12 @@ public class SearchOrderFragmnet extends Fragment {
 
     public SearchOrderFragmnet(Activity context) {
         this.context = context;
+        retrofitOrder = new RetrofitOrder();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View v = inflater.inflate(R.layout.fragment_search_order, container, false);
         history = (ListView) v.findViewById(R.id.history);
         orderNumberEdit = (EditText) v.findViewById(R.id.orderNumInput);
