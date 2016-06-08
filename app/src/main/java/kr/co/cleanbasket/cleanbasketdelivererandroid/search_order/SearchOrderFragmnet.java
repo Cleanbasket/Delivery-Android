@@ -44,7 +44,7 @@ public class SearchOrderFragmnet extends Fragment {
     private EditText orderNumberEdit;
     private Button find;
 
-    private RetrofitOrder.ItemService service;
+    private RetrofitOrder retrofitOrder;
     private Gson gson = new Gson();
 
     private ViewAllOrderAdapter viewAllOrderAdapter;
@@ -53,8 +53,6 @@ public class SearchOrderFragmnet extends Fragment {
 
     public SearchOrderFragmnet(Activity context) {
         this.context = context;
-        service = Network.getInstance().getRetrofit().create(RetrofitOrder.ItemService.class);
-
     }
 
     @Override
@@ -95,8 +93,7 @@ public class SearchOrderFragmnet extends Fragment {
     }
 
     private void getOrderByOid(int orderNum) {
-        Call<JsonData> call = service.getOrderByOid(orderNum);
-        call.enqueue(new Callback<JsonData>() {
+        retrofitOrder.getOrderByOid(new Callback<JsonData>() {
             @Override
             public void onResponse(Call<JsonData> call, Response<JsonData> response) {
                 JsonData jsonData = response.body();
@@ -118,12 +115,12 @@ public class SearchOrderFragmnet extends Fragment {
             public void onFailure(Call<JsonData> call, Throwable t) {
 
             }
-        });
+        }, orderNum);
+
     }
 
     private void getOrderByPhone(int orderNum) {
-        Call<JsonData> call = service.getOrderByPhone(new Phone(orderNum));
-        call.enqueue(new Callback<JsonData>() {
+        retrofitOrder.getOrderByPhoneNum(new Callback<JsonData>() {
             @Override
             public void onResponse(Call<JsonData> call, Response<JsonData> response) {
                 JsonData jsonData = response.body();
@@ -143,7 +140,7 @@ public class SearchOrderFragmnet extends Fragment {
             public void onFailure(Call<JsonData> call, Throwable t) {
 
             }
-        });
+        }, new Phone(orderNum));
     }
 
 

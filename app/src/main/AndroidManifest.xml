@@ -33,10 +33,10 @@
         <activity android:name=".auth.RegisterActivity"
             android:screenOrientation="portrait">
         </activity>
-        <!--<activity android:name=".activity.OrderDetailActivity"-->
-            <!--android:theme="@style/AppTheme"-->
-            <!--android:screenOrientation="portrait">-->
-        <!--</activity>-->
+        <activity android:name=".oder_detail.OrderDetailActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".activity.MainActivity"
             android:theme="@style/FullScreen"
             android:screenOrientation="portrait">

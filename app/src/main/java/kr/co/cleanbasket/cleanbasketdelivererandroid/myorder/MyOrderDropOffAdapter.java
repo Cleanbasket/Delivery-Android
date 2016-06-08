@@ -91,7 +91,7 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
 
         dropoff_date.setText(orderArrayList.get(position).getDropoff_date());
         address.setText(orderArrayList.get(position).getFullAddress());
-        item.setText(makeItem(position));
+        item.setText(orderArrayList.get(position).makeItem());
         memo.setText(orderArrayList.get(position).memo);
 
         if (orderArrayList.get(position).state == 4) {
@@ -129,16 +129,16 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
         String price_str = "";
 
         if (orderArrayList.get(position).coupon.isEmpty()) {
-            price_str = String.valueOf(df.format(orderArrayList.get(position).price) + " (" + getPriceStatus(position) + ")");
+            price_str = String.valueOf(df.format(orderArrayList.get(position).price) + " (" + orderArrayList.get(position).getPriceStatus() + ")");
         } else {
-            price_str = String.valueOf(df.format(orderArrayList.get(position).price)) + " (" + getPriceStatus(position) + "/" + orderArrayList.get(position).coupon.get(position).name + " )";
+            price_str = String.valueOf(df.format(orderArrayList.get(position).price)) + " (" + orderArrayList.get(position).getPriceStatus() + "/" + orderArrayList.get(position).coupon.get(position).name + " )";
         }
         price.setText(price_str);
 
         pickup_date.setText(orderArrayList.get(position).pickup_date);
         dropoff_date.setText(orderArrayList.get(position).dropoff_date);
         address.setText(orderArrayList.get(position).getFullAddress());
-        item.setText(makeItem(position));
+        item.setText(orderArrayList.get(position).makeItem());
         memo.setText(orderArrayList.get(position).memo);
         phone.setText(orderArrayList.get(position).phone);
 
@@ -187,25 +187,4 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
 
     }
 
-    private String getPriceStatus(int position) {
-        switch (orderArrayList.get(position).payment_method) {
-            case 0:
-                return "현장 현금 결제";
-            case 1:
-                return "현장 카드 결제";
-            case 2:
-                return "계좌이체";
-            case 3:
-                return "인앱결제";
-        }
-        return "";
-    }
-
-    private String makeItem(int position) {
-        String strItem = orderArrayList.get(position).item.get(0).name + "(" + orderArrayList.get(position).item.get(0).count + ")";
-        for (int i = 1; i < orderArrayList.get(position).item.size(); i++) {
-            strItem += ", " + orderArrayList.get(position).item.get(i).name + "(" + orderArrayList.get(position).item.get(i).count + ")";
-        }
-        return strItem;
-    }
 }

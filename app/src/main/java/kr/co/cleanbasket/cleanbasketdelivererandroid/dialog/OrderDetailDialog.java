@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.DelivererInfo;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.PD;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.RetrofitPD;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,7 +38,6 @@ public class OrderDetailDialog {
     private Activity context;
     private OrderInfo orderInfo;
     private Gson gson = new Gson();
-    private PD pd;
     private ArrayList<DelivererInfo> delivererInfo;
     private ArrayAdapter<String> pdAdapter;
     private BaseAdapter adapter;
@@ -48,23 +45,8 @@ public class OrderDetailDialog {
 
     public OrderDetailDialog(Activity context, BaseAdapter adapter) {
         this.context = context;
-        this.pd = new PD();
+        delivererInfo = RetrofitPD.getInstance().getDelivererInfo();
         proxy = new AssignProxy();
-
-        pd.getDelivererInfo(new Callback<JsonData>() {
-            @Override
-            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
-                Log.i("PD", "GET PD SUCCESS");
-                JsonData jsonData = response.body();
-                delivererInfo = gson.fromJson(jsonData.data, new TypeToken<ArrayList<DelivererInfo>>() {
-                }.getType());
-            }
-
-            @Override
-            public void onFailure(Call<JsonData> call, Throwable t) {
-
-            }
-        });
         this.adapter = adapter;
     }
 
@@ -180,7 +162,7 @@ public class OrderDetailDialog {
     //수거 배정 다이얼로그 띄우기
     private void showAssignDropoffDialog(final TextView dropoff_man) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        ArrayList<String> pdList = pd.getPDList(delivererInfo);
+        ArrayList<String> pdList = RetrofitPD.getInstance().getPDList();
         builder.setTitle("배달 배정 하기");
         pdAdapter = new ArrayAdapter<String>(context, android.R.layout.select_dialog_singlechoice, pdList);
 
@@ -204,7 +186,7 @@ public class OrderDetailDialog {
     //배달 배정 다이얼로그 띄우기
     private void showAssignPickupDialog(final TextView pickup_man) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        ArrayList<String> pdList = pd.getPDList(delivererInfo);
+        ArrayList<String> pdList = RetrofitPD.getInstance().getPDList();
 
         builder.setTitle("수거 배정 하기");
         pdAdapter = new ArrayAdapter<String>(context, android.R.layout.select_dialog_singlechoice, pdList);

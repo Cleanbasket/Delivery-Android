@@ -56,4 +56,11 @@ public class RetrofitOrder {
         call.enqueue(getOrderCallback);
 
     }
+
+    public void getOrderByPhoneNum(Callback<JsonData> getOdrderByPhoneCallback, Phone phone){
+        Log.i(TAG,"GET ORDER FROM " + AddressManager.DELIVERER_ORDER + "/phone");
+
+        Call<JsonData> call = itemService.getOrderByPhone(phone);
+        call.enqueue(getOdrderByPhoneCallback);
+    }
 }

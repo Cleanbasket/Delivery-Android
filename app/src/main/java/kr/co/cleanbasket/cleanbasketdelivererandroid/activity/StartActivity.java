@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.HashSet;
+
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.auth.LoginActivity;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.auth.AuthService;
@@ -16,6 +18,8 @@ import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.SharedPreferenceBase;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.LoginInfo;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.RetrofitPD;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,9 +46,25 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laundrydelivery);
 
+        //SharedPreference init
         SharedPreferenceBase.init(this);
-        service = Network.getInstance().getRetrofit().create(AuthService.class);
+        HashSet<String> managerSet = new HashSet();
+        managerSet.add("2219");
+        managerSet.add("5310");
+        managerSet.add("7602");
+        managerSet.add("8701");
+        managerSet.add("16781");
+        managerSet.add("22114");
+        managerSet.add("11130");
+        managerSet.add("12923");
+        managerSet.add("12530");
+        managerSet.add("4199");
+        managerSet.add("4197");
+        managerSet.add("12721");
 
+        SharedPreferenceBase.putSharedPreference("MANAGER",managerSet);
+        service = Network.getInstance().getRetrofit().create(AuthService.class);
+        RetrofitPD.getInstance();
         Handler delayStartActivityHandler = new Handler();
         delayStartActivityHandler.postDelayed(new Runnable() {
             @Override
@@ -69,6 +89,11 @@ public class StartActivity extends AppCompatActivity {
                         break;
                     case ServerConstants.SESSION_VALID:
                         intent = new Intent(StartActivity.this, MainActivity.class);
+                        if(SharedPreferenceBase.getSharedPreference("MANAGER", new HashSet<String>()).contains(jsonData.data.toString())){
+                            SharedPreferenceBase.putSharedPreference("IsManager",true);
+                        }else {
+                            SharedPreferenceBase.putSharedPreference("IsManager",false);
+                        }
                         intent.putExtra("userID",jsonData.data.toString());
                         break;
                 }

@@ -2,6 +2,7 @@ package kr.co.cleanbasket.cleanbasketdelivererandroid.myorder;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.oder_detail.OrderDetailActivity;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
@@ -141,15 +143,20 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
 
     private void setMyOrderPickUpAdapter() {
         myOrderPickUpAdapter = new MyOrderPickUpAdapter(context, pickUpList);
-        detail.setAdapter(myOrderPickUpAdapter);
+
 
         detail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                myOrderPickUpAdapter.showOrderDetailDialog(position);
+                Intent intent = new Intent(context ,OrderDetailActivity.class);
+                int oid = pickUpList.get(position).getOid();
+                Log.i(TAG,"oid :" + oid);
+                intent.putExtra("oid", oid);
+                startActivity(intent);
             }
         });
+
+        detail.setAdapter(myOrderPickUpAdapter);
     }
 
     private ArrayList<OrderInfo> dropoffData() {
@@ -181,8 +188,11 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
         detail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                myOrderDropOffAdapter.showOrderDetailDialog(position);
+                Intent intent = new Intent(context ,OrderDetailActivity.class);
+                int oid = dropoffList.get(position).getOid();
+                Log.i(TAG,"oid :" + oid);
+                intent.putExtra("oid", oid);
+                startActivity(intent);
             }
         });
     }

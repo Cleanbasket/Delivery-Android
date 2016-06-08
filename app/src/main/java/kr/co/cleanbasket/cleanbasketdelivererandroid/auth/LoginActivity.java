@@ -11,12 +11,16 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.HashSet;
+
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.activity.MainActivity;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.ServerConstants;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.SharedPreferenceBase;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.LoginInfo;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -103,6 +107,12 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "승인되지 않은 사용자입니다.", Toast.LENGTH_SHORT).show();
                         break;
                     case ServerConstants.SUCCESS:
+                        LoginInfo info = gson.fromJson(jsonData.data,LoginInfo.class);
+                        if(SharedPreferenceBase.getSharedPreference("MANAGER", new HashSet<String>()).contains("" + info.uid)){
+                            SharedPreferenceBase.putSharedPreference("IsManager",true);
+                        }else {
+                            SharedPreferenceBase.putSharedPreference("IsManager",false);
+                        }
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);

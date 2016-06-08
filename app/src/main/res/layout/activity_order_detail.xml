@@ -1,380 +1,402 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:theme="@style/AppTheme"
-    tools:context=".activity.OrderDetailActivity"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:theme="@style/AppTheme"
+    tools:context=".oder_detail.OrderDetailActivity">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:text="주문 상세"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
         android:weightSum="5">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:text="주문번호"
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:textColor="#0D99FF"
-            android:layout_weight="4" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/order_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="160302-9429"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:id="@+id/order_number"
+            android:layout_weight="1"
+            android:gravity="center"
             android:textColor="#000000"
-            android:layout_weight="1" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="10dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
+        android:orientation="horizontal"
         android:weightSum="5">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:text="가격   "
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:textColor="#0D99FF"
-            android:layout_weight="4" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="20,000"
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:id="@+id/price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:textColor="#000000"
-            android:layout_weight="1" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="10dp"
         android:layout_gravity="right"
-        android:layout_marginTop="10dp">
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:text="수거시간   "
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:textColor="#0D99FF"
-            android:layout_weight="4" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="2016-02-24 20:30"
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:id="@+id/pickup_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:textColor="#000000"
-            android:layout_weight="1" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:text="배달시간   "
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:textColor="#0D99FF"
-            android:layout_weight="4" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="2016-02-24 20:30"
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:id="@+id/dropoff_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:textColor="#000000"
             android:textIsSelectable="false"
-            android:layout_weight="1" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:text="주소   "
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:textColor="#0D99FF"
-            android:layout_weight="4" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="서울특별시 동작구 대방동 294-2번지 진성 902호"
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:textColor="#000000"
-            android:layout_weight="1" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:text="품목   "
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:textColor="#0D99FF"
-            android:layout_weight="4" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="와이셔츠(2) 티셔츠(2)"
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:id="@+id/item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:textColor="#000000"
-            android:layout_weight="1" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:text="요청사항"
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:textColor="#0D99FF"
-            android:layout_weight="4" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="운동화 무료 세탁"
-            android:textSize="15sp"
             android:id="@+id/note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:textColor="#000000"
-            android:layout_weight="1" />
+            android:textSize="15sp" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginRight="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:text="메모   "
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:textColor="#0D99FF"
             android:textIsSelectable="false"
-            android:layout_weight="4" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="재세탁을 요청했습니다"
             android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <EditText
             android:id="@+id/memo"
+            android:background="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="메모 입력"
             android:textColor="#000000"
-            android:layout_weight="1" />
+            android:textSize="15sp" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:text="진행상황  "
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:textColor="#0D99FF"
             android:textIsSelectable="false"
-            android:layout_weight="4" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="배달진행중"
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:textColor="#000000"
-            android:layout_weight="1" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:text="수거 배정자   "
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:textColor="#0D99FF"
             android:textIsSelectable="false"
-            android:layout_weight="4" />
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="차용빈 개발리드"
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:id="@+id/pivkup_man"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:textColor="#000000"
-            android:layout_weight="1" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:text="배달 배정자   "
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:textColor="#0D99FF"
             android:textIsSelectable="false"
-            android:layout_weight="4" />
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/dropoff_man"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="차용빈 개발리드"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:id="@+id/dropoff_man"
+            android:layout_weight="1"
+            android:gravity="center"
             android:textColor="#000000"
-            android:layout_weight="1" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:gravity="center" >
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
+            android:id="@+id/copy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="전화연결"
-            android:id="@+id/call"
             android:layout_weight="1"
-            android:textStyle="bold"
-            android:textColor="#ffffff" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="주문수정"
-            android:id="@+id/button5"
-            android:layout_weight="1"
+            android:text="번호 복사"
+            android:textColor="#ffffff"
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="배정하기"
-            android:id="@+id/assign"
+            android:layout_weight="1"
+            android:text="품목 수정"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/complete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textStyle="bold" />
 
     </LinearLayout>
+
 </LinearLayout>

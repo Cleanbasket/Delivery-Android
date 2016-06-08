@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.myorder.MyOrderFragment;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.search_order.SearchOrderFragmnet;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.SharedPreferenceBase;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall_today.ViewAllTodayOrderFragment;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.ViewAllOrderFragment;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private Fragment fragment;
+    private Boolean isManager;
 
 
     @Override
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setCheckedItem(R.id.nav_my_order);
 
         fragment = new MyOrderFragment(this);
+        isManager = SharedPreferenceBase.getSharedPreference("IsManager",false);
 
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_view, fragment).commit();
@@ -77,9 +80,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 toolbar.setTitle("내 주문");
                 break;
             case R.id.nav_all_order:
-                fragment = new ViewAllOrderFragment(this);
-                toolbar.setTitle("전체 주문");
-                break;
+                if(isManager) {
+                    fragment = new ViewAllOrderFragment(this);
+                    toolbar.setTitle("전체 주문");
+                    break;
+                }
             case R.id.nav_search_order:
                 fragment = new SearchOrderFragmnet(this);
                 toolbar.setTitle("주문 검색");

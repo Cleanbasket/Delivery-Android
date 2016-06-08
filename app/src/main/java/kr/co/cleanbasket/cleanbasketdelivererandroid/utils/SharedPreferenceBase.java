@@ -24,6 +24,15 @@ public class SharedPreferenceBase {
         return context.getSharedPreferences(prefName,Context.MODE_PRIVATE).getStringSet(prefName, defValues);
     }
 
+    public static boolean getSharedPreference(String prefName, boolean bool) {
+        return context.getSharedPreferences(prefName,Context.MODE_PRIVATE).getBoolean(prefName, bool);
+    }
+
+
+    public static void putSharedPreference(String prefName, boolean bool) {
+        context.getSharedPreferences(prefName,Context.MODE_PRIVATE).edit().putBoolean(prefName,bool).commit();
+    }
+
     public static void putSharedPreference(String prefName, Set<String> valeus) {
         context.getSharedPreferences(prefName,Context.MODE_PRIVATE).edit().putStringSet(prefName, valeus).commit();
     }

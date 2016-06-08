@@ -2,6 +2,7 @@ package kr.co.cleanbasket.cleanbasketdelivererandroid.viewall;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.OrderDetailDialog;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.oder_detail.OrderDetailActivity;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
@@ -72,11 +74,15 @@ public class ViewAllOrderFragment extends Fragment {
         detail = (ListView) v.findViewById(R.id.lv_detail);
 
         getOrderData();
-        //pdList = new PD().getPDList();
+        //pdList = new RetrofitPD().getPDList();
         detail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showOrderDetailDialog(position);
+                Intent intent = new Intent(context ,OrderDetailActivity.class);
+                int oid = orderArrayList.get(position).getOid();
+                Log.i(TAG,"oid :" + oid);
+                intent.putExtra("oid", oid);
+                startActivity(intent);
             }
         });
 
