@@ -26,19 +26,30 @@ public class ItemListAdapter extends BaseAdapter {
     private ArrayList<ItemCode> itemCodes;
     private ArrayList<Item> items;
     private DecimalFormat mFormatKRW = new DecimalFormat("###,###,###");
-    private HashMap<String, Integer> itemMap = new HashMap<>();
 
+    private HashMap<String, Integer> itemMap = new HashMap<>();
+    private HashMap<String, Integer> itemCodeMap = new HashMap<>();
+
+    private int oid;
 
     public ItemListAdapter(Activity context, ArrayList<ItemCode> itemCodes, ArrayList<Item> items) {
         this.context = context;
         this.itemCodes = itemCodes;
         this.items = items;
         setItemMap(items);
+        setItemCodeeMap(itemCodes);
     }
 
     private void setItemMap(ArrayList<Item> items) {
         for (Item item : items) {
             itemMap.put(item.name, item.count);
+            oid = item.oid;
+        }
+    }
+
+    private void setItemCodeeMap(ArrayList<ItemCode> itemCodes) {
+        for (ItemCode itemCode : itemCodes) {
+            itemCodeMap.put(itemCode.name, itemCode.item_code);
         }
     }
 
@@ -73,7 +84,7 @@ public class ItemListAdapter extends BaseAdapter {
 
         itemName.setText(curItem.name);
 
-        if(itemMap.containsKey(curItem.name)) {
+        if (itemMap.containsKey(curItem.name)) {
             itemCount.setText("" + itemMap.get(curItem.name));
         }
 
@@ -107,11 +118,13 @@ public class ItemListAdapter extends BaseAdapter {
 
         String itemName = itemCode.name;
 
-        if(itemMap.containsKey(itemName)) {
+        if (itemMap.containsKey(itemName)) {
             int count = itemMap.get(itemName);
-            if(count > 0) {
+            if (count > 1) {
                 itemMap.remove(itemName);
                 itemMap.put(itemName, count - 1);
+            }else if (count == 1) {
+                itemMap.remove(itemName);
             }
         }
         notifyDataSetChanged();
@@ -120,14 +133,21 @@ public class ItemListAdapter extends BaseAdapter {
     private void increaseCount(ItemCode itemCode) {
         String itemName = itemCode.name;
 
-        if(itemMap.containsKey(itemName)) {
+        if (itemMap.containsKey(itemName)) {
             int count = itemMap.get(itemName);
             itemMap.remove(itemName);
             itemMap.put(itemName, count + 1);
-        }else {
+        } else {
             itemMap.put(itemName, 1);
         }
         notifyDataSetChanged();
     }
 
+    public ArrayList<Item> getItems() {
+        ArrayList<Item> returnItems = new ArrayList<>();
+        for (String key : itemMap.keySet()) {
+            returnItems.add(new Item(oid, itemCodeMap.get(key), itemMap.get(key)));
+        }
+        return returnItems;
+    }
 }

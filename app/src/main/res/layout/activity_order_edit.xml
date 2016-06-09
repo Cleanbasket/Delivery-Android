@@ -5,8 +5,10 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:theme="@style/AppTheme"
-    tools:context=".oder_detail.OrderDetailActivity">
+    tools:context=".oder_detail.OrderEditActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,23 +19,11 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="주문 상세"
+            android:text="수정하기"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
-
-        <TextView
-            android:id="@+id/edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="수정"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:padding="10dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 
@@ -88,7 +78,7 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
-        <TextView
+        <EditText
             android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -96,7 +86,9 @@
             android:gravity="center"
             android:textColor="#000000"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:background="@android:color/transparent"
+            android:inputType="number" />
 
     </LinearLayout>
 
@@ -104,16 +96,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
+            android:layout_weight="3"
             android:text="수거시간   "
             android:textColor="#0D99FF"
             android:textSize="15sp"
@@ -121,13 +112,20 @@
 
         <TextView
             android:id="@+id/pickup_time"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="8"
             android:gravity="center"
             android:textColor="#000000"
             android:textSize="15sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:id="@+id/editPickUp"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_edit" />
     </LinearLayout>
 
     <LinearLayout
@@ -140,9 +138,9 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
+            android:layout_weight="3"
             android:text="배달시간   "
             android:textColor="#0D99FF"
             android:textSize="15sp"
@@ -150,14 +148,21 @@
 
         <TextView
             android:id="@+id/dropoff_time"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="8"
             android:gravity="center"
             android:textColor="#000000"
             android:textIsSelectable="false"
             android:textSize="15sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:id="@+id/editDropOff"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_edit" />
     </LinearLayout>
 
     <LinearLayout
@@ -178,7 +183,7 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
-        <TextView
+        <EditText
             android:id="@+id/address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -186,7 +191,8 @@
             android:gravity="center"
             android:textColor="#000000"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:background="@android:color/transparent" />
 
     </LinearLayout>
 
@@ -254,8 +260,6 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
@@ -324,9 +328,9 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
+            android:layout_weight="3"
             android:text="수거 배정자   "
             android:textColor="#0D99FF"
             android:textIsSelectable="false"
@@ -335,13 +339,20 @@
 
         <TextView
             android:id="@+id/pivkup_man"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="8"
             android:gravity="center"
             android:textColor="#000000"
             android:textSize="15sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:id="@+id/editPickupMan"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_edit" />
     </LinearLayout>
 
     <LinearLayout
@@ -355,9 +366,9 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
+            android:layout_weight="3"
             android:text="배달 배정자   "
             android:textColor="#0D99FF"
             android:textIsSelectable="false"
@@ -366,13 +377,20 @@
 
         <TextView
             android:id="@+id/dropoff_man"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="8"
             android:gravity="center"
             android:textColor="#000000"
             android:textSize="15sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:id="@+id/editDropOffMan"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_edit" />
     </LinearLayout>
 
     <LinearLayout
@@ -384,15 +402,6 @@
         android:layout_marginTop="30dp"
         android:gravity="center"
         android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/copy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="번호 복사"
-            android:textColor="#ffffff"
-            android:textStyle="bold" />
 
         <Button
             android:id="@+id/update"
@@ -407,7 +416,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:text="수정 완료" />
 
     </LinearLayout>
 

@@ -9,13 +9,16 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitOrder;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.BusProvider;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Item;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.ItemCode;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.ItemInfo;
@@ -65,6 +68,7 @@ public class ItemListDialog extends DialogFragment {
         this.onTransferListener = onTransferListener;
         this.orderNumber = orderNumber;
         this.oid = Integer.parseInt(orderNumber.split("-")[1]);
+        BusProvider.getInstance().register(this);
     }
 
     @Override
@@ -82,6 +86,7 @@ public class ItemListDialog extends DialogFragment {
         retrofitOrder = new RetrofitOrder();
         itemCodes = new ArrayList<>();
         items = new ArrayList<>();
+
         retrofitOrder.getOrderItem(new Callback<JsonData>() {
             @Override
             public void onResponse(Call<JsonData> call, Response<JsonData> response) {
@@ -101,7 +106,9 @@ public class ItemListDialog extends DialogFragment {
         rootView.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                for (Item item : itemListAdapter.getItems()) {
+                    Log.d(TAG,item.toString());
+                }
             }
         });
 

@@ -1,9 +1,11 @@
 package kr.co.cleanbasket.cleanbasketdelivererandroid.vo;
 
+import java.io.Serializable;
+
 /**
  * Item.java
  * CleanBasket Deliverer Android
- * <p/>
+ * <p>
  * Created by Yongbin Cha on 16. 4. 8..
  * Copyright (c) 2016 WashAppKorea. All rights reserved.
  */
@@ -18,4 +20,24 @@ public class Item {
     public String img = "";
     public String rdate = "";
 
+    public Item(int oid, int item_code,  int count) {
+        this.oid = oid;
+        this.item_code = item_code;
+        this.count = count;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "itid=" + itid +
+                ", oid=" + oid +
+                ", item_code=" + item_code +
+                ", name='" + name + '\'' +
+                ", descr='" + descr + '\'' +
+                ", price=" + price +
+                ", count=" + count +
+                ", img='" + img + '\'' +
+                ", rdate='" + rdate + '\'' +
+                '}';
+    }
 }

@@ -1,36 +1,35 @@
 package kr.co.cleanbasket.cleanbasketdelivererandroid.oder_detail;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.squareup.otto.Subscribe;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.activity.DeliveryApplication;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.ItemEditEvent;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.ItemListDialog;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.myorder.MyOrderService;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitOrder;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.BusProvider;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.SharedPreferenceBase;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.AssignProxy;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.DelivererInfo;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Item;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Order;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
@@ -39,28 +38,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * OrderDetailActivity.java
- * CleanBasket Deliverer Android
- * <p/>
- * Created by Yongbin Cha on 16. 4. 8..
- * Copyright (c) 2016 WashAppKorea. All rights reserved.
- */
-public class OrderDetailActivity extends Activity implements View.OnClickListener {
+public class OrderEditActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "DEV_orderEditActivity";
 
-    private static final String TAG = "DEV_orderDetailActivity";
+    private Context context;
 
-    private boolean isManager;
-
-    private ArrayList<DelivererInfo> delivererInfo;
-    private Gson gson = new Gson();
     private Order order;
+    private Order updatedOrder;
 
     private TextView order_number;
-    private TextView price;
+    private EditText price;
     private TextView pickup_time;
     private TextView dropoff_time;
-    private TextView address;
+    private EditText address;
     private TextView item;
     private TextView note;
     private EditText memo;
@@ -68,45 +58,40 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
     private TextView pickup_man;
     private TextView dropoff_man;
 
-    private TextView edit;
-    private Button complete;
-    private Button update;
-    private Button copy;
-
-    private int oid;
-    private RetrofitOrder retrofitOrder;
+    private ImageView editDropOffMan, editPickUpMan, editDropOff, editPickUp;
+    private Button complete, update;
 
     private ArrayAdapter<String> pdAdapter;
-    private Context context;
+    private ArrayList<DelivererInfo> delivererInfo;
+
+    int year, month, day, hour, minute;
+    String date;
+
+    private int mode = 0;
+    private static int PICK_UP = 1;
+    private static int DROP_OFF = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_detail);
-        BusProvider.getInstance().register(this);
-        context = this;
-        retrofitOrder = new RetrofitOrder();
-        delivererInfo = RetrofitPD.getInstance().getDelivererInfo();
-        isManager = SharedPreferenceBase.getSharedPreference("IsManager", false);
+        setContentView(R.layout.activity_order_edit);
+        DeliveryApplication app = (DeliveryApplication) getApplicationContext();
+        order = app.getOrder();
+        context =  this;
+        updatedOrder = order;
         initView();
-        //Data를 불러오는 동시에 화면을 그림
-        getOrderData();
+        setCalendar();
         setPDAdapter();
     }
 
-    private int getOid() {
-        Intent intent = getIntent();
-        oid = intent.getIntExtra("oid", 0);
-        Log.i(TAG, "oid : " + oid);
-        return oid;
-    }
 
     private void initView() {
         order_number = (TextView) findViewById(R.id.order_number);
-        price = (TextView) findViewById(R.id.price);
+        price = (EditText) findViewById(R.id.price);
         pickup_time = (TextView) findViewById(R.id.pickup_time);
         dropoff_time = (TextView) findViewById(R.id.dropoff_time);
-        address = (TextView) findViewById(R.id.address);
+        address = (EditText) findViewById(R.id.address);
         item = (TextView) findViewById(R.id.item);
         note = (TextView) findViewById(R.id.note);
         memo = (EditText) findViewById(R.id.memo);
@@ -114,43 +99,8 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
         pickup_man = (TextView) findViewById(R.id.pivkup_man);
         dropoff_man = (TextView) findViewById(R.id.dropoff_man);
 
-        complete = (Button) findViewById(R.id.complete);
-        update = (Button) findViewById(R.id.update);
-        copy = (Button) findViewById(R.id.copy);
-        edit = (TextView) findViewById(R.id.edit);
-
-        complete.setOnClickListener(this);
-        update.setOnClickListener(this);
-        copy.setOnClickListener(this);
-        edit.setOnClickListener(this);
-
-        if(!isManager) {
-            edit.setClickable(false);
-            edit.setVisibility(View.INVISIBLE);
-        }
-
-    }
-
-    private void getOrderData() {
-        getOid();
-        retrofitOrder.getOrderByOid(new Callback<JsonData>() {
-            @Override
-            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
-                JsonData jsonData = response.body();
-                order = gson.fromJson(jsonData.data, Order.class);
-                drawDetail();
-            }
-
-            @Override
-            public void onFailure(Call<JsonData> call, Throwable t) {
-                Log.e(TAG, t.toString());
-            }
-        }, oid);
-    }
-
-    private void drawDetail() {
         order_number.setText(order.getOrder_number());
-        price.setText("" + order.getPrice());
+        price.setText(order.getPrice() + "");
         pickup_time.setText(order.getPickup_date());
         dropoff_time.setText(order.getDropoff_date());
         address.setText(order.getFullAddress());
@@ -161,91 +111,93 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
         pickup_man.setText(order.getPickupMan());
         dropoff_man.setText(order.getDropoffMan());
 
-        switch (order.getState()) {
-            case 0:
-                if (!isManager) {
-                    complete.setClickable(false);
-                } else {
-                    complete.setClickable(true);
-                }
-                complete.setText("수거 배정");
-                break;
-            case 1:
-                complete.setClickable(true);
-                complete.setText("수거 완료");
-                break;
-            case 2:
-                if (!isManager) {
-                    complete.setClickable(false);
-                } else {
-                    complete.setClickable(true);
-                }
-                complete.setText("배달 배정");
-                break;
-            case 3:
-                complete.setClickable(true);
-                complete.setText("배달 완료");
-                break;
-            case 4:
-                complete.setClickable(true);
-                complete.setText("추가 수거");
-                break;
-        }
+        editDropOff = (ImageView) findViewById(R.id.editDropOff);
+        editPickUp = (ImageView) findViewById(R.id.editPickUp);
+        editDropOffMan = (ImageView) findViewById(R.id.editDropOffMan);
+        editPickUpMan = (ImageView) findViewById(R.id.editPickupMan);
 
+        editDropOff.setOnClickListener(this);
+        editDropOffMan.setOnClickListener(this);
+        editPickUp.setOnClickListener(this);
+        editPickUpMan.setOnClickListener(this);
+
+        update = (Button) findViewById(R.id.update);
+        complete = (Button) findViewById(R.id.complete);
+
+        update.setOnClickListener(this);
+        complete.setOnClickListener(this);
+    }
+
+    private void setCalendar() {
+        GregorianCalendar calendar = new GregorianCalendar();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        hour = calendar.get(Calendar.HOUR_OF_DAY);
+        minute = calendar.get(Calendar.MINUTE);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.complete:
-                doComplete();
+            case R.id.editPickUp:
+                new DatePickerDialog(this, dateSetListener, year, month, day).show();
+                mode = OrderEditActivity.PICK_UP;
                 break;
-            case R.id.update:
-                doUpdate();
+            case R.id.editDropOff :
+                new DatePickerDialog(this, dateSetListener, year, month, day).show();
+                mode = OrderEditActivity.DROP_OFF;
                 break;
-            case R.id.copy:
-                doCopy();
-                break;
-            case R.id.edit:
-                DeliveryApplication app = (DeliveryApplication) getApplicationContext();
-                app.setOrder(order);
-                Intent intent = new Intent(this, OrderEditActivity.class);
-                startActivity(intent);
-                break;
-
-        }
-    }
-
-    private void doComplete() {
-        switch (order.getState()) {
-            case 0:
-                showAssignPickupDialog();
-                break;
-            case 1:
-                sendPickUpComplete();
-                finish();
-                break;
-            case 2:
+            case R.id.editDropOffMan :
                 showAssignDropoffDialog();
                 break;
-            case 3:
-                snedDropOffComplete();
-                finish();
+            case R.id.editPickupMan :
+                showAssignPickupDialog();;
                 break;
-            case 4:
-                Toast.makeText(context, "준비중인 기능입니다", Toast.LENGTH_SHORT).show();
+            case R.id.complete :
+                Order sendOrder = makeOrder();
+                break;
+            case R.id.update :
+                doUpdate();
                 break;
         }
     }
 
-    // ------------------------------------- case 1 -------------------------------------------------
-//수거 배정 Dialog 띄우기
-    private void showAssignPickupDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        ArrayList<String> pdList = RetrofitPD.getInstance().getPDList();
+    private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
 
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+
+            Date result = new Date(year - 1900, monthOfYear, dayOfMonth);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            date = simpleDateFormat.format(result);
+            Toast.makeText(OrderEditActivity.this, date, Toast.LENGTH_SHORT).show();
+            new TimePickerDialog(OrderEditActivity.this, timeSetListener, hour, minute, false).show();
+        }
+    };
+
+    private TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            String hour = String.format("%02d", hourOfDay);
+            String min = String.format("%02d", minute);
+            date += " " + hour + ":" + min +":00.0";
+            Toast.makeText(OrderEditActivity.this, date, Toast.LENGTH_SHORT).show();
+            if(mode == PICK_UP) {
+                updatedOrder.pickup_date = date;
+                pickup_time.setText(date);
+            }else {
+                updatedOrder.dropoff_date = date;
+                dropoff_time.setText(date);
+            }
+        }
+    };
+
+    //수거 배정 Dialog 띄우기
+    private void showAssignPickupDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("수거 배정 하기");
-        pdAdapter = new ArrayAdapter<String>(context, android.R.layout.select_dialog_singlechoice, pdList);
         builder.setAdapter(pdAdapter,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
@@ -330,7 +282,7 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
         proxy.assignDropOff(orderRequest, new Callback<JsonData>() {
             @Override
             public void onResponse(Call<JsonData> call, Response<JsonData> response) {
-                Toast.makeText(context, "배달 배정 성공", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context , "배달 배정 성공", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -366,10 +318,17 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
     private void setPDAdapter() {
         ArrayList<String> pdList = RetrofitPD.getInstance().getPDList();
         pdAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_singlechoice, pdList);
+        delivererInfo = RetrofitPD.getInstance().getDelivererInfo();
     }
 
+    public Order makeOrder() {
+        updatedOrder.memo = memo.getText().toString();
+        updatedOrder.address = address.getText().toString();
+        updatedOrder.price = Integer.parseInt(price.getText().toString());
+        return updatedOrder;
+    }
 
-    private void doUpdate() {
+    public void doUpdate() {
         ItemListDialog dialog = ItemListDialog.newInstance(new ItemListDialog.OnTransferListener() {
             @Override
             public void onTransfer(ItemListDialog dialog) {
@@ -379,8 +338,4 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
         dialog.show(getFragmentManager(),"품목 수정");
     }
 
-
-    private void doCopy() {
-
-    }
 }

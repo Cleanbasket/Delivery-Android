@@ -17,7 +17,6 @@ import retrofit2.Response;
  * Created by gingeraebi on 2016. 6. 1..
  */
 public class RetrofitPD {
-
         private static RetrofitPD retrofitPd = new RetrofitPD();
         ViewAllService service;
         public static ArrayList<DelivererInfo> delivererInfo;

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,6 +47,34 @@ public class OrderInfo {
 
     public OrderInfo(){}
 
+    @Override
+    public String toString() {
+        return "OrderInfo{" +
+                "oid=" + oid +
+                ", uid=" + uid +
+                ", pickup_man='" + pickup_man + '\'' +
+                ", dropoff_man='" + dropoff_man + '\'' +
+                ", order_number='" + order_number + '\'' +
+                ", state=" + state +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", addr_number='" + addr_number + '\'' +
+                ", addr_building='" + addr_building + '\'' +
+                ", addr_remainder='" + addr_remainder + '\'' +
+                ", note='" + note + '\'' +
+                ", memo='" + memo + '\'' +
+                ", price=" + price +
+                ", dropoff_price=" + dropoff_price +
+                ", pickup_date='" + pickup_date + '\'' +
+                ", dropoff_date='" + dropoff_date + '\'' +
+                ", rdate='" + rdate + '\'' +
+                ", payment_method=" + payment_method +
+                ", pickupInfo=" + pickupInfo +
+                ", dropoffInfo=" + dropoffInfo +
+                ", item=" + item +
+                ", coupon=" + coupon +
+                '}';
+    }
 
     public Integer getOid() {
         return oid;
