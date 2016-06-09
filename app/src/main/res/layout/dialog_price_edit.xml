@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/price"
+        android:hint="13000원"
+        android:gravity="center"
+        android:layout_below="@+id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:inputType="number" />
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/note"
+        android:layout_below="@+id/price"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:hint="메모할 사항을 입력해주세요"
+        android:gravity="center" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:text="결제 정보"
+        android:id="@+id/title"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:background="@color/blue"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:text="현장 현금 결제"
+        android:id="@+id/real_money"
+        android:layout_below="@+id/note"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp" />
+
+    <Button
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:text="현장 신용 카드 결제"
+        android:id="@+id/credit"
+        android:layout_below="@+id/real_money"
+        android:layout_alignLeft="@+id/real_money"
+        android:layout_alignStart="@+id/real_money" />
+
+    <Button
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:text="인앱 결제 "
+        android:id="@+id/in_app"
+        android:layout_below="@+id/credit"
+        android:layout_alignLeft="@+id/credit"
+        android:layout_alignStart="@+id/credit" />
+
+    <Button
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:text="계좌 이체"
+        android:id="@+id/transfer"
+        android:layout_below="@+id/in_app"
+        android:layout_alignLeft="@+id/in_app"
+        android:layout_alignStart="@+id/in_app" />
+</RelativeLayout>

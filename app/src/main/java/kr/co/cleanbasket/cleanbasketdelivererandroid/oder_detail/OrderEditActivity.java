@@ -156,6 +156,7 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.complete :
                 Order sendOrder = makeOrder();
+                finish();
                 break;
             case R.id.update :
                 doUpdate();

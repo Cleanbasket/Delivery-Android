@@ -23,6 +23,7 @@ import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.activity.DeliveryApplication;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.ItemEditEvent;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.ItemListDialog;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.PriceEditDialog;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.myorder.MyOrderService;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitOrder;
@@ -229,8 +230,8 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
                 showAssignDropoffDialog();
                 break;
             case 3:
-                snedDropOffComplete();
-                finish();
+                PriceEditDialog priceEditDialog = PriceEditDialog.newInstance(order);
+                priceEditDialog.show(getFragmentManager(),"결제 정보");
                 break;
             case 4:
                 Toast.makeText(context, "준비중인 기능입니다", Toast.LENGTH_SHORT).show();
@@ -238,7 +239,8 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
         }
     }
 
-    // ------------------------------------- case 1 -------------------------------------------------
+//----------------------------------------------------------------------------------------------
+// ------------------------------------- case 0 -------------------------------------------------
 //수거 배정 Dialog 띄우기
     private void showAssignPickupDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -281,7 +283,7 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
 
     }
 
-// ------------------------------------- case 2 -------------------------------------------------
+// ------------------------------------- case 1 -------------------------------------------------
 // 수거 완료 서버에 전송
 
     private void sendPickUpComplete() {
@@ -301,8 +303,8 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
         });
     }
 
-    // ------------------------------------ case 3 ----------------------------------------------------
-//배달 배정 다이얼로그 띄우기
+    // ------------------------------------ case 2 ----------------------------------------------------
+    //배달 배정 다이얼로그 띄우기
     private void showAssignDropoffDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("배달 배정 하기");
@@ -342,25 +344,8 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
 
     }
 
-
-    // ----------------------------------- case 4 ------------------------------------------------------
-// 배달 완료시 서버에 전송
-    private void snedDropOffComplete() {
-        String value = note.getText().toString();
-        MyOrderService service = Network.getInstance().getRetrofit().create(MyOrderService.class);
-        Call<JsonData> response = service.sendDropOffComplete(new OrderRequest("" + order.oid, value));
-        response.enqueue(new Callback<JsonData>() {
-            @Override
-            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
-                JsonData jsonData = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<JsonData> call, Throwable t) {
-
-            }
-        });
-    }
+// --------------------------------------------case done ------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------
 
 
     private void setPDAdapter() {
