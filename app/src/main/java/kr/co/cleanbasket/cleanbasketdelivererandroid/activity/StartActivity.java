@@ -6,10 +6,12 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 
 import java.util.HashSet;
 
+import io.fabric.sdk.android.Fabric;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.auth.LoginActivity;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.auth.AuthService;
@@ -45,6 +47,7 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laundrydelivery);
+        Fabric.with(this, new Crashlytics());
 
         //SharedPreference init
         SharedPreferenceBase.init(this);
