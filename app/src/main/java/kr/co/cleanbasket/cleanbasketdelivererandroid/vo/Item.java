@@ -10,15 +10,15 @@ import java.io.Serializable;
  * Copyright (c) 2016 WashAppKorea. All rights reserved.
  */
 public class Item {
-    public Integer itid = 0;
+    public Integer itid = null;
     public Integer oid = 0;
     public Integer item_code = 0;
-    public String name = "";
-    public String descr = "";
-    public Integer price = 0;
+    public String name = null;
+    public String descr = null;
+    public Integer price = null;
     public Integer count = 0;
-    public String img = "";
-    public String rdate = "";
+    public String img = null;
+    public String rdate = null;
 
     public Item(int oid, int item_code,  int count) {
         this.oid = oid;

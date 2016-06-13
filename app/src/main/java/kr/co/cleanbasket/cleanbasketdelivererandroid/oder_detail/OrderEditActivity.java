@@ -25,10 +25,11 @@ import java.util.GregorianCalendar;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.activity.DeliveryApplication;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.ItemListDialog;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.edit_item.ItemListDialog;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.myorder.MyOrderService;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.AssignProxy;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitOrder;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.unuse.viewall.AssignProxy;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.DelivererInfo;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Order;
@@ -156,6 +157,18 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.complete :
                 Order sendOrder = makeOrder();
+                RetrofitOrder retrofitOrder = new RetrofitOrder();
+                retrofitOrder.updateOrder(new Callback<JsonData>() {
+                    @Override
+                    public void onResponse(Call<JsonData> call, Response<JsonData> response) {
+                        JsonData jsonData = response.body();
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonData> call, Throwable t) {
+
+                    }
+                },sendOrder);
                 finish();
                 break;
             case R.id.update :
@@ -323,8 +336,11 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
     }
 
     public Order makeOrder() {
-        updatedOrder.memo = memo.getText().toString();
+        updatedOrder.note = memo.getText().toString();
         updatedOrder.address = address.getText().toString();
+        updatedOrder.addr_remainder = "";
+        updatedOrder.addr_number = "";
+        updatedOrder.addr_building = "";
         updatedOrder.price = Integer.parseInt(price.getText().toString());
         return updatedOrder;
     }

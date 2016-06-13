@@ -3,7 +3,10 @@ package kr.co.cleanbasket.cleanbasketdelivererandroid.activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import java.util.ArrayList;
+
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.ItemCode;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Order;
 
 /**
@@ -11,6 +14,7 @@ import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Order;
  */
 public class DeliveryApplication extends Application {
     private Order order;
+    private ArrayList<ItemCode> itemCodes;
 
     public Order getOrder() {
         return order;

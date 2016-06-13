@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	android:gravity="center_vertical|center_horizontal" >
+	<RelativeLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_weight="1"
+		android:gravity="center_vertical|center_horizontal" >
+    	<fragment
+			android:id="@+id/map_location"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:name="com.google.android.gms.maps.SupportMapFragment" />
+	    <TextView
+			android:id="@+id/location_distance"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:layout_alignParentBottom="true"
+			android:layout_centerHorizontal="true"
+			android:layout_marginBottom="10dip"
+			android:paddingTop="5dip"
+			android:paddingBottom="5dip"
+			android:paddingLeft="20dip"
+			android:paddingRight="20dip"
+        	android:textSize="18sp"
+			android:textColor="#ffffff"
+			android:background="@drawable/round_box_gray_alpha" />
+    		    		
+	</RelativeLayout>
+	<LinearLayout
+        android:id="@+id/layout_location_message"
+	    android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="100dip"
+		android:layout_weight="0"
+		android:layout_marginTop="10dip"
+		android:layout_marginBottom="10dip"
+		android:layout_marginLeft="10dip"
+		android:layout_marginRight="10dip"
+		android:padding="10dip"
+		android:gravity="center_vertical|left"
+		android:background="@drawable/catchloclibs_button_rec_white" >
+        <LinearLayout
+			android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+			android:layout_weight="1"
+	    	android:orientation="vertical"
+	   		android:gravity="center_vertical|left" >
+       		<LinearLayout
+	   			android:layout_width="fill_parent"
+   				android:layout_height="wrap_content"
+   				android:layout_weight="0"
+    			android:orientation="horizontal"
+    			android:gravity="top" >
+	    		<TextView
+					android:layout_width="fill_parent" 
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center_vertical"
+        			android:textSize="18sp"
+					android:textColor="#585858"
+					android:textStyle="bold"
+					android:text="@string/catchloclibs_string_010" />
+			</LinearLayout>
+    		<TextView
+	        	android:id="@+id/text_message_date"
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content"
+				android:layout_weight="0"
+				android:gravity="center_vertical"
+        		android:textSize="12sp"
+				android:textColor="#585858"
+				android:textStyle="bold" />
+    		<TextView
+	        	android:id="@+id/text_message"
+				android:layout_width="fill_parent" 
+				android:layout_height="fill_parent"
+				android:layout_weight="1"
+				android:gravity="center_vertical"
+        		android:textSize="20sp"
+				android:textColor="#585858" />
+    				
+    	</LinearLayout>
+    </LinearLayout>
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:orientation="horizontal"
+		android:gravity="center_vertical|center_horizontal"
+		android:background="#48cfae" >
+	    <TextView 
+	    	android:id="@+id/btn_ok"
+	   		android:layout_width="fill_parent"
+			android:layout_height="60dip" 
+			android:layout_weight="0"
+			android:textSize="24sp"
+			android:text="@string/catchloclibs_Common_OK"
+			android:textColor="#FFFFFF"
+			android:textStyle="bold"
+			android:gravity="center"
+			android:padding="0dip"
+			android:background="@drawable/catchloclibs_button_alpha" />
+    </LinearLayout>		
+</LinearLayout>

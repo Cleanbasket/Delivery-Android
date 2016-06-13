@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<string name="catchloclibs_Common_Modify">Modificar</string>
+	<string name="catchloclibs_Common_Delete">Borrar</string>
+	<string name="catchloclibs_Common_Alert">Notificar</string>
+	<string name="catchloclibs_Common_OK">OK</string>
+	<string name="catchloclibs_Common_Cancel">Cancelar</string>
+	<string name="catchloclibs_Common_Yes">Si</string>
+	<string name="catchloclibs_Common_No">No</string>
+	<string name="catchloclibs_Common_Go">Verificar</string>
+	<string name="catchloclibs_Common_Next">Próxima vez</string>
+	<string name="catchloclibs_Common_Save">Quardar</string>
+	<string name="catchloclibs_Common_Exit">Salir</string>
+	<string name="catchloclibs_Common_Back">Atrás</string>
+	<string name="catchloclibs_Common_Wait">Cambiando configuración. Por favor espera...</string>
+    <string name="catchloclibs_string_001">Configuración</string>
+    <string name="catchloclibs_string_002">Coleccionar datos</string>
+    <string name="catchloclibs_string_003">Iniciar</string>
+    <string name="catchloclibs_string_004">Detener</string>
+    <string name="catchloclibs_string_005">Status</string>
+    <string name="catchloclibs_string_006">OFF</string>
+    <string name="catchloclibs_string_007">STANDBY</string>
+    <string name="catchloclibs_string_008">OCCUPIED</string>
+    <string name="catchloclibs_string_009">DISPATCHING</string>
+    <string name="catchloclibs_string_010">Mensaje</string>
+    <string name="catchloclibs_string_011">Mensaje</string>
+    <string name="catchloclibs_string_012">Data colección período</string>
+    <string name="catchloclibs_string_013"></string>
+    <string name="catchloclibs_string_014">Iniciar data colección.</string>
+    <string name="catchloclibs_string_015">Terminado data colección.</string>
+    <string name="catchloclibs_string_016">Cambiar status?</string>
+    <string name="catchloclibs_string_017">Monitor status</string>
+    <string name="catchloclibs_string_018">Cambiar data colección período?</string>
+    <string name="catchloclibs_string_019">Map</string>
+    <string name="catchloclibs_string_020">EXTRA1</string>
+    <string name="catchloclibs_string_021">EXTRA2</string>
+    	
+</resources>

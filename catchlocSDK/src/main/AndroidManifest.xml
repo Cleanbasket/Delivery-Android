@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 구글 스토어 -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:installLocation="internalOnly" 
+    package="com.spacosa.android.catchloc.sdk"
+    android:versionCode="1" android:versionName="0.01" >
+	<uses-sdk android:minSdkVersion="9" android:targetSdkVersion="19" />
+    	
+	<application>
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+    </application>
+    
+</manifest>

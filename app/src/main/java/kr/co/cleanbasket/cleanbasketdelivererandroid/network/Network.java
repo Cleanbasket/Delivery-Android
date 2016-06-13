@@ -36,7 +36,7 @@ public class Network {
         httpClient.addInterceptor(new ReceivedCookiesInterceptor());
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://cleanbasket.co.kr")
+                .baseUrl("http://cp.cleanbasket.co.kr")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(httpClient.build())
                 .build();

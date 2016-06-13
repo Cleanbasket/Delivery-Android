@@ -2,6 +2,7 @@ package kr.co.cleanbasket.cleanbasketdelivererandroid.search_order;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.OrderDetailDialog;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitOrder;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.ViewAllOrderAdapter;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.oder_detail.OrderDetailActivity;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.unuse.viewall.ViewAllOrderAdapter;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Order;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
@@ -56,7 +57,7 @@ public class SearchOrderFragmnet extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_search_order, container, false);
         history = (ListView) v.findViewById(R.id.history);
@@ -72,7 +73,9 @@ public class SearchOrderFragmnet extends Fragment {
         history.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showOrderDetailDialog(position);
+                Intent intent = new Intent(context, OrderDetailActivity.class);
+                intent.putExtra("oid", orderInfos.get(position).getOid());
+                startActivity(intent);
             }
         });
 
@@ -154,14 +157,5 @@ public class SearchOrderFragmnet extends Fragment {
             return -1;
         }
     }
-
-
-    //자세히 보기 다이얼로그 띄우기
-    public void showOrderDetailDialog(int position) {
-        OrderDetailDialog orderDetailDialog = new OrderDetailDialog(context);
-        orderDetailDialog.getDialogBuilder(orderInfos.get(position)).show();
-
-    }
-
 
 }

@@ -2,21 +2,25 @@ package kr.co.cleanbasket.cleanbasketdelivererandroid.activity;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.spacosa.android.catchloc.libs.CatchLocResult;
+import com.spacosa.android.catchloc.sdk.CatchlocSDK;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.myorder.MyOrderFragment;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.search_order.SearchOrderFragmnet;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.unuse.viewall.ViewAllOrderFragment;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.SharedPreferenceBase;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall_today.ViewAllTodayOrderFragment;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.ViewAllOrderFragment;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,14 +31,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment fragment;
     private Boolean isManager;
 
+    private String mMemberKey;
+    final String mApiKey = "286f3e69922706fbdc907fc909760360ee60a037";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = getIntent();
-        String userID = intent.getStringExtra("userID");
+        //startCatchloc();
 
         // set DrawerLayout
         drawer = (DrawerLayout) findViewById(R.id.drawer);
@@ -44,12 +49,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Set ActionBar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
                 drawer, toolbar, R.string.open, R.string.close);
-
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -57,14 +59,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setCheckedItem(R.id.nav_my_order);
 
         fragment = new MyOrderFragment(this);
-        isManager = SharedPreferenceBase.getSharedPreference("IsManager",false);
+        isManager = SharedPreferenceBase.getSharedPreference("IsManager", false);
 
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_view, fragment).commit();
     }
 
-    private void drawUserProfile(String UserID){
+    private void startCatchloc() {
+        mMemberKey = CatchlocSDK.getMemberKeyDefault(MainActivity.this);
+        Log.d("catchloc.sdk", "memberkey : " + mMemberKey);
+        class CatchLocAsyncTask extends AsyncTask<Void, Void, String[]> {
+            CatchLocResult catchlocResult = new CatchLocResult();
+            @Override
+            protected String[] doInBackground(Void... params) {
+                Log.d("catchloc.sdk", "CatchLocSDK doinBackground...");
+                catchlocResult = CatchlocSDK.startCatchLoc(MainActivity.this, mApiKey, mMemberKey);
+                return null;
+            }
 
+            @Override
+            protected void onPostExecute(String[] result) {
+                Log.d("catchloc.sdk", "CatchLocSDK service starting...");
+                if (!catchlocResult.IsOk) {
+                    Toast toast = Toast.makeText(MainActivity.this, "CatchLocResult : " + catchlocResult.IsOk + "/" +
+                            catchlocResult.Message, Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            }
+        }
+
+        CatchLocAsyncTask catchLocAsyncTask = new CatchLocAsyncTask();
+        catchLocAsyncTask.execute();
+
+        CatchLocResult result = CatchlocSDK.startLocationService(MainActivity.this, 10);
     }
 
     @Override
@@ -74,13 +101,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
             case R.id.nav_my_order:
                 fragment = new MyOrderFragment(this);
                 toolbar.setTitle("내 주문");
                 break;
             case R.id.nav_all_order:
-                if(isManager) {
+                if (isManager) {
                     fragment = new ViewAllOrderFragment(this);
                     toolbar.setTitle("전체 주문");
                     break;
@@ -89,22 +116,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new SearchOrderFragmnet(this);
                 toolbar.setTitle("주문 검색");
                 break;
-//            case R.id.nav_pickup:
-////                fragment = new ViewAllTodayOrderFragment(this);
-////                toolbar.setTitle("오늘 주문");
-//                break;
-//            case R.id.nav_deliver:
-////                fragment = new MyOrderFragment();
-////                setTitle("내 주문");
-//                break;
-//            case R.id.nav_notice:
-////                fragment = new MyOrderFragment();
-////                setTitle("내 주문");
-//                break;
-//            case R.id.nav_settings:
-////                fragment = new MyOrderFragment();
-////                setTitle("내 주문");
-//                break;
         }
 
         FragmentManager fragmentManager = getFragmentManager();

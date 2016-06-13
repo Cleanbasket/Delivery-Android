@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="match_parent" android:layout_width="match_parent"
+	android:orientation="vertical"
+	android:weightSum="1.0"
+	android:background="#f5f5f5" >
+	<RelativeLayout 
+		android:layout_width="fill_parent" 
+		android:layout_height="50dip"
+		android:layout_weight="0"
+		android:background="#36bc9b" >
+		<LinearLayout 
+	    	android:orientation="horizontal"
+	    	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:gravity="center"
+			android:layout_centerHorizontal="true" 
+			android:layout_centerVertical="true" >
+		    <TextView 
+			    android:id="@+id/text_title"
+		    	android:layout_width="wrap_content"
+				android:layout_height="50dip" 
+				android:textColor="#FFFFFF" 
+				android:textSize="22dp"
+				android:gravity="center" />
+	    </LinearLayout>
+		<LinearLayout 
+		    android:id="@+id/btn_close"
+	    	android:orientation="horizontal"
+	    	android:layout_width="50dip"
+	    	android:layout_height="50dip"
+	    	android:gravity="center"
+			android:layout_centerVertical="true"
+			android:layout_alignParentRight="true"
+			android:background="@drawable/catchloclibs_button_alpha" >
+			<ImageView
+				android:layout_width="20dip"
+				android:layout_height="20dip"
+				android:scaleType="fitXY"
+				android:src="@drawable/catchloclibs_ico_windowclose" />
+		</LinearLayout>
+	</RelativeLayout>
+		
+	<LinearLayout
+        android:id="@+id/layout_location_enable"
+	    android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dip"
+		android:layout_marginLeft="10dip"
+		android:layout_marginRight="10dip"
+		android:padding="10dip"
+		android:gravity="center_vertical|left"
+		android:background="@drawable/catchloclibs_button_rec_white" >
+        <LinearLayout
+			android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	   		android:gravity="center_vertical|left" >
+       		<LinearLayout
+	   			android:layout_width="fill_parent"
+   				android:layout_height="wrap_content"
+   				android:layout_weight="0"
+    			android:orientation="horizontal"
+    			android:gravity="top"
+    			android:visibility="gone" >
+	    		<TextView
+					android:layout_width="fill_parent" 
+					android:layout_height="wrap_content"
+					android:gravity="center_vertical"
+        			android:textSize="18sp"
+					android:textColor="#585858"
+					android:textStyle="bold"
+					android:text="@string/catchloclibs_string_001" />
+    		</LinearLayout>
+       		<LinearLayout
+				android:id="@+id/layout_location_interval"
+	   			android:layout_width="fill_parent"
+   				android:layout_height="wrap_content"
+   				android:layout_weight="0"
+    			android:orientation="horizontal" >
+				<Spinner 
+					android:id="@+id/spinner_location_interval"
+					android:layout_width="fill_parent"
+					android:layout_height="40dip"      
+					android:layout_weight="1"
+					android:gravity="left" />
+		    	<TextView
+		        	android:id="@+id/btn_location_interval"
+	    	    	android:layout_width="wrap_content"
+	        		android:layout_height="40dip"
+					android:layout_weight="0"
+	        		android:background="@drawable/catchloclibs_button_round_green"
+	        		android:layout_marginLeft="10dip"
+	        		android:paddingLeft="10dip"
+	        		android:paddingRight="10dip"
+	        		android:gravity="center"
+	        		android:text="@string/catchloclibs_Common_Modify"
+	        		android:textColor="#FFFFFF"
+	        		android:textSize="18sp" />
+       		</LinearLayout>		
+       		<LinearLayout
+	   			android:layout_width="fill_parent"
+   				android:layout_height="wrap_content"
+   				android:layout_weight="0"
+   				android:layout_marginTop="10dip"
+    			android:orientation="horizontal" >
+		    	<TextView
+		        	android:id="@+id/btn_location_on"
+	    	    	android:layout_width="fill_parent"
+	        		android:layout_height="50dip"
+					android:layout_weight="0.5"
+	        		android:background="@drawable/catchloclibs_button_round_gray"
+	        		android:layout_marginRight="5dip"
+	        		android:paddingLeft="10dip"
+	        		android:paddingRight="10dip"
+	        		android:gravity="center"
+	        		android:text="@string/catchloclibs_string_003"
+	        		android:textColor="#FFFFFF"
+	        		android:textSize="26sp" />
+		    	<TextView
+		        	android:id="@+id/btn_location_off"
+	    	    	android:layout_width="fill_parent"
+	        		android:layout_height="50dip"
+					android:layout_weight="0.5"
+	        		android:background="@drawable/catchloclibs_button_round_gray"
+	        		android:layout_marginLeft="5dip"
+	        		android:paddingLeft="10dip"
+	        		android:paddingRight="10dip"
+	        		android:gravity="center"
+	        		android:text="@string/catchloclibs_string_004"
+	        		android:textColor="#FFFFFF"
+	        		android:textSize="26sp" />
+		    </LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+	<LinearLayout
+        android:id="@+id/layout_location_status"
+	    android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dip"
+		android:layout_marginLeft="10dip"
+		android:layout_marginRight="10dip"
+		android:padding="10dip"
+		android:gravity="center_vertical|left"
+		android:background="@drawable/catchloclibs_button_rec_white" >
+        <LinearLayout
+			android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	   		android:gravity="center_vertical|left" >
+    		<TextView
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content"
+				android:layout_weight="0"
+				android:gravity="center_vertical"
+        		android:textSize="18sp"
+				android:textColor="#585858"
+				android:textStyle="bold"
+				android:text="@string/catchloclibs_string_005"
+				android:visibility="gone" />
+       		<LinearLayout
+	   			android:layout_width="fill_parent"
+   				android:layout_height="wrap_content"
+   				android:layout_weight="0"
+    			android:orientation="horizontal" >
+		    	<TextView
+		        	android:id="@+id/btn_location_status_1"
+	    	    	android:layout_width="fill_parent"
+	        		android:layout_height="60dip"
+					android:layout_weight="0.5"
+	        		android:background="@drawable/catchloclibs_button_round_gray"
+	        		android:layout_marginRight="5dip"
+	        		android:paddingLeft="10dip"
+	        		android:paddingRight="10dip"
+	        		android:gravity="center"
+	        		android:text="@string/catchloclibs_string_006"
+	        		android:textColor="#FFFFFF"
+	        		android:textSize="26sp" />
+		    	<TextView
+		        	android:id="@+id/btn_location_status_2"
+	    	    	android:layout_width="fill_parent"
+	        		android:layout_height="60dip"
+					android:layout_weight="0.5"
+	        		android:background="@drawable/catchloclibs_button_round_gray"
+	        		android:layout_marginLeft="5dip"
+	        		android:paddingLeft="10dip"
+	        		android:paddingRight="10dip"
+	        		android:gravity="center"
+	        		android:text="@string/catchloclibs_string_007"
+	        		android:textColor="#FFFFFF"
+	        		android:textSize="26sp" />
+		    </LinearLayout>
+       		<LinearLayout
+	   			android:layout_width="fill_parent"
+   				android:layout_height="wrap_content"
+   				android:layout_weight="0"
+   				android:layout_marginTop="10dip"
+    			android:orientation="horizontal" >
+		    			    	
+		    	<TextView
+		        	android:id="@+id/btn_location_status_3"
+	    	    	android:layout_width="fill_parent"
+	        		android:layout_height="60dip"
+					android:layout_weight="0.5"
+	        		android:background="@drawable/catchloclibs_button_round_gray"
+	        		android:layout_marginRight="5dip"
+	        		android:paddingLeft="10dip"
+	        		android:paddingRight="10dip"
+	        		android:gravity="center"
+	        		android:text="@string/catchloclibs_string_008"
+	        		android:textColor="#FFFFFF"
+	        		android:textSize="26sp" />
+		    	<TextView
+		        	android:id="@+id/btn_location_status_4"
+	    	    	android:layout_width="fill_parent"
+	        		android:layout_height="60dip"
+					android:layout_weight="0.5"
+	        		android:background="@drawable/catchloclibs_button_round_gray"
+	        		android:layout_marginLeft="5dip"
+	        		android:paddingLeft="10dip"
+	        		android:paddingRight="10dip"
+	        		android:gravity="center"
+	        		android:text="@string/catchloclibs_string_009"
+	        		android:textColor="#FFFFFF"
+	        		android:textSize="26sp" />
+		    			    			    	
+		    </LinearLayout>
+       		<LinearLayout
+	   			android:layout_width="fill_parent"
+   				android:layout_height="wrap_content"
+   				android:layout_weight="0"
+   				android:layout_marginTop="10dip"
+    			android:orientation="horizontal" >
+		    	<TextView
+		        	android:id="@+id/btn_location_status_5"
+	    	    	android:layout_width="fill_parent"
+	        		android:layout_height="60dip"
+					android:layout_weight="0.5"
+	        		android:background="@drawable/catchloclibs_button_round_gray"
+	        		android:layout_marginRight="5dip"
+	        		android:paddingLeft="10dip"
+	        		android:paddingRight="10dip"
+	        		android:gravity="center"
+	        		android:text="@string/catchloclibs_string_020"
+	        		android:textColor="#FFFFFF"
+	        		android:textSize="26sp" />
+		    	<TextView
+		        	android:id="@+id/btn_location_status_6"
+	    	    	android:layout_width="fill_parent"
+	        		android:layout_height="60dip"
+					android:layout_weight="0.5"
+	        		android:background="@drawable/catchloclibs_button_round_gray"
+	        		android:layout_marginLeft="5dip"
+	        		android:paddingLeft="10dip"
+	        		android:paddingRight="10dip"
+	        		android:gravity="center"
+	        		android:text="@string/catchloclibs_string_021"
+	        		android:textColor="#FFFFFF"
+	        		android:textSize="26sp" />
+		    			    	
+		    </LinearLayout>
+		</LinearLayout>
+    </LinearLayout>
+	
+	<LinearLayout
+        android:id="@+id/layout_location_message"
+	    android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_weight="1"
+		android:layout_marginTop="10dip"
+		android:layout_marginBottom="10dip"
+		android:layout_marginLeft="10dip"
+		android:layout_marginRight="10dip"
+		android:padding="10dip"
+		android:gravity="center_vertical|left"
+		android:background="@drawable/catchloclibs_button_rec_white" >
+        <LinearLayout
+			android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+			android:layout_weight="1"
+	    	android:orientation="vertical"
+	   		android:gravity="center_vertical|left" >
+       		<LinearLayout
+	   			android:layout_width="fill_parent"
+   				android:layout_height="wrap_content"
+   				android:layout_weight="0"
+    			android:orientation="horizontal"
+    			android:gravity="top" >
+    			<TextView
+	        		android:id="@+id/text_message_date"
+					android:layout_width="fill_parent" 
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="left|center_vertical"
+        			android:textSize="18sp"
+					android:textColor="#585858"
+					android:textStyle="bold" />
+			    <TextView
+			        android:id="@+id/btn_message_all"
+	    		    android:layout_width="wrap_content"
+	        		android:layout_height="40dip"
+					android:layout_weight="0"
+		        	android:background="@drawable/catchloclibs_button_round_green"
+		        	android:paddingLeft="10dip"
+	    	    	android:paddingRight="10dip"
+	        		android:gravity="center"
+	        		android:text="@string/catchloclibs_string_011"
+		        	android:textColor="#FFFFFF"
+		        	android:textSize="14sp"
+		        	android:visibility="gone" />
+				<TextView
+	    			android:id="@+id/btn_location_view"
+	    			android:layout_width="150dip"
+	    			android:layout_height="50dip"
+					android:layout_weight="0"
+					android:background="@drawable/catchloclibs_button_round_green"
+					android:layout_marginLeft="10dip"
+					android:layout_marginRight="10dip"
+					android:paddingLeft="10dip"
+	    			android:paddingRight="10dip"
+	    			android:gravity="center"
+	    			android:text="@string/catchloclibs_string_019"
+					android:textColor="#FFFFFF"
+					android:textSize="26sp" />
+			    			    
+			</LinearLayout>
+    		<TextView
+	        	android:id="@+id/text_message"
+				android:layout_width="fill_parent" 
+				android:layout_height="fill_parent"
+				android:layout_weight="1"
+				android:gravity="center_vertical"
+        		android:textSize="20sp"
+				android:textColor="#585858" />
+    				
+    	</LinearLayout>
+    </LinearLayout>
+		
+</LinearLayout>

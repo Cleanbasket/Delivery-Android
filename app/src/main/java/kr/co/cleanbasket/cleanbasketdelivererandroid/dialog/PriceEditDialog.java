@@ -90,24 +90,4 @@ public class PriceEditDialog extends DialogFragment implements View.OnClickListe
         }
     }
 
-    // 배달 완료시 서버에 전송
-    private void snedDropOffComplete() {
-        String value = note.getText().toString();
-        MyOrderService service = Network.getInstance().getRetrofit().create(MyOrderService.class);
-        Call<JsonData> response = service.sendDropOffComplete(new OrderRequest("" + order.oid, value));
-        response.enqueue(new Callback<JsonData>() {
-            @Override
-            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
-                JsonData jsonData = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<JsonData> call, Throwable t) {
-
-            }
-        });
-    }
-
-
-
 }

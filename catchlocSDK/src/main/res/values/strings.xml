@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<string name="catchloclibs_Common_Modify">Modify</string>
+	<string name="catchloclibs_Common_Delete">Clear</string>
+	<string name="catchloclibs_Common_Alert">Notify</string>
+	<string name="catchloclibs_Common_OK">OK</string>
+	<string name="catchloclibs_Common_Cancel">Cancel</string>
+	<string name="catchloclibs_Common_Yes">Yes</string>
+	<string name="catchloclibs_Common_No">No</string>
+	<string name="catchloclibs_Common_Go">Check</string>
+	<string name="catchloclibs_Common_Next">Next Time</string>
+	<string name="catchloclibs_Common_Save">Save</string>
+	<string name="catchloclibs_Common_Exit">Exit</string>
+	<string name="catchloclibs_Common_Back">Back</string>
+	<string name="catchloclibs_Common_Wait">Changing the setting. Please wait..</string>
+    <string name="catchloclibs_string_001">Settings</string>
+    <string name="catchloclibs_string_002">Collect the location data</string>
+    <string name="catchloclibs_string_003">Start</string>
+    <string name="catchloclibs_string_004">Stop</string>
+    <string name="catchloclibs_string_005">Status</string>
+    <string name="catchloclibs_string_006">OFF</string>
+    <string name="catchloclibs_string_007">STANDBY</string>
+    <string name="catchloclibs_string_008">OCCUPIED</string>
+    <string name="catchloclibs_string_009">DISPATCHING</string>
+    <string name="catchloclibs_string_010">Message</string>
+    <string name="catchloclibs_string_011">Messages</string>
+    <string name="catchloclibs_string_012">Location gathering cycle</string>
+    <string name="catchloclibs_string_013"></string>
+    <string name="catchloclibs_string_014">Start the colleting location data.</string>
+    <string name="catchloclibs_string_015">Finish the colleting location data.</string>
+    <string name="catchloclibs_string_016">Do you want to change your status?</string>
+    <string name="catchloclibs_string_017">Status Monitor</string>
+    <string name="catchloclibs_string_018">Do you want to change location collect interval?</string>
+    <string name="catchloclibs_string_019">Map</string>
+    <string name="catchloclibs_string_020">EXTRA1</string>
+    <string name="catchloclibs_string_021">EXTRA2</string>
+    	
+</resources>

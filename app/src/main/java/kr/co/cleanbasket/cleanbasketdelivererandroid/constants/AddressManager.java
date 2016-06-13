@@ -33,6 +33,9 @@ public class AddressManager {
 	public final static String LOGIN_CHECK = "auth/check";
 	public final static String CONFIRM_PICKUP = "deliverer/pickup/complete";
 	public final static String CONFIRM_DROPOFF = "deliverer/dropoff/complete";
-	
+
+	public final static String UPDATE_ITEM = "deliverer/item/update";
+	public final static String UPDATE_ORDER = "deliverer/order/update";
+
 	public final static String LOGOUT = "logout";
 }

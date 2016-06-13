@@ -4,8 +4,12 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import java.util.List;
+
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Item;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Order;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Phone;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +43,12 @@ public class RetrofitOrder {
         @POST(AddressManager.DELIVERER_ORDER + "/phone")
         Call<JsonData> getOrderByPhone(@Body Phone phone);
 
+        @POST(AddressManager.UPDATE_ITEM)
+        Call<JsonData> updateItem(@Body List<Item> items);
+
+        @POST(AddressManager.UPDATE_ORDER)
+        Call<JsonData> updateOrder(@Body Order order);
+
     }
 
     public void getOrderItem(Callback<JsonData> getOrderCallback) {
@@ -62,5 +72,20 @@ public class RetrofitOrder {
 
         Call<JsonData> call = itemService.getOrderByPhone(phone);
         call.enqueue(getOdrderByPhoneCallback);
+    }
+
+    public void updateItem(Callback<JsonData> updateItemCallback, List<Item> items) {
+        Log.i(TAG,"POST ORDER FROM " + AddressManager.UPDATE_ITEM);
+
+        Call<JsonData> call = itemService.updateItem(items);
+        call.enqueue(updateItemCallback);
+    }
+
+    public void updateOrder(Callback<JsonData> updateOrderCallback, Order order) {
+        Log.i(TAG,"POST ORDER FROM " + AddressManager.UPDATE_ORDER);
+
+        Call<JsonData> call = itemService.updateOrder(order);
+        call.enqueue(updateOrderCallback);
+
     }
 }

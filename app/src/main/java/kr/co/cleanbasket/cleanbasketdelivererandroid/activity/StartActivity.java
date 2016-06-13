@@ -1,14 +1,22 @@
 package kr.co.cleanbasket.cleanbasketdelivererandroid.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
+import com.spacosa.android.catchloc.libs.CatchLocResult;
+import com.spacosa.android.catchloc.libs.CatchlocLibs;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import io.fabric.sdk.android.Fabric;
@@ -43,6 +51,8 @@ public class StartActivity extends AppCompatActivity {
 
     private AuthService service;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,9 +75,10 @@ public class StartActivity extends AppCompatActivity {
         managerSet.add("4197");
         managerSet.add("12721");
 
+
         SharedPreferenceBase.putSharedPreference("MANAGER",managerSet);
         service = Network.getInstance().getRetrofit().create(AuthService.class);
-        RetrofitPD.getInstance();
+        RetrofitPD.getInstance().getPDList();
         Handler delayStartActivityHandler = new Handler();
         delayStartActivityHandler.postDelayed(new Runnable() {
             @Override

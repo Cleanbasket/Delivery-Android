@@ -2,6 +2,8 @@ package kr.co.cleanbasket.cleanbasketdelivererandroid.oder_detail;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,23 +17,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.activity.DeliveryApplication;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.ItemEditEvent;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.ItemListDialog;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.PriceEditDialog;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.edit_item.ItemListDialog;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.myorder.MyOrderService;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitOrder;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.unuse.viewall.AssignProxy;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.BusProvider;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.SharedPreferenceBase;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.AssignProxy;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.DelivererInfo;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Item;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Order;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
@@ -244,10 +243,8 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
 //수거 배정 Dialog 띄우기
     private void showAssignPickupDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        ArrayList<String> pdList = RetrofitPD.getInstance().getPDList();
-
+        setPDAdapter();
         builder.setTitle("수거 배정 하기");
-        pdAdapter = new ArrayAdapter<String>(context, android.R.layout.select_dialog_singlechoice, pdList);
         builder.setAdapter(pdAdapter,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
@@ -307,6 +304,7 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
     //배달 배정 다이얼로그 띄우기
     private void showAssignDropoffDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        setPDAdapter();
         builder.setTitle("배달 배정 하기");
         builder.setAdapter(pdAdapter,
                 new DialogInterface.OnClickListener() {
@@ -366,6 +364,9 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
 
 
     private void doCopy() {
-
+        ClipboardManager clipboardManage = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clipData = ClipData.newPlainText(order.phone, order.phone);
+        clipboardManage.setPrimaryClip(clipData);
+        Toast.makeText(context, "번호 복사가 완료되었습니다.", Toast.LENGTH_SHORT).show();
     }
 }

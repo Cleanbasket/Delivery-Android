@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<string name="catchloclibs_Common_Modify">수정</string>
+	<string name="catchloclibs_Common_Delete">삭제</string>
+	<string name="catchloclibs_Common_Alert">알림</string>
+	<string name="catchloclibs_Common_OK">확인</string>
+	<string name="catchloclibs_Common_Cancel">취소</string>
+	<string name="catchloclibs_Common_Yes">예</string>
+	<string name="catchloclibs_Common_No">아니오</string>
+	<string name="catchloclibs_Common_Go">확인하기</string>
+	<string name="catchloclibs_Common_Next">다음에</string>
+	<string name="catchloclibs_Common_Save">저장</string>
+	<string name="catchloclibs_Common_Exit">나가기</string>
+	<string name="catchloclibs_Common_Back">뒤로</string>
+	<string name="catchloclibs_Common_Wait">잠시만 기다려 주세요...</string>
+    <string name="catchloclibs_string_001">설정</string>
+    <string name="catchloclibs_string_002">위치수집</string>
+    <string name="catchloclibs_string_003">시작</string>
+    <string name="catchloclibs_string_004">종료</string>
+    <string name="catchloclibs_string_005">상태변경</string>
+    <string name="catchloclibs_string_006">OFF</string>
+    <string name="catchloclibs_string_007">STANDBY</string>
+    <string name="catchloclibs_string_008">OCCUPIED</string>
+    <string name="catchloclibs_string_009">DISPATCHING</string>
+    <string name="catchloclibs_string_010">메시지 수신</string>
+    <string name="catchloclibs_string_011">메시지</string>
+    <string name="catchloclibs_string_012">위치수집 주기</string>
+    <string name="catchloclibs_string_013"></string>
+    <string name="catchloclibs_string_014">위치수집을 시작합니다.</string>
+    <string name="catchloclibs_string_015">위치수집을 종료합니다.</string>
+    <string name="catchloclibs_string_016">상태를 변경하시겠습니까?</string>
+    <string name="catchloclibs_string_017">상태 모니터</string>
+    <string name="catchloclibs_string_018">위치수집 주기를 변경하시겠습니까?</string>
+    <string name="catchloclibs_string_019">지도</string>
+    <string name="catchloclibs_string_020">EXTRA1</string>
+    <string name="catchloclibs_string_021">EXTRA2</string>
+    
+</resources>
