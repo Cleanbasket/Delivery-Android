@@ -79,7 +79,6 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
         return v;
     }
 
-
     @Override
     public void onTabSelected(MaterialTab tab) {
 //        pager.setCurrentItem(tab.getPosition());

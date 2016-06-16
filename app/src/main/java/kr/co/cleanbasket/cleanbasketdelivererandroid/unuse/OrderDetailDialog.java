@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.edit_item.ItemListDialog;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.unuse.viewall.AssignProxy;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.AssignProxy;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.DelivererInfo;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
@@ -49,6 +49,7 @@ public class OrderDetailDialog {
         delivererInfo = RetrofitPD.getInstance().getDelivererInfo();
         proxy = new AssignProxy();
         this.adapter = adapter;
+        
     }
 
     public OrderDetailDialog(Activity context) {
@@ -118,7 +119,7 @@ public class OrderDetailDialog {
                     public void onClick(DialogInterface dialog, int which) {
                         ItemListDialog itemListDialog = ItemListDialog.newInstance(new ItemListDialog.OnTransferListener() {
                             @Override
-                            public void onTransfer(ItemListDialog dialog) {
+                            public void onTransfer() {
 
                             }
                         }, order_number.getText().toString());
@@ -163,9 +164,7 @@ public class OrderDetailDialog {
     //수거 배정 다이얼로그 띄우기
     private void showAssignDropoffDialog(final TextView dropoff_man) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        ArrayList<String> pdList = RetrofitPD.getInstance().getPDList();
         builder.setTitle("배달 배정 하기");
-        pdAdapter = new ArrayAdapter<String>(context, android.R.layout.select_dialog_singlechoice, pdList);
 
         builder.setAdapter(pdAdapter,
                 new DialogInterface.OnClickListener() {
@@ -187,10 +186,7 @@ public class OrderDetailDialog {
     //배달 배정 다이얼로그 띄우기
     private void showAssignPickupDialog(final TextView pickup_man) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        ArrayList<String> pdList = RetrofitPD.getInstance().getPDList();
-
         builder.setTitle("수거 배정 하기");
-        pdAdapter = new ArrayAdapter<String>(context, android.R.layout.select_dialog_singlechoice, pdList);
         builder.setAdapter(pdAdapter,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,

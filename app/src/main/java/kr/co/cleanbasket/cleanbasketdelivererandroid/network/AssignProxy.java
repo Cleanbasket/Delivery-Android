@@ -1,6 +1,6 @@
-package kr.co.cleanbasket.cleanbasketdelivererandroid.unuse.viewall;
+package kr.co.cleanbasket.cleanbasketdelivererandroid.network;
 
-import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.ViewAllService;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
 import retrofit2.Call;

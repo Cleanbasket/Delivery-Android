@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.squareup.otto.Subscribe;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,11 +28,13 @@ import java.util.GregorianCalendar;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.activity.DeliveryApplication;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.edit_item.ItemEditEvent;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.edit_item.ItemListDialog;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.myorder.MyOrderService;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitOrder;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.unuse.viewall.AssignProxy;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.AssignProxy;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.BusProvider;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.DelivererInfo;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Order;
@@ -129,6 +134,13 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
         complete.setOnClickListener(this);
     }
 
+    @Subscribe
+    public void onItemChanged(ItemEditEvent itemEditEvent) {
+        order.item = itemEditEvent.getItems();
+        item.setText(order.makeItem());
+    }
+
+
     private void setCalendar() {
         GregorianCalendar calendar = new GregorianCalendar();
         year = calendar.get(Calendar.YEAR);
@@ -156,25 +168,39 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
                 showAssignPickupDialog();;
                 break;
             case R.id.complete :
-                Order sendOrder = makeOrder();
-                RetrofitOrder retrofitOrder = new RetrofitOrder();
-                retrofitOrder.updateOrder(new Callback<JsonData>() {
-                    @Override
-                    public void onResponse(Call<JsonData> call, Response<JsonData> response) {
-                        JsonData jsonData = response.body();
-                    }
-
-                    @Override
-                    public void onFailure(Call<JsonData> call, Throwable t) {
-
-                    }
-                },sendOrder);
-                finish();
+                doComplete();
                 break;
             case R.id.update :
                 doUpdate();
                 break;
         }
+    }
+
+    private void doComplete() {
+        Order sendOrder = makeOrder();
+        RetrofitOrder retrofitOrder = new RetrofitOrder();
+        retrofitOrder.updateOrder(new Callback<JsonData>() {
+            @Override
+            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
+                JsonData jsonData = response.body();
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonData> call, Throwable t) {
+
+            }
+        },sendOrder);
+        BusProvider.getInstance().post(new OrderChangeEvent(sendOrder));
+
+        Handler delayHandler = new Handler();
+        delayHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        },100);
+
     }
 
     private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -247,26 +273,6 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-// ------------------------------------- case 2 -------------------------------------------------
-// 수거 완료 서버에 전송
-
-    private void sendPickUpComplete() {
-        String value = memo.getText().toString();
-        MyOrderService service = Network.getInstance().getRetrofit().create(MyOrderService.class);
-        Call<JsonData> response = service.sendPickupComplete(new OrderRequest("" + order.getOid(), value));
-        response.enqueue(new Callback<JsonData>() {
-            @Override
-            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
-                JsonData jsonData = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<JsonData> call, Throwable t) {
-
-            }
-        });
-    }
-
     // ------------------------------------ case 3 ----------------------------------------------------
 //배달 배정 다이얼로그 띄우기
     private void showAssignDropoffDialog() {
@@ -308,31 +314,10 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-
-    // ----------------------------------- case 4 ------------------------------------------------------
-// 배달 완료시 서버에 전송
-    private void snedDropOffComplete() {
-        String value = note.getText().toString();
-        MyOrderService service = Network.getInstance().getRetrofit().create(MyOrderService.class);
-        Call<JsonData> response = service.sendDropOffComplete(new OrderRequest("" + order.oid, value));
-        response.enqueue(new Callback<JsonData>() {
-            @Override
-            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
-                JsonData jsonData = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<JsonData> call, Throwable t) {
-
-            }
-        });
-    }
-
-
     private void setPDAdapter() {
-        ArrayList<String> pdList = RetrofitPD.getInstance().getPDList();
-        pdAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_singlechoice, pdList);
         delivererInfo = RetrofitPD.getInstance().getDelivererInfo();
+        ArrayList<String> pdList = RetrofitPD.getInstance().getPdList();
+        pdAdapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_singlechoice, pdList);
     }
 
     public Order makeOrder() {
@@ -348,7 +333,7 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
     public void doUpdate() {
         ItemListDialog dialog = ItemListDialog.newInstance(new ItemListDialog.OnTransferListener() {
             @Override
-            public void onTransfer(ItemListDialog dialog) {
+            public void onTransfer() {
 
             }
         }, order.getOrder_number());

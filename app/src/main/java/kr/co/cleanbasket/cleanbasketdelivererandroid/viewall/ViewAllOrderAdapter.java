@@ -1,4 +1,4 @@
-package kr.co.cleanbasket.cleanbasketdelivererandroid.unuse.viewall;
+package kr.co.cleanbasket.cleanbasketdelivererandroid.viewall;
 
 import android.app.Activity;
 import android.graphics.Color;

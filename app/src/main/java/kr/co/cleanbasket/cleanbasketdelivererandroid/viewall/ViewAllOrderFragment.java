@@ -1,4 +1,4 @@
-package kr.co.cleanbasket.cleanbasketdelivererandroid.unuse.viewall;
+package kr.co.cleanbasket.cleanbasketdelivererandroid.viewall;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -12,6 +12,8 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -57,6 +59,9 @@ public class ViewAllOrderFragment extends Fragment {
 
     private ViewAllService service;
 
+    private FloatingActionMenu fam;
+    private FloatingActionButton fabPickup, fabDropOff;
+
     public ViewAllOrderFragment(Activity context) {
         this.context = context;
         gson = new Gson();
@@ -101,6 +106,20 @@ public class ViewAllOrderFragment extends Fragment {
             }
         });
 
+
+        fam = (FloatingActionMenu) v.findViewById(R.id.fam);
+        fam.setMenuButtonColorNormalResId(R.color.blue);
+        fam.setMenuButtonColorPressedResId(R.color.skyblue);
+        fam.setMenuButtonColorRippleResId(R.color.skyblue);
+        fam.setMenuButtonLabelText("정렬하기");
+
+        fabPickup = (FloatingActionButton) v.findViewById(R.id.fabPickup);
+        fabPickup.setButtonSize(FloatingActionButton.SIZE_MINI);
+        fabPickup.setLabelText("수거 배정");
+
+        fabDropOff = (FloatingActionButton) v.findViewById(R.id.fabDropOff);
+        fabDropOff.setButtonSize(FloatingActionButton.SIZE_MINI);
+        fabDropOff.setLabelText("배달 배정");
 
         return v;
     }

@@ -43,4 +43,6 @@ dependencies {
     compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.github.ParkSangGwon:TedPermission:v1.0.11'
     compile project(':catchlocSDK')
+
+    compile 'com.github.clans:fab:1.6.4'
 }

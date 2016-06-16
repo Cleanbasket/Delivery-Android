@@ -22,7 +22,7 @@ import java.util.List;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitOrder;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.oder_detail.OrderDetailActivity;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.unuse.viewall.ViewAllOrderAdapter;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.ViewAllOrderAdapter;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Order;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;

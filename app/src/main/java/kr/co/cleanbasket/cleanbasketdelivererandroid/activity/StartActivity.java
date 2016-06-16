@@ -51,8 +51,6 @@ public class StartActivity extends AppCompatActivity {
 
     private AuthService service;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +76,6 @@ public class StartActivity extends AppCompatActivity {
 
         SharedPreferenceBase.putSharedPreference("MANAGER",managerSet);
         service = Network.getInstance().getRetrofit().create(AuthService.class);
-        RetrofitPD.getInstance().getPDList();
         Handler delayStartActivityHandler = new Handler();
         delayStartActivityHandler.postDelayed(new Runnable() {
             @Override

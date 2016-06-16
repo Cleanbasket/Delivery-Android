@@ -5,11 +5,11 @@ import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Order;
 /**
  * Created by gingeraebi on 2016. 6. 9..
  */
-public class OrderPushEvent {
+public class OrderChangeEvent {
 
     private Order order;
 
-    public OrderPushEvent(Order order) {
+    public OrderChangeEvent(Order order) {
         this.order = order;
     }
 

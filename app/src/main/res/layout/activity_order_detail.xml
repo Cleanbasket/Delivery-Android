@@ -276,9 +276,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:hint="메모 입력"
+            android:hint=""
             android:textColor="#000000"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:enabled="false"
+            />
 
     </LinearLayout>
 
@@ -392,14 +394,6 @@
             android:layout_weight="1"
             android:text="번호 복사"
             android:textColor="#ffffff"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/update"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="품목 수정"
             android:textStyle="bold" />
 
         <Button

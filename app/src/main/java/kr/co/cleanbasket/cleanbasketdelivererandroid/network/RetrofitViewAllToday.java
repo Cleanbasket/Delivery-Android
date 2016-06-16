@@ -1,4 +1,4 @@
-package kr.co.cleanbasket.cleanbasketdelivererandroid.unuse.viewall_today;
+package kr.co.cleanbasket.cleanbasketdelivererandroid.network;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;

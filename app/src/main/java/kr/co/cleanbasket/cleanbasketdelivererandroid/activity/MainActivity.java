@@ -2,6 +2,8 @@ package kr.co.cleanbasket.cleanbasketdelivererandroid.activity;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -19,8 +21,9 @@ import com.spacosa.android.catchloc.sdk.CatchlocSDK;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.myorder.MyOrderFragment;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.search_order.SearchOrderFragmnet;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.unuse.viewall.ViewAllOrderFragment;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.SharedPreferenceBase;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.ViewAllOrderFragment;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.RetrofitPD;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -39,7 +42,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //startCatchloc();
+        setBluetooth(true);
+        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(enableBtIntent, 1);
+        RetrofitPD.getInstance();
+        startCatchloc();
 
         // set DrawerLayout
         drawer = (DrawerLayout) findViewById(R.id.drawer);
@@ -65,11 +72,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager.beginTransaction().replace(R.id.content_view, fragment).commit();
     }
 
+    public boolean setBluetooth(boolean enable) {
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        boolean isEnabled = bluetoothAdapter.isEnabled();
+        if (enable && !isEnabled) {
+            return bluetoothAdapter.enable();
+        }
+        else if(!enable && isEnabled) {
+            return bluetoothAdapter.disable();
+        }
+        // No need to change bluetooth state
+        return true;
+    }
+
     private void startCatchloc() {
         mMemberKey = CatchlocSDK.getMemberKeyDefault(MainActivity.this);
         Log.d("catchloc.sdk", "memberkey : " + mMemberKey);
         class CatchLocAsyncTask extends AsyncTask<Void, Void, String[]> {
             CatchLocResult catchlocResult = new CatchLocResult();
+
             @Override
             protected String[] doInBackground(Void... params) {
                 Log.d("catchloc.sdk", "CatchLocSDK doinBackground...");
@@ -85,13 +106,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             catchlocResult.Message, Toast.LENGTH_LONG);
                     toast.show();
                 }
+                CatchlocSDK.startLocationService(MainActivity.this, 1
+                );
             }
         }
 
         CatchLocAsyncTask catchLocAsyncTask = new CatchLocAsyncTask();
         catchLocAsyncTask.execute();
-
-        CatchLocResult result = CatchlocSDK.startLocationService(MainActivity.this, 10);
     }
 
     @Override

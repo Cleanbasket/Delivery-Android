@@ -17,17 +17,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.activity.DeliveryApplication;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.activity.MainActivity;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.PriceEditDialog;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.edit_item.ItemEditEvent;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.edit_item.ItemListDialog;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.myorder.MyOrderService;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.AssignProxy;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitOrder;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.unuse.viewall.AssignProxy;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.BusProvider;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.SharedPreferenceBase;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.DelivererInfo;
@@ -70,7 +73,6 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
 
     private TextView edit;
     private Button complete;
-    private Button update;
     private Button copy;
 
     private int oid;
@@ -86,12 +88,25 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
         BusProvider.getInstance().register(this);
         context = this;
         retrofitOrder = new RetrofitOrder();
-        delivererInfo = RetrofitPD.getInstance().getDelivererInfo();
         isManager = SharedPreferenceBase.getSharedPreference("IsManager", false);
         initView();
+        setPDAdapter();
         //Data를 불러오는 동시에 화면을 그림
         getOrderData();
-        setPDAdapter();
+
+    }
+
+
+    private void setPDAdapter() {
+        delivererInfo = RetrofitPD.getInstance().getDelivererInfo();
+        pdAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_singlechoice, RetrofitPD.getInstance().getPdList());
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getOrderData();
     }
 
     private int getOid() {
@@ -115,16 +130,14 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
         dropoff_man = (TextView) findViewById(R.id.dropoff_man);
 
         complete = (Button) findViewById(R.id.complete);
-        update = (Button) findViewById(R.id.update);
         copy = (Button) findViewById(R.id.copy);
         edit = (TextView) findViewById(R.id.edit);
 
         complete.setOnClickListener(this);
-        update.setOnClickListener(this);
         copy.setOnClickListener(this);
         edit.setOnClickListener(this);
 
-        if(!isManager) {
+        if (!isManager) {
             edit.setClickable(false);
             edit.setVisibility(View.INVISIBLE);
         }
@@ -171,8 +184,10 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
                 complete.setText("수거 배정");
                 break;
             case 1:
+                memo.setEnabled(true);
+                memo.setHint("메모 입력");
                 complete.setClickable(true);
-                complete.setText("수거 완료");
+                complete.setText("수거 시작");
                 break;
             case 2:
                 if (!isManager) {
@@ -200,9 +215,6 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
             case R.id.complete:
                 doComplete();
                 break;
-            case R.id.update:
-                doUpdate();
-                break;
             case R.id.copy:
                 doCopy();
                 break;
@@ -222,15 +234,14 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
                 showAssignPickupDialog();
                 break;
             case 1:
-                sendPickUpComplete();
-                finish();
+                showItemEditDialog();
                 break;
             case 2:
                 showAssignDropoffDialog();
                 break;
             case 3:
                 PriceEditDialog priceEditDialog = PriceEditDialog.newInstance(order);
-                priceEditDialog.show(getFragmentManager(),"결제 정보");
+                priceEditDialog.show(getFragmentManager(), "결제 정보");
                 break;
             case 4:
                 Toast.makeText(context, "준비중인 기능입니다", Toast.LENGTH_SHORT).show();
@@ -238,19 +249,18 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
         }
     }
 
-//----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
 // ------------------------------------- case 0 -------------------------------------------------
 //수거 배정 Dialog 띄우기
     private void showAssignPickupDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        setPDAdapter();
         builder.setTitle("수거 배정 하기");
         builder.setAdapter(pdAdapter,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int id) {
                         String strName = pdAdapter.getItem(id);
-
+                        Log.d(TAG, "PD NAME:" + delivererInfo.size());
                         for (int i = 0; i < delivererInfo.size(); i++) {
                             if (delivererInfo.get(i).name.equals(strName)) {
                                 pickup_man.setText(strName);
@@ -270,11 +280,15 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
             @Override
             public void onResponse(Call<JsonData> call, Response<JsonData> response) {
                 Toast.makeText(context, "수거 배정 성공", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(OrderDetailActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
             }
 
             @Override
             public void onFailure(Call<JsonData> call, Throwable t) {
-
+                Toast.makeText(context, "수거 배정 실패", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -331,6 +345,9 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
             @Override
             public void onResponse(Call<JsonData> call, Response<JsonData> response) {
                 Toast.makeText(context, "배달 배정 성공", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(OrderDetailActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
 
             @Override
@@ -346,20 +363,26 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
 // ------------------------------------------------------------------------------------------------------
 
 
-    private void setPDAdapter() {
-        ArrayList<String> pdList = RetrofitPD.getInstance().getPDList();
-        pdAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_singlechoice, pdList);
-    }
-
-
-    private void doUpdate() {
+    private void showItemEditDialog() {
         ItemListDialog dialog = ItemListDialog.newInstance(new ItemListDialog.OnTransferListener() {
             @Override
-            public void onTransfer(ItemListDialog dialog) {
-
+            public void onTransfer() {
+                sendPickUpComplete();
             }
         }, order.getOrder_number());
-        dialog.show(getFragmentManager(),"품목 수정");
+        dialog.show(getFragmentManager(), "품목 수정");
+    }
+
+    @Subscribe
+    public void onItemChanged(ItemEditEvent itemEditEvent) {
+        order.item = itemEditEvent.getItems();
+        item.setText(order.makeItem());
+    }
+
+    @Subscribe
+    public void OnOrderChanged(OrderChangeEvent orderChangeEvent) {
+        order = orderChangeEvent.getOrder();
+        drawDetail();
     }
 
 

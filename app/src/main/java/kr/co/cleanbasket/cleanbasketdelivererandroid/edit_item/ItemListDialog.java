@@ -54,7 +54,7 @@ public class ItemListDialog extends DialogFragment {
 
 
     public interface OnTransferListener {
-        void onTransfer(ItemListDialog dialog);
+        void onTransfer();
     }
 
 
@@ -107,12 +107,18 @@ public class ItemListDialog extends DialogFragment {
         rootView.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 retrofitOrder.updateItem(new Callback<JsonData>() {
                     @Override
                     public void onResponse(Call<JsonData> call, Response<JsonData> response) {
                         JsonData jsonData = response.body();
-                        Order updatedOrder = gson.fromJson(jsonData.data , Order.class);
-                        ItemCheckDialog itemCheckDialog = ItemCheckDialog.newInstance(updatedOrder);
+                        Order updatedOrder = gson.fromJson(jsonData.data, Order.class);
+                        ItemCheckDialog itemCheckDialog = ItemCheckDialog.newInstance(new ItemCheckDialog.OnTransferListener() {
+                            @Override
+                            public void onTransfer() {
+                                onTransferListener.onTransfer();
+                            }
+                        }, updatedOrder);
                         itemCheckDialog.show(getFragmentManager(), "ItemCheckDialog");
                         dismiss();
                     }
