@@ -1,6 +1,19 @@
 # Delivery-Android
 크린바스켓 배달자 앱 Android
 
+
+> 담당자 : 이재봉
+
+## Branch
+
+master -  버그 테스트를 완료한 버전을 올려주세요. 
+
+release - master 중 릴리즈를 완료한 경우에만 올려주세요.
+
+## Version
+
+> 신규 버전부터는 버젼 관리를 진행해주시길 바랍니다. (Tag, Release 필수)
+
 ##기능정리 
 
 ####내 오늘 주문 보기 
