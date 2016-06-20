@@ -1,35 +1,25 @@
 package kr.co.cleanbasket.cleanbasketdelivererandroid.activity;
 
-import android.Manifest;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
-import com.spacosa.android.catchloc.libs.CatchLocResult;
-import com.spacosa.android.catchloc.libs.CatchlocLibs;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import io.fabric.sdk.android.Fabric;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.auth.LoginActivity;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.auth.AuthService;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.auth.LoginActivity;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.ServerConstants;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.SharedPreferenceBase;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.LoginInfo;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.RetrofitPD;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

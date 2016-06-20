@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,39 +9,49 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/fam"
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/right_labels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        fab:fab_addButtonColorNormal="@color/blue"
+        fab:fab_addButtonColorPressed="@color/skyblue"
+        fab:fab_addButtonPlusIconColor="#FFFFFF"
+        fab:fab_labelStyle="@style/FloatActionLabelStyle"
+        fab:fab_labelsPosition="left"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        fab:menu_labels_showAnimation="@anim/jump_from_down"
-        fab:menu_labels_hideAnimation="@anim/jump_to_down"
-        fab:menu_animationDelayPerItem="0"
-        fab:menu_shadowColor="#444"
-        fab:menu_colorNormal="@color/blue"
-        fab:menu_colorPressed="@color/blue"
-        fab:menu_colorRipple="@color/skyblue">
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp">
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabPickup"
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/dropOff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_label="aaa"
-            fab:fab_size="mini"
-            fab:menu_colorNormal="#da3c2f" />
+            fab:fab_icon="@drawable/ic_alarm_delivery"
+            fab:fab_colorNormal="@color/skyblue"
+            fab:fab_title="배달 배정"
+            fab:fab_colorPressed="@color/blue"/>
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabDropOff"
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/pickup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_label="bbb"
-            fab:fab_size="mini"
-            fab:menu_colorNormal="#da3c2f" />
-    </com.github.clans.fab.FloatingActionMenu>
+            fab:fab_icon="@drawable/ic_alarm_pickup"
+            fab:fab_colorNormal="@color/skyblue"
+            fab:fab_title="수거 배정"
+            fab:fab_colorPressed="@color/blue"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/allOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_icon="@drawable/ic_event_note_grey_600_24dp"
+            fab:fab_colorNormal="@color/skyblue"
+            fab:fab_title="전체 주문"
+            fab:fab_colorPressed="@color/blue"/>
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
 
 </RelativeLayout>

@@ -137,6 +137,14 @@ public class OrderInfo {
     }
 
     public String getPickup_date() {
+        return pickup_date;
+    }
+
+    public String getDropoff_date() {
+        return dropoff_date;
+    }
+
+    public String getPrettyPickUpDate() {
         long time =  System.currentTimeMillis();
         Date date= new Date(time);
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
@@ -144,12 +152,12 @@ public class OrderInfo {
         String today = sf.format(date);
 
         if(pickup_date.startsWith(today)) {
-            pickup_date = "오늘 " + pickup_date.split(" ")[1];
+            return "오늘 " + pickup_date.split(" ")[1];
         }
         return pickup_date;
     }
 
-    public String getDropoff_date() {
+    public String getPrettyDropOffDate() {
 
         long time =  System.currentTimeMillis();
         Date date= new Date(time);
@@ -158,7 +166,7 @@ public class OrderInfo {
         String today = sf.format(date);
 
         if(dropoff_date.startsWith(today)) {
-            dropoff_date = "오늘 " + dropoff_date.split(" ")[1];
+            return "오늘 " + dropoff_date.split(" ")[1];
         }
 
         return dropoff_date;
@@ -271,7 +279,7 @@ public class OrderInfo {
     public String makeItem() {
 
         List<Item> itmes = this.item;
-        if (itmes != null) {
+        if (!itmes.isEmpty()) {
             String strItem = itmes.get(0).name + "(" + itmes.get(0).count + ")";
             for (int i = 1; i < this.item.size(); i++) {
                 strItem += ", " + this.item.get(i).name + "(" + this.item.get(i).count + ")";

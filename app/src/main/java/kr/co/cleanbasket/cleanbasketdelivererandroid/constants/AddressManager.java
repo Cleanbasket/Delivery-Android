@@ -22,6 +22,8 @@ public class AddressManager {
 	public final static String DELIVERER_DROPOFF = "deliverer/dropoff";
 	public final static String DELIVERER_JOIN = "deliverer/join";
 	public final static String DELIVERER_ORDER = "deliverer/order";
+	public final static String DELIVERER_ORDER_PICKUP = "deliverer/order/pickup";
+	public final static String DELIVERER_ORDER_DROPOFF = "deliverer/order/dropoff";
 	public final static String DELIVERER_LIST = "deliverer/list";
 	public final static String DELIVERER_TODAY_PIKUP = "deliverer/pickup/today";
 	public final static String DELIVERER_TODAY_DROPOFF = "deliverer/dropoff/today";

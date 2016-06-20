@@ -147,9 +147,9 @@ public class OrderDetailDialog {
         price.setText(price_str);
 
 
-        pickup_date.setText(orderInfo.getPickup_date());
+        pickup_date.setText(orderInfo.getPrettyPickUpDate());
 
-        dropoff_date.setText(orderInfo.getDropoff_date());
+        dropoff_date.setText(orderInfo.getPrettyDropOffDate());
 
         address.setText(orderInfo.getFullAddress());
         item.setText(orderInfo.makeItem());

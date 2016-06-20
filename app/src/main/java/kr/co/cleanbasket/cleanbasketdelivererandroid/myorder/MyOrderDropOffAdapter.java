@@ -89,7 +89,7 @@ public class MyOrderDropOffAdapter extends BaseAdapter {
         Log.i("MyDropOff", "PRICE : " + price_str);
         price.setText(price_str);
 
-        dropoff_date.setText(orderArrayList.get(position).getDropoff_date());
+        dropoff_date.setText(orderArrayList.get(position).getPrettyDropOffDate());
         address.setText(orderArrayList.get(position).getFullAddress());
         item.setText(orderArrayList.get(position).makeItem());
         memo.setText(orderArrayList.get(position).memo);

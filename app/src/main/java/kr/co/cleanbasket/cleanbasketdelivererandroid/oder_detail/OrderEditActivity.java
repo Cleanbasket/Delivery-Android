@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,8 +31,6 @@ import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.activity.DeliveryApplication;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.edit_item.ItemEditEvent;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.edit_item.ItemListDialog;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.myorder.MyOrderService;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitOrder;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.AssignProxy;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.BusProvider;
@@ -107,8 +106,8 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
 
         order_number.setText(order.getOrder_number());
         price.setText(order.getPrice() + "");
-        pickup_time.setText(order.getPickup_date());
-        dropoff_time.setText(order.getDropoff_date());
+        pickup_time.setText(order.getPrettyPickUpDate());
+        dropoff_time.setText(order.getPrettyDropOffDate());
         address.setText(order.getFullAddress());
         item.setText(order.makeItem());
         note.setText(order.getMemo());
@@ -178,6 +177,7 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
 
     private void doComplete() {
         Order sendOrder = makeOrder();
+        Log.d(TAG, "Order To send :" +sendOrder.toString());
         RetrofitOrder retrofitOrder = new RetrofitOrder();
         retrofitOrder.updateOrder(new Callback<JsonData>() {
             @Override

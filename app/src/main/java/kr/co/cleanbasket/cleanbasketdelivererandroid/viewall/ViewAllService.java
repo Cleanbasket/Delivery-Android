@@ -6,6 +6,7 @@ import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 /**
@@ -13,6 +14,13 @@ import retrofit2.http.POST;
  */
 public interface ViewAllService {
 
+    @Headers("Content-Type: application/json")
+    @GET(AddressManager.DELIVERER_ORDER_PICKUP)
+    Call<JsonData> getPickupData();
+
+    @Headers("Content-Type: application/json")
+    @GET(AddressManager.DELIVERER_ORDER_DROPOFF)
+    Call<JsonData> getDropOffData();
 
     @POST(AddressManager.DELIVERER_ORDER)
     Call<JsonData> getAllOrderList(@Body OrderRequest oid);

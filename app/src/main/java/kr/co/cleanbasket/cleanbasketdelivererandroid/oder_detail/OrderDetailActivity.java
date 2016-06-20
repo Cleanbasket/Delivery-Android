@@ -164,8 +164,8 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
     private void drawDetail() {
         order_number.setText(order.getOrder_number());
         price.setText("" + order.getPrice());
-        pickup_time.setText(order.getPickup_date());
-        dropoff_time.setText(order.getDropoff_date());
+        pickup_time.setText(order.getPrettyPickUpDate());
+        dropoff_time.setText(order.getPrettyDropOffDate());
         address.setText(order.getFullAddress());
         item.setText(order.makeItem());
         note.setText(order.getMemo());

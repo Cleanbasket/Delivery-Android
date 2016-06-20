@@ -77,8 +77,8 @@ public class ViewAllOrderAdapter extends BaseAdapter {
         OrderInfo orderInfo = orderArrayList.get(position);
 
         tv_order_number.setText(orderInfo.getOrder_number());
-        tv_pickup_time.setText(orderInfo.getPickup_date());
-        tv_dropoff_time.setText(orderInfo.getDropoff_date());
+        tv_pickup_time.setText(orderInfo.getPrettyPickUpDate());
+        tv_dropoff_time.setText(orderInfo.getPrettyDropOffDate());
         tv_account.setText(orderInfo.getFullAddress());
         switch (orderArrayList.get(position).state) {
             case 0:

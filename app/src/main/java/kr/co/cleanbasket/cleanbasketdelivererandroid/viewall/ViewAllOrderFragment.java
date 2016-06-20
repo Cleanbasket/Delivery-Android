@@ -12,8 +12,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -22,13 +21,13 @@ import java.util.ArrayList;
 import it.neokree.materialtabs.MaterialTabHost;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.unuse.OrderDetailDialog;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.oder_detail.OrderDetailActivity;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.unuse.OrderDetailDialog;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,7 +39,7 @@ import retrofit2.Response;
  * Created by Yongbin Cha on 16. 4. 6..
  * Copyright (c) 2016 WashAppKorea. All rights reserved.
  */
-public class ViewAllOrderFragment extends Fragment {
+public class ViewAllOrderFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = LogUtils.makeTag(ViewAllOrderFragment.class);
 
@@ -59,8 +58,8 @@ public class ViewAllOrderFragment extends Fragment {
 
     private ViewAllService service;
 
-    private FloatingActionMenu fam;
-    private FloatingActionButton fabPickup, fabDropOff;
+    private FloatingActionButton pickupFab, dropOffFab, allOrderFab;
+
 
     public ViewAllOrderFragment(Activity context) {
         this.context = context;
@@ -82,9 +81,9 @@ public class ViewAllOrderFragment extends Fragment {
         detail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(context ,OrderDetailActivity.class);
+                Intent intent = new Intent(context, OrderDetailActivity.class);
                 int oid = orderArrayList.get(position).getOid();
-                Log.i(TAG,"oid :" + oid);
+                Log.i(TAG, "oid :" + oid);
                 intent.putExtra("oid", oid);
                 startActivity(intent);
             }
@@ -106,20 +105,14 @@ public class ViewAllOrderFragment extends Fragment {
             }
         });
 
+        pickupFab = (FloatingActionButton) v.findViewById(R.id.pickup);
+        dropOffFab = (FloatingActionButton) v.findViewById(R.id.dropOff);
+        allOrderFab = (FloatingActionButton) v.findViewById(R.id.allOrder);
 
-        fam = (FloatingActionMenu) v.findViewById(R.id.fam);
-        fam.setMenuButtonColorNormalResId(R.color.blue);
-        fam.setMenuButtonColorPressedResId(R.color.skyblue);
-        fam.setMenuButtonColorRippleResId(R.color.skyblue);
-        fam.setMenuButtonLabelText("정렬하기");
+        pickupFab.setOnClickListener(this);
+        dropOffFab.setOnClickListener(this);
+        allOrderFab.setOnClickListener(this);
 
-        fabPickup = (FloatingActionButton) v.findViewById(R.id.fabPickup);
-        fabPickup.setButtonSize(FloatingActionButton.SIZE_MINI);
-        fabPickup.setLabelText("수거 배정");
-
-        fabDropOff = (FloatingActionButton) v.findViewById(R.id.fabDropOff);
-        fabDropOff.setButtonSize(FloatingActionButton.SIZE_MINI);
-        fabDropOff.setLabelText("배달 배정");
 
         return v;
     }
@@ -133,7 +126,7 @@ public class ViewAllOrderFragment extends Fragment {
         moreArrayList = new ArrayList<OrderInfo>();
 
         int size = orderArrayList.size();
-        Call<JsonData> result = service.getAllOrderList(new OrderRequest( orderArrayList.get(size - 1).oid + ""));
+        Call<JsonData> result = service.getAllOrderList(new OrderRequest(orderArrayList.get(size - 1).oid + ""));
         result.enqueue(new Callback<JsonData>() {
             @Override
             public void onResponse(Call<JsonData> call, Response<JsonData> response) {
@@ -166,7 +159,7 @@ public class ViewAllOrderFragment extends Fragment {
 
         orderArrayList = new ArrayList<OrderInfo>();
 
-        Call<JsonData> result =  service.getAllOrderList(new OrderRequest("0"));
+        Call<JsonData> result = service.getAllOrderList(new OrderRequest("0"));
         result.enqueue(new Callback<JsonData>() {
             @Override
             public void onResponse(Call<JsonData> call, Response<JsonData> response) {
@@ -176,23 +169,13 @@ public class ViewAllOrderFragment extends Fragment {
                 orderArrayList = gson.fromJson(jsonData.data, new TypeToken<ArrayList<OrderInfo>>() {
                 }.getType());
 
-                int count = 0;
-                for (int i = 0; i < orderArrayList.size(); i++) {
-                    if (orderArrayList.get(i).state == 1) {
-                        count++;
-                    }
-                }
-
-                Log.i(TAG, "수거대기중인 항목이 " + count + "개 있습니다.");
-                Log.i(TAG, "전체 주문이 " + orderArrayList.size() + "개 있습니다.");
-
                 viewAllOrderAdapter = new ViewAllOrderAdapter(context, orderArrayList);
                 detail.setAdapter(viewAllOrderAdapter);
             }
 
             @Override
             public void onFailure(Call<JsonData> call, Throwable t) {
-                Log.e(TAG,"POST FAILED TO " + AddressManager.DELIVERER_PICKUP + " : " + t.getMessage());
+                Log.e(TAG, "POST FAILED TO " + AddressManager.DELIVERER_PICKUP + " : " + t.getMessage());
             }
         });
 
@@ -207,4 +190,61 @@ public class ViewAllOrderFragment extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.allOrder: {
+                getOrderData();
+                break;
+            }
+
+            case R.id.pickup: {
+                orderArrayList = new ArrayList<>();
+
+                Call<JsonData> call = service.getPickupData();
+                call.enqueue(new Callback<JsonData>() {
+                    @Override
+                    public void onResponse(Call<JsonData> call, Response<JsonData> response) {
+                        JsonData jsonData = response.body();
+
+                        orderArrayList = gson.fromJson(jsonData.data, new TypeToken<ArrayList<OrderInfo>>() {
+                        }.getType());
+
+                        viewAllOrderAdapter = new ViewAllOrderAdapter(context, orderArrayList);
+                        detail.setAdapter(viewAllOrderAdapter);
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonData> call, Throwable t) {
+
+                    }
+                });
+                break;
+            }
+
+            case R.id.dropOff: {
+                orderArrayList = new ArrayList<>();
+
+                Call<JsonData> call = service.getDropOffData();
+                call.enqueue(new Callback<JsonData>() {
+                    @Override
+                    public void onResponse(Call<JsonData> call, Response<JsonData> response) {
+                        JsonData jsonData = response.body();
+
+                        orderArrayList = gson.fromJson(jsonData.data, new TypeToken<ArrayList<OrderInfo>>() {
+                        }.getType());
+
+                        viewAllOrderAdapter = new ViewAllOrderAdapter(context, orderArrayList);
+                        detail.setAdapter(viewAllOrderAdapter);
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonData> call, Throwable t) {
+
+                    }
+                });
+                break;
+            }
+        }
+    }
 }

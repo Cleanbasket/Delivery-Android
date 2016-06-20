@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         setBluetooth(true);
-        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        startActivityForResult(enableBtIntent, 1);
         RetrofitPD.getInstance();
         startCatchloc();
 
@@ -82,6 +80,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return bluetoothAdapter.disable();
         }
         // No need to change bluetooth state
+
+        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(enableBtIntent, 1);
+
         return true;
     }
 
