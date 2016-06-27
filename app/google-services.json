@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "677783179677",
+    "firebase_url": "https://cleanbasketpush.firebaseio.com",
+    "project_id": "cleanbasketpush",
+    "storage_bucket": "cleanbasketpush.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677783179677:android:6de6876fe880bebd",
+        "android_client_info": {
+          "package_name": "kr.co.cleanbasket.cleanbasketdelivererandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677783179677-eo0bth54dv9bhqtgj9sg8g9f5k1ae0ag.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDj_25Que3sggikG_tVnZZ3u0P6DAeSt7s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         new TedPermission(this)
                 .setPermissionListener(permissionlistener)
                 .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-                .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_SMS, Manifest.permission.READ_PHONE_STATE)
+                .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_SMS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE)
                 .check();
 
     }

@@ -52,7 +52,7 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
     private Order updatedOrder;
 
     private TextView order_number;
-    private EditText price;
+    private EditText price, phoneNum;
     private TextView pickup_time;
     private TextView dropoff_time;
     private EditText address;
@@ -103,6 +103,8 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
         status = (TextView) findViewById(R.id.status);
         pickup_man = (TextView) findViewById(R.id.pivkup_man);
         dropoff_man = (TextView) findViewById(R.id.dropoff_man);
+        phoneNum = (EditText) findViewById(R.id.phoneNum);
+
 
         order_number.setText(order.getOrder_number());
         price.setText(order.getPrice() + "");
@@ -115,6 +117,7 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
         status.setText(order.getStatus());
         pickup_man.setText(order.getPickupMan());
         dropoff_man.setText(order.getDropoffMan());
+        phoneNum.setText(order.getPhone());
 
         editDropOff = (ImageView) findViewById(R.id.editDropOff);
         editPickUp = (ImageView) findViewById(R.id.editPickUp);
@@ -327,6 +330,7 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
         updatedOrder.addr_number = "";
         updatedOrder.addr_building = "";
         updatedOrder.price = Integer.parseInt(price.getText().toString());
+        updatedOrder.phone = phoneNum.getText().toString();
         return updatedOrder;
     }
 

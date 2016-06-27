@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import it.neokree.materialtabs.MaterialTabHost;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.activity.MainActivity;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.oder_detail.OrderDetailActivity;
@@ -195,6 +196,7 @@ public class ViewAllOrderFragment extends Fragment implements View.OnClickListen
         switch (v.getId()) {
             case R.id.allOrder: {
                 getOrderData();
+                MainActivity.toolbar.setTitle("전체 주문");
                 break;
             }
 
@@ -212,6 +214,7 @@ public class ViewAllOrderFragment extends Fragment implements View.OnClickListen
 
                         viewAllOrderAdapter = new ViewAllOrderAdapter(context, orderArrayList);
                         detail.setAdapter(viewAllOrderAdapter);
+                        MainActivity.toolbar.setTitle("수거 배정");
                     }
 
                     @Override
@@ -236,6 +239,7 @@ public class ViewAllOrderFragment extends Fragment implements View.OnClickListen
 
                         viewAllOrderAdapter = new ViewAllOrderAdapter(context, orderArrayList);
                         detail.setAdapter(viewAllOrderAdapter);
+                        MainActivity.toolbar.setTitle("배달 배정");
                     }
 
                     @Override

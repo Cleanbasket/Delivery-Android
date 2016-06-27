@@ -28,7 +28,7 @@ import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.RetrofitPD;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Toolbar toolbar;
+    public static Toolbar toolbar;
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private Fragment fragment;

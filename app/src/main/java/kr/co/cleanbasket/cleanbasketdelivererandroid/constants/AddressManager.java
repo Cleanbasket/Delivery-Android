@@ -39,5 +39,7 @@ public class AddressManager {
 	public final static String UPDATE_ITEM = "deliverer/item/update";
 	public final static String UPDATE_ORDER = "deliverer/order/update";
 
+	public final static String UPDATE_REGID = "fcm/regid";
+
 	public final static String LOGOUT = "logout";
 }

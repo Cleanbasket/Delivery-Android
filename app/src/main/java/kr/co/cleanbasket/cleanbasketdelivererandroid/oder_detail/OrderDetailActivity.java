@@ -7,6 +7,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -70,6 +71,7 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
     private TextView status;
     private TextView pickup_man;
     private TextView dropoff_man;
+    private TextView phoneNum;
 
     private TextView edit;
     private Button complete;
@@ -128,6 +130,7 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
         status = (TextView) findViewById(R.id.status);
         pickup_man = (TextView) findViewById(R.id.pivkup_man);
         dropoff_man = (TextView) findViewById(R.id.dropoff_man);
+        phoneNum = (TextView) findViewById(R.id.phoneNum);
 
         complete = (Button) findViewById(R.id.complete);
         copy = (Button) findViewById(R.id.copy);
@@ -173,6 +176,7 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
         status.setText(order.getStatus());
         pickup_man.setText(order.getPickupMan());
         dropoff_man.setText(order.getDropoffMan());
+        phoneNum.setText(order.getPhone());
 
         switch (order.getState()) {
             case 0:
@@ -386,10 +390,14 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
     }
 
 
-    private void doCopy() {
-        ClipboardManager clipboardManage = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clipData = ClipData.newPlainText(order.phone, order.phone);
-        clipboardManage.setPrimaryClip(clipData);
-        Toast.makeText(context, "번호 복사가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+    private void doCopy() throws SecurityException{
+
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + order.getPhone()));
+        startActivity(intent);
+
+//        ClipboardManager clipboardManage = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+//        ClipData clipData = ClipData.newPlainText(order.phone, order.phone);
+//        clipboardManage.setPrimaryClip(clipData);
+//        Toast.makeText(context, "번호 복사가 완료되었습니다.", Toast.LENGTH_SHORT).show();
     }
 }
