@@ -247,6 +247,7 @@ public class ViewAllOrderFragment extends Fragment implements View.OnClickListen
 
                     }
                 });
+
                 break;
             }
         }

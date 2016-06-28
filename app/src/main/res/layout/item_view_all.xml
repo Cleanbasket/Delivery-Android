@@ -43,19 +43,19 @@
         android:layout_marginRight="10dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="수거시간   "
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="#646464" />
+            android:textColor="@color/colorPrimaryDark"
+            android:id="@+id/pickup" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2016-02-24 20:30"
-            android:textSize="15sp"
-            android:textStyle="bold"
+            android:textSize="14sp"
             android:id="@+id/pickup_time"
             android:textColor="#000000" />
 
@@ -71,19 +71,19 @@
         android:layout_gravity="center_horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="배달시간   "
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="#646464" />
+            android:textColor="@color/colorPrimaryDark"
+            android:id="@+id/dropoff" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2016-02-24 20:30"
-            android:textSize="15sp"
-            android:textStyle="bold"
+            android:textSize="14sp"
             android:id="@+id/dropoff_time"
             android:textColor="#000000" />
     </LinearLayout>
@@ -97,20 +97,47 @@
         android:layout_marginBottom="5dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="주소   "
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="#646464" />
+            android:textColor="@color/colorPrimaryDark"
+            android:id="@+id/address" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="서울특별시 동작구 대방동 294-2번지 진성 902호"
-            android:textSize="13sp"
+            android:textSize="14sp"
             android:id="@+id/account"
             android:textColor="#000000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp" >
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="요청사항"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:id="@+id/memo_ko" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:id="@+id/memo"
+            android:textColor="#000000"
+            android:hint="요청 사항 없음" />
     </LinearLayout>
 
 </LinearLayout>

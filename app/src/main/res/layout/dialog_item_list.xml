@@ -1,48 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
     <TextView
-        android:layout_width="fill_parent"
+        android:layout_width="260dp"
         android:layout_height="50dp"
         android:text="160302-9429"
         android:id="@+id/orderNumber"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:background="@color/blue"
+        android:background="@color/colorPrimary"
         android:textSize="18sp"
         android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <ListView
-        android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_width="260dp"
+        android:layout_height="400dp"
         android:id="@+id/listView"
         android:layout_gravity="center_horizontal"
         android:layout_below="@+id/orderNumber"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignLeft="@+id/orderNumber"
+        android:layout_alignStart="@+id/orderNumber"
+        android:background="#FFFFFF" />
 
     <Button
-        android:layout_width="60dp"
-        android:layout_height="50dp"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:text="취소"
         android:id="@+id/cancel"
         android:layout_gravity="right"
-        android:layout_toLeftOf="@+id/next"
-        android:layout_toStartOf="@+id/next"
-        android:layout_below="@+id/listView" />
+        android:layout_below="@+id/listView"
+        android:layout_alignLeft="@+id/listView"
+        android:layout_alignStart="@+id/listView"
+        android:background="@color/colorPrimaryDark"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp" />
 
     <Button
-        android:layout_width="60dp"
-        android:layout_height="50dp"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:text="다음"
         android:id="@+id/next"
         android:layout_gravity="right"
+        android:background="@color/colorPrimaryDark"
         android:layout_alignTop="@+id/cancel"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignRight="@+id/listView"
+        android:layout_alignEnd="@+id/listView"
+        android:layout_marginRight="10dp" />
 
 
 </RelativeLayout>

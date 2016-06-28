@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
+        android:background="#f4f4f4"
         android:layout_gravity="center_horizontal">
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/orderNumInput"
+            android:background="@null"
             android:layout_weight="1"
             android:hint="주문번호를 입력해주세요."
-            android:inputType="number" />
+            android:textColorHint="#bcbcbc"
+            android:inputType="number"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp" />
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:src="@mipmap/ic_search"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:text="찾기"
+            android:padding="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
             android:id="@+id/find" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <ListView
         android:layout_width="match_parent"

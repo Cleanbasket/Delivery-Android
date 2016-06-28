@@ -53,8 +53,6 @@ public class ViewAllTodayOrderAdapter extends BaseAdapter {
         TextView tv_order_number = (TextView) convertView.findViewById(R.id.order_number);
         TextView tv_pickup_time = (TextView) convertView.findViewById(R.id.pickup_time);
         TextView tv_dropoff_time = (TextView) convertView.findViewById(R.id.dropoff_time);
-        TextView tv_account = (TextView) convertView.findViewById(R.id.account);
-
         TextView tv_deliverer_man = (TextView) convertView.findViewById(R.id.deliverer_man);
 
 
@@ -63,7 +61,6 @@ public class ViewAllTodayOrderAdapter extends BaseAdapter {
         tv_order_number.setText(orderInfo.getOrder_number());
         tv_pickup_time.setText(orderInfo.getPrettyPickUpDate());
         tv_dropoff_time.setText(orderInfo.getPrettyDropOffDate());
-        tv_account.setText(orderInfo.getFullAddress());
         switch (orderInfo.getState()){
             case 0:
                 tv_deliverer_man.setText(orderInfo.getPickupMan());

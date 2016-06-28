@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TabHost;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -53,8 +54,10 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
 
     private Activity context;
 
-    private static final String TAG = "DEV_myOrderFragment";
+    private MaterialTab dropoffTab;
+    private MaterialTab pickupTab;
 
+    private static final String TAG = "DEV_myOrderFragment";
 
 
     public MyOrderFragment(Activity context) {
@@ -73,8 +76,10 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
 
         pickupData();
 
-        tabHost.addTab(tabHost.newTab().setText("수거").setTabListener(this));
-        tabHost.addTab(tabHost.newTab().setText("배달").setTabListener(this));
+        pickupTab = tabHost.newTab().setText("-- 수거 --");
+        dropoffTab = tabHost.newTab().setText("배달");
+        tabHost.addTab(pickupTab.setTabListener(this));
+        tabHost.addTab(dropoffTab.setTabListener(this));
 
         return v;
     }
@@ -86,10 +91,14 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
         switch (tab.getPosition()) {
             case 0:
                 Log.i("TabSelect", String.valueOf(tab.getPosition()));
+                pickupTab.setText("-- 수거 --");
+                dropoffTab.setText("배달");
                 pickupData();
                 break;
             case 1:
                 Log.i("TabSelect", String.valueOf(tab.getPosition()));
+                pickupTab.setText("수거");
+                dropoffTab.setText("-- 배달 --");
                 dropoffData();
                 break;
         }
@@ -102,10 +111,14 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
         switch (tab.getPosition()) {
             case 0:
                 Log.i("TabSelect", String.valueOf(tab.getPosition()));
+                pickupTab.setText("-- 수거 --");
+                dropoffTab.setText("배달");
                 pickupData();
                 break;
             case 1:
                 Log.i("TabSelect", String.valueOf(tab.getPosition()));
+                pickupTab.setText("수거");
+                dropoffTab.setText("-- 배달 --");
                 dropoffData();
                 break;
         }
@@ -147,9 +160,9 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
         detail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(context ,OrderDetailActivity.class);
+                Intent intent = new Intent(context, OrderDetailActivity.class);
                 int oid = pickUpList.get(position).getOid();
-                Log.i(TAG,"oid :" + oid);
+                Log.i(TAG, "oid :" + oid);
                 intent.putExtra("oid", oid);
                 startActivity(intent);
             }
@@ -187,9 +200,9 @@ public class MyOrderFragment extends Fragment implements MaterialTabListener {
         detail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(context ,OrderDetailActivity.class);
+                Intent intent = new Intent(context, OrderDetailActivity.class);
                 int oid = dropoffList.get(position).getOid();
-                Log.i(TAG,"oid :" + oid);
+                Log.i(TAG, "oid :" + oid);
                 intent.putExtra("oid", oid);
                 startActivity(intent);
             }

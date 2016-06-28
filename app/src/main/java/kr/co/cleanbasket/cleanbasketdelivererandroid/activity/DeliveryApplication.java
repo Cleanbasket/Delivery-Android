@@ -1,7 +1,9 @@
 package kr.co.cleanbasket.cleanbasketdelivererandroid.activity;
 
 import android.app.Application;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -25,7 +27,8 @@ public class DeliveryApplication extends Application {
     }
 
     @Override
-    public void onCreate( ) {
+    public void onCreate() {
         super.onCreate();
     }
+
 }

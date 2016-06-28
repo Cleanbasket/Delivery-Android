@@ -1,6 +1,7 @@
 package kr.co.cleanbasket.cleanbasketdelivererandroid.viewall;
 
 import android.app.Activity;
+import android.app.Application;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.activity.DeliveryApplication;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
 
@@ -66,42 +68,72 @@ public class ViewAllOrderAdapter extends BaseAdapter {
 
         LayoutInflater inflater = context.getLayoutInflater();
 
-        convertView = inflater.inflate(R.layout.item_view_all, null, true);
+        View view = inflater.inflate(R.layout.item_view_all, null, true);
 
-        TextView tv_order_number = (TextView) convertView.findViewById(R.id.order_number);
-        TextView tv_pickup_time = (TextView) convertView.findViewById(R.id.pickup_time);
-        TextView tv_dropoff_time = (TextView) convertView.findViewById(R.id.dropoff_time);
-        TextView tv_account = (TextView) convertView.findViewById(R.id.account);
-        TextView tv_deliverer_man = (TextView) convertView.findViewById(R.id.deliverer_man);
+        TextView pickup_ko = (TextView) view.findViewById(R.id.pickup);
+        TextView pickup = (TextView) view.findViewById(R.id.pickup_time);
+        TextView dropoff_ko = (TextView) view.findViewById(R.id.dropoff);
+        TextView dropoff = (TextView) view.findViewById(R.id.dropoff_time);
+        TextView address = (TextView) view.findViewById(R.id.address);
+        TextView account = (TextView) view.findViewById(R.id.account);
+        TextView memo = (TextView) view.findViewById(R.id.memo);
+        TextView momo_ko = (TextView) view.findViewById(R.id.memo_ko);
+        TextView orderNumber = (TextView) view.findViewById(R.id.order_number);
+        TextView delivererMan = (TextView) view.findViewById(R.id.deliverer_man);
 
         OrderInfo orderInfo = orderArrayList.get(position);
 
-        tv_order_number.setText(orderInfo.getOrder_number());
-        tv_pickup_time.setText(orderInfo.getPrettyPickUpDate());
-        tv_dropoff_time.setText(orderInfo.getPrettyDropOffDate());
-        tv_account.setText(orderInfo.getFullAddress());
+        orderNumber.setText(orderInfo.getOrder_number());
+        pickup.setText(orderInfo.getPrettyPickUpDate());
+        dropoff.setText(orderInfo.getPrettyDropOffDate());
+        account.setText(orderInfo.getFullAddress());
         switch (orderArrayList.get(position).state) {
             case 0:
-                tv_deliverer_man.setText(orderInfo.getPickupMan());
+                delivererMan.setText(orderInfo.getPickupMan());
                 break;
             case 1:
-                tv_deliverer_man.setText(orderInfo.getPickupMan());
-                convertView.setBackgroundColor(Color.GRAY);
+                delivererMan.setText(orderInfo.getPickupMan());
+                setGray(view);
                 break;
             case 2:
-                tv_deliverer_man.setText(orderInfo.getDropoffMan());
+                delivererMan.setText(orderInfo.getDropoffMan());
                 break;
             case 3:
-                tv_deliverer_man.setText(orderInfo.getDropoffMan());
-                convertView.setBackgroundColor(Color.GRAY);
+                delivererMan.setText(orderInfo.getDropoffMan());
+                setGray(view);
                 break;
             case 4:
-                tv_deliverer_man.setText("배달완료");
-                convertView.setBackgroundColor(Color.GRAY);
+                delivererMan.setText("배달완료");
+                setGray(view);
                 break;
         }
 
-        return convertView;
+        return view;
+    }
+
+    private void setGray(View view) {
+        TextView pickup_ko = (TextView) view.findViewById(R.id.pickup);
+        TextView pickup = (TextView) view.findViewById(R.id.pickup_time);
+        TextView dropoff_ko = (TextView) view.findViewById(R.id.dropoff);
+        TextView dropoff = (TextView) view.findViewById(R.id.dropoff_time);
+        TextView address = (TextView) view.findViewById(R.id.address);
+        TextView account = (TextView) view.findViewById(R.id.account);
+        TextView memo = (TextView) view.findViewById(R.id.memo);
+        TextView momo_ko = (TextView) view.findViewById(R.id.memo_ko);
+        TextView orderNumber = (TextView) view.findViewById(R.id.order_number);
+        TextView delivererMan = (TextView) view.findViewById(R.id.deliverer_man);
+
+        pickup.setTextColor(view.getResources().getColor(R.color.gray));
+        pickup_ko.setTextColor(view.getResources().getColor(R.color.gray));
+        dropoff.setTextColor(view.getResources().getColor(R.color.gray));
+        dropoff_ko.setTextColor(view.getResources().getColor(R.color.gray));
+        address.setTextColor(view.getResources().getColor(R.color.gray));
+        account.setTextColor(view.getResources().getColor(R.color.gray));
+        memo.setTextColor(view.getResources().getColor(R.color.gray));
+        momo_ko.setTextColor(view.getResources().getColor(R.color.gray));
+        orderNumber.setTextColor(view.getResources().getColor(R.color.gray));
+        delivererMan.setTextColor(view.getResources().getColor(R.color.gray));
+
     }
 
 }

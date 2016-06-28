@@ -1,75 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
-    <EditText
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/price"
-        android:hint="13000원"
-        android:gravity="center"
-        android:layout_below="@+id/title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:inputType="number" />
-
-    <EditText
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/note"
-        android:layout_below="@+id/price"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:hint="메모할 사항을 입력해주세요"
-        android:gravity="center" />
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
     <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
+        android:layout_width="280dp"
+        android:layout_height="40dp"
         android:text="결제 정보"
         android:id="@+id/title"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:background="@color/blue"
+        android:background="@color/colorPrimary"
         android:textSize="18sp"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:autoText="false" />
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/priceContainer"
+        android:layout_below="@+id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:id="@+id/price"
+            android:hint="13000원"
+            android:gravity="center"
+            android:inputType="number"
+            android:background="#f4f4f4"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="14sp"
+            android:layout_marginTop="5dp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/imageView3"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="false"
+            android:src="@mipmap/ic_modify"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeLayout4"
+        android:layout_below="@+id/priceContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" >
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:id="@+id/note"
+            android:layout_centerHorizontal="true"
+            android:hint="메모할 사항을 입력해주세요"
+            android:gravity="center"
+            android:background="#f4f4f4"
+            android:textSize="14sp"
+            android:layout_marginTop="5dp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/imageView4"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="false"
+            android:src="@mipmap/ic_modify"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dp" />
+    </RelativeLayout>
 
     <Button
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
         android:text="현장 현금 결제"
         android:id="@+id/real_money"
-        android:layout_below="@+id/note"
+        android:layout_below="@+id/relativeLayout4"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp" />
+        android:layout_marginTop="50dp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:textSize="14sp" />
 
     <Button
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
         android:text="현장 신용 카드 결제"
         android:id="@+id/credit"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         android:layout_below="@+id/real_money"
-        android:layout_alignLeft="@+id/real_money"
-        android:layout_alignStart="@+id/real_money" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:textSize="14sp" />
 
     <Button
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
         android:text="인앱 결제 "
         android:id="@+id/in_app"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         android:layout_below="@+id/credit"
-        android:layout_alignLeft="@+id/credit"
-        android:layout_alignStart="@+id/credit" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:textSize="14sp" />
 
     <Button
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
         android:text="계좌 이체"
         android:id="@+id/transfer"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         android:layout_below="@+id/in_app"
-        android:layout_alignLeft="@+id/in_app"
-        android:layout_alignStart="@+id/in_app" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="30dp"
+        android:textSize="14sp" />
+
 </RelativeLayout>

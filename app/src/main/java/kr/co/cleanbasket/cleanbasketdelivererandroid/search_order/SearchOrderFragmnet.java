@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -42,7 +43,7 @@ public class SearchOrderFragmnet extends Fragment {
     private Activity context;
     private ListView history;
     private EditText orderNumberEdit;
-    private Button find;
+    private ImageView find;
 
     private RetrofitOrder retrofitOrder;
     private Gson gson = new Gson();
@@ -62,7 +63,7 @@ public class SearchOrderFragmnet extends Fragment {
         View v = inflater.inflate(R.layout.fragment_search_order, container, false);
         history = (ListView) v.findViewById(R.id.history);
         orderNumberEdit = (EditText) v.findViewById(R.id.orderNumInput);
-        find = (Button) v.findViewById(R.id.find);
+        find = (ImageView) v.findViewById(R.id.find);
         find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
