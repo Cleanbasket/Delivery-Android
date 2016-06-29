@@ -18,8 +18,8 @@ import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitViewAllToday;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressConstant;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.OrderManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.unuse.OrderDetailDialog;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
@@ -40,14 +40,14 @@ public class ViewAllTodayOrderFragment extends android.app.Fragment implements M
 
     private static final String TAG = "DEV_todayOrderFragment";
 
-    private RetrofitViewAllToday retrofitViewAllToday;
+    private OrderManager orderManager;
 
 
     public ViewAllTodayOrderFragment(Activity context) {
         // Required empty public constructor
         gson = new Gson();
         this.context = context;
-        retrofitViewAllToday = new RetrofitViewAllToday();
+        orderManager = new OrderManager();
 
     }
 
@@ -121,7 +121,7 @@ public class ViewAllTodayOrderFragment extends android.app.Fragment implements M
     private void showTodayPickups() {
         orderArrayList = new ArrayList<OrderInfo>();
 
-        retrofitViewAllToday.getTodayPickUp(new Callback<JsonData>() {
+        orderManager.getTodayPickUp(new Callback<JsonData>() {
             @Override
             public void onResponse(Call<JsonData> call, Response<JsonData> response) {
 
@@ -134,7 +134,7 @@ public class ViewAllTodayOrderFragment extends android.app.Fragment implements M
 
             @Override
             public void onFailure(Call<JsonData> call, Throwable t) {
-                Log.e(TAG, "POST FAILED TO " + AddressManager.DELIVERER_TODAY_PIKUP);
+                Log.e(TAG, "POST FAILED TO " + AddressConstant.DELIVERER_TODAY_PIKUP);
             }
         });
     }
@@ -148,7 +148,7 @@ public class ViewAllTodayOrderFragment extends android.app.Fragment implements M
     private ArrayList<OrderInfo> showTodayDropoffs() {
         orderArrayList = new ArrayList<kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo>();
 
-        retrofitViewAllToday.getTodayDropOff(new Callback<JsonData>() {
+        orderManager.getTodayDropOff(new Callback<JsonData>() {
             @Override
             public void onResponse(Call<JsonData> call, Response<JsonData> response) {
                 JsonData jsonData = response.body();

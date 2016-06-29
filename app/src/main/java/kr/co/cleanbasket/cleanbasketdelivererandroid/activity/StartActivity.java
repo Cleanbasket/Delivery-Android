@@ -13,10 +13,9 @@ import java.util.HashSet;
 
 import io.fabric.sdk.android.Fabric;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.auth.AuthService;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.auth.LoginActivity;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.AuthInterface;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.ServerConstants;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitBase;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.LogUtils;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.SharedPreferenceBase;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
@@ -39,7 +38,7 @@ public class StartActivity extends AppCompatActivity {
 
     private Gson gson = new Gson();
 
-    private AuthService service;
+    private AuthInterface service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +64,7 @@ public class StartActivity extends AppCompatActivity {
 
 
         SharedPreferenceBase.putSharedPreference("MANAGER",managerSet);
-        service = Network.getInstance().getRetrofit().create(AuthService.class);
+        service = RetrofitBase.getInstance().getRetrofit().create(AuthInterface.class);
         Handler delayStartActivityHandler = new Handler();
         delayStartActivityHandler.postDelayed(new Runnable() {
             @Override

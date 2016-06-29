@@ -21,13 +21,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.edit_item.ItemListDialog;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.network.AssignProxy;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.ItemListDialog;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.OrderManager;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.PdManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.DelivererInfo;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderInfo;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.RetrofitPD;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,12 +42,12 @@ public class OrderDetailDialog {
     private ArrayList<DelivererInfo> delivererInfo;
     private ArrayAdapter<String> pdAdapter;
     private BaseAdapter adapter;
-    private AssignProxy proxy;
+    private OrderManager proxy;
 
     public OrderDetailDialog(Activity context, BaseAdapter adapter) {
         this.context = context;
-        delivererInfo = RetrofitPD.getInstance().getDelivererInfo();
-        proxy = new AssignProxy();
+        delivererInfo = PdManager.getInstance().getDelivererInfo();
+        proxy = new OrderManager();
         this.adapter = adapter;
         
     }

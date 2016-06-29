@@ -19,11 +19,11 @@ import com.spacosa.android.catchloc.libs.CatchLocResult;
 import com.spacosa.android.catchloc.sdk.CatchlocSDK;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.myorder.MyOrderFragment;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.search_order.SearchOrderFragmnet;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.fragment.MyOrderFragment;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.fragment.SearchOrderFragmnet;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.PdManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.SharedPreferenceBase;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.viewall.ViewAllOrderFragment;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.RetrofitPD;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.fragment.ViewAllOrderFragment;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         //setBluetooth(true);
-        RetrofitPD.getInstance();
+        PdManager.getInstance();
         startCatchloc();
 
         // set DrawerLayout

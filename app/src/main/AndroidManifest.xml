@@ -47,14 +47,14 @@
         </receiver>
 
         <service
-            android:name=".fcm.MyFirebaseMessagingService">
+            android:name=".service.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
         <service
-            android:name=".fcm.MyFirebaseInstanceIdService">
+            android:name=".service.MyFirebaseInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
@@ -95,14 +95,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".auth.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreen"></activity>
         <activity
-            android:name=".auth.RegisterActivity"
+            android:name=".activity.RegisterActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".oder_detail.OrderDetailActivity"
+            android:name=".activity.OrderDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
         <activity
@@ -110,7 +110,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/FullScreen"></activity>
         <activity android:name="eu.janmuller.android.simplecropimage.CropImage" />
-        <activity android:name=".oder_detail.OrderEditActivity"></activity>
+        <activity android:name=".activity.OrderEditActivity"></activity>
     </application>
 
 </manifest>

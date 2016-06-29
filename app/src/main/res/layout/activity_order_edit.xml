@@ -12,7 +12,7 @@
         android:focusableInTouchMode="true"
         android:orientation="vertical"
         android:theme="@style/AppTheme"
-        tools:context=".oder_detail.OrderEditActivity">
+        tools:context=".activity.OrderEditActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"

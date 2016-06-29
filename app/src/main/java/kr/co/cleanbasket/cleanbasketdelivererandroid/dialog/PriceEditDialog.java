@@ -3,8 +3,6 @@ package kr.co.cleanbasket.cleanbasketdelivererandroid.dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,24 +10,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.activity.MainActivity;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressManager;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.myorder.MyOrderService;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.network.Network;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitOrder;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.BusProvider;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Item;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.ItemInfo;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.constants.AddressConstant;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.network.RetrofitBase;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.JsonData;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.Order;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.vo.OrderRequest;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,7 +35,7 @@ public class PriceEditDialog extends DialogFragment implements View.OnClickListe
     private Button realMoney, credit, inApp, transfer;
 
     private interface PriceEditService {
-        @POST(AddressManager.CONFIRM_DROPOFF)
+        @POST(AddressConstant.CONFIRM_DROPOFF)
         Call<JsonData> confirmDropOff(@Body Order order);
     }
 
@@ -121,7 +109,7 @@ public class PriceEditDialog extends DialogFragment implements View.OnClickListe
 
 
     private void confirmDropOff(Order order) {
-        PriceEditService service = Network.getInstance().getRetrofit().create(PriceEditService.class);
+        PriceEditService service = RetrofitBase.getInstance().getRetrofit().create(PriceEditService.class);
         Call<JsonData> call = service.confirmDropOff(order);
         call.enqueue(new Callback<JsonData>() {
             @Override
