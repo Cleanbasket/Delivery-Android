@@ -18,7 +18,8 @@
             android:text="주문번호   "
             android:textSize="15sp"
             android:textStyle="bold"
-            android:textColor="#646464" />
+            android:textColor="#646464"
+            android:id="@+id/t1" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,7 +37,7 @@
             android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="#646464"
-            android:id="@+id/textView12"
+            android:id="@+id/t2"
             android:layout_marginLeft="30dp" />
 
         <TextView
@@ -64,7 +65,8 @@
             android:text="배달시간   "
             android:textSize="15sp"
             android:textStyle="bold"
-            android:textColor="#646464" />
+            android:textColor="#646464"
+            android:id="@+id/t3" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -91,7 +93,8 @@
             android:text="품목   "
             android:textSize="15sp"
             android:textStyle="bold"
-            android:textColor="#646464" />
+            android:textColor="#646464"
+            android:id="@+id/t4" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -117,7 +120,8 @@
             android:text="주소   "
             android:textSize="15sp"
             android:textStyle="bold"
-            android:textColor="#646464" />
+            android:textColor="#646464"
+            android:id="@+id/t5" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -143,7 +147,8 @@
             android:text="요청사항   "
             android:textSize="15sp"
             android:textStyle="bold"
-            android:textColor="#646464" />
+            android:textColor="#646464"
+            android:id="@+id/t6" />
 
         <TextView
             android:layout_width="wrap_content"
