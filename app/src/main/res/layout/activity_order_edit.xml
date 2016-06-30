@@ -487,6 +487,16 @@
                 android:textStyle="bold" />
 
             <Button
+                android:id="@+id/cancelAssign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:text="현재 배정 취소"
+                android:textStyle="bold" />
+
+            <Button
                 android:id="@+id/complete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

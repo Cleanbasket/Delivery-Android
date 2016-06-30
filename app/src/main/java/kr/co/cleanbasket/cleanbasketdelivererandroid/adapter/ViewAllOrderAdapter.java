@@ -83,6 +83,7 @@ public class ViewAllOrderAdapter extends BaseAdapter {
         orderNumber.setText(orderInfo.getOrder_number());
         pickup.setText(orderInfo.getPrettyPickUpDate());
         dropoff.setText(orderInfo.getPrettyDropOffDate());
+        memo.setText(orderInfo.getMemo());
         account.setText(orderInfo.getFullAddress());
         switch (orderArrayList.get(position).state) {
             case 0:

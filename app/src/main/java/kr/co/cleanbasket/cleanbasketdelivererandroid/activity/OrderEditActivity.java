@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -63,7 +64,7 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
     private TextView dropoff_man;
 
     private ImageView editDropOffMan, editPickUpMan, editDropOff, editPickUp;
-    private Button complete, update;
+    private Button complete, update, cancleAssgin;
 
     private ArrayAdapter<String> pdAdapter;
     private ArrayList<DelivererInfo> delivererInfo;
@@ -130,9 +131,12 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
 
         update = (Button) findViewById(R.id.update);
         complete = (Button) findViewById(R.id.complete);
+        cancleAssgin = (Button) findViewById(R.id.cancelAssign);
+
 
         update.setOnClickListener(this);
         complete.setOnClickListener(this);
+        cancleAssgin.setOnClickListener(this);
     }
 
     @Subscribe
@@ -173,6 +177,9 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.update :
                 doUpdate();
+                break;
+            case R.id.cancelAssign :
+                doCancel();
                 break;
         }
     }
@@ -343,4 +350,19 @@ public class OrderEditActivity extends AppCompatActivity implements View.OnClick
         dialog.show(getFragmentManager(),"품목 수정");
     }
 
+    public void doCancel() {
+        OrderManager orderManager = new OrderManager();
+        orderManager.cancleAssign(order, new Callback<JsonData>() {
+            @Override
+            public void onResponse(Call<JsonData> call, Response<JsonData> response) {
+                Toast.makeText(context,"취소되었습니다",Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<JsonData> call, Throwable t) {
+
+            }
+        });
+    }
 }

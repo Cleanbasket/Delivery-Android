@@ -31,6 +31,7 @@ public class AddressConstant {
 	public final static String ASSIGN_PICKUP = "deliverer/pickup/assign";
 	public final static String ASSIGN_DROPOFF = "deliverer/dropoff/assign";
 
+	public final static String CANCEL_ASSIGN = "deliverer/assign/cancel";
 
 	public final static String LOGIN_CHECK = "auth/check";
 	public final static String CONFIRM_PICKUP = "deliverer/pickup/complete";

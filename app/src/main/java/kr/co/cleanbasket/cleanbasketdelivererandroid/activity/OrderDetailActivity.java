@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.ItemListDialog;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.MemoDialog;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.PriceEditDialog;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.event.ItemEditEvent;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.event.OrderChangeEvent;
@@ -182,8 +183,6 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
                 complete.setText("수거 배정");
                 break;
             case 1:
-                memo.setEnabled(true);
-                memo.setHint("메모 입력");
                 complete.setClickable(true);
                 complete.setText("수거 시작");
                 break;
@@ -294,8 +293,8 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
 // ------------------------------------- case 1 -------------------------------------------------
 // 수거 완료 서버에 전송
 
-    private void sendPickUpComplete() {
-        String value = memo.getText().toString();
+    private void sendPickUpComplete(Order order) {
+        String value = order.note;
         orderManager.sendPickUpComplete(order, value, new Callback<JsonData>() {
             @Override
             public void onResponse(Call<JsonData> call, Response<JsonData> response) {
@@ -359,13 +358,13 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
 
 
     private void showItemEditDialog() {
-        ItemListDialog dialog = ItemListDialog.newInstance(new ItemListDialog.OnTransferListener() {
+        MemoDialog dialog = MemoDialog.newInstance(new MemoDialog.OnTransferListener() {
             @Override
-            public void onTransfer() {
-                sendPickUpComplete();
+            public void onTransfer(Order order) {
+                sendPickUpComplete(order);
             }
-        }, order.getOrder_number());
-        dialog.show(getFragmentManager(), "품목 수정");
+        }, order);
+        dialog.show(getFragmentManager(), "메모하기");
     }
 
     @Subscribe

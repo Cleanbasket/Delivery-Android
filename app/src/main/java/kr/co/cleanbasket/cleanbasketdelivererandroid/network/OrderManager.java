@@ -59,6 +59,12 @@ public class OrderManager {
         call.enqueue(assignCallback);
     }
 
+    //배정 취소
+    public void cancleAssign(Order order, Callback<JsonData> callback){
+        Call<JsonData> call = service.cancelAssign(order);
+        call.enqueue(callback);
+    }
+
     // 오늘 수거 / 배달 가져오기
     public void getTodayPickUp(Callback<JsonData> getTodayPickUpCallback) {
         Call<JsonData> call = service.getTodayPickUp();

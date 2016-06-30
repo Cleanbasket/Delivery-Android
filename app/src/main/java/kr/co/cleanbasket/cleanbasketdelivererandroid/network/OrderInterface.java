@@ -76,6 +76,9 @@ public interface OrderInterface {
     @POST(AddressConstant.UPDATE_ORDER)
     Call<JsonData> updateOrder(@Body Order order);
 
+    @POST(AddressConstant.CANCEL_ASSIGN)
+    Call<JsonData> cancelAssign(@Body Order order);
+
 
 }
 
