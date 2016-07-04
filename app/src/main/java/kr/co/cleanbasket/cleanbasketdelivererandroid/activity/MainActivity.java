@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //setBluetooth(true);
         PdManager.getInstance();
-        startCatchloc();
+//        startCatchloc();
 
         // set DrawerLayout
         drawer = (DrawerLayout) findViewById(R.id.drawer);
