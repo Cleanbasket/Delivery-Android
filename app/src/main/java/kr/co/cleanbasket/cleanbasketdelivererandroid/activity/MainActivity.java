@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.spacosa.android.catchloc.libs.CatchLocResult;
+import com.spacosa.android.catchloc.libs.CatchlocLibs;
 import com.spacosa.android.catchloc.sdk.CatchlocSDK;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //setBluetooth(true);
         PdManager.getInstance();
-//        startCatchloc();
+        startCatchloc();
 
         // set DrawerLayout
         drawer = (DrawerLayout) findViewById(R.id.drawer);
@@ -90,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void startCatchloc() {
         mMemberKey = CatchlocSDK.getMemberKeyDefault(MainActivity.this);
         Log.d("catchloc.sdk", "memberkey : " + mMemberKey);
+
+        CatchlocLibs.setWifiEnableOption(this, 0);
         class CatchLocAsyncTask extends AsyncTask<Void, Void, String[]> {
             CatchLocResult catchlocResult = new CatchLocResult();
 

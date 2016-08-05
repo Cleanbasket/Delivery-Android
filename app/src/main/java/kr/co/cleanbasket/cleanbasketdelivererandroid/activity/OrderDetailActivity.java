@@ -18,7 +18,11 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.dialog.ItemListDialog;
@@ -50,6 +54,7 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
     private static final String TAG = "DEV_orderDetailActivity";
 
     private boolean isManager;
+    private boolean isPhoneCallPossible = false;
 
     private ArrayList<DelivererInfo> delivererInfo;
     private Gson gson = new Gson();
@@ -67,6 +72,7 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
     private TextView pickup_man;
     private TextView dropoff_man;
     private TextView phoneNum;
+    private TextView paymentMethod;
 
     private TextView edit;
     private Button complete;
@@ -93,6 +99,42 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
 
     }
 
+    private void setPhoneCallPossible(Order order) {
+        if (isManager) {
+            isPhoneCallPossible = true;
+            return;
+        } else if (order.getState() != 1 && order.getState() != 3) {
+            isPhoneCallPossible = true;
+            return;
+        }
+
+        if (order.getState() == 1) {
+            isPhoneCallPossible = isPhoneCallPossibleTime(order.pickup_date);
+        } else if (order.getState() == 3) {
+            isPhoneCallPossible = isPhoneCallPossibleTime(order.dropoff_date);
+        }
+    }
+
+    private boolean isPhoneCallPossibleTime(String deliverTime) {
+        long deliverTimeLong = 0;
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:00.0");
+
+        try {
+            Date date = dateFormat.parse(deliverTime);
+            deliverTimeLong = date.getTime();
+        } catch (ParseException e) {
+            Log.e("데이터 파싱 에러", "들어온 시간이 이상함" + e.getMessage());
+        }
+
+        long diff = deliverTimeLong - System.currentTimeMillis();
+        Log.e("차이", diff / 60000 + "");
+        if (diff / 60000 <= 30) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     private void setPDAdapter() {
         delivererInfo = PdManager.getInstance().getDelivererInfo();
@@ -126,6 +168,7 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
         pickup_man = (TextView) findViewById(R.id.pivkup_man);
         dropoff_man = (TextView) findViewById(R.id.dropoff_man);
         phoneNum = (TextView) findViewById(R.id.phoneNum);
+        paymentMethod = (TextView) findViewById(R.id.paymentMethod);
 
         complete = (Button) findViewById(R.id.complete);
         copy = (Button) findViewById(R.id.copy);
@@ -149,6 +192,7 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
             public void onResponse(Call<JsonData> call, Response<JsonData> response) {
                 JsonData jsonData = response.body();
                 order = gson.fromJson(jsonData.data, Order.class);
+                setPhoneCallPossible(order);
                 drawDetail();
             }
 
@@ -171,7 +215,11 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
         status.setText(order.getStatus());
         pickup_man.setText(order.getPickupMan());
         dropoff_man.setText(order.getDropoffMan());
-        phoneNum.setText(order.getPhone());
+        paymentMethod.setText(order.getPriceStatus());
+
+        if (isPhoneCallPossible) {
+            phoneNum.setText(order.getPhone());
+        }
 
         switch (order.getState()) {
             case 0:
@@ -381,8 +429,9 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
 
 
     private void doCopy() throws SecurityException {
-
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + order.getPhone()));
-        startActivity(intent);
+        if (isPhoneCallPossible) {
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + order.getPhone()));
+            startActivity(intent);
+        }
     }
 }

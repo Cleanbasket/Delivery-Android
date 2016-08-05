@@ -60,21 +60,21 @@
             </intent-filter>
         </service>
 
-        <!--<service-->
-            <!--android:name="com.spacosa.android.catchloc.libs.MyLocationService"-->
-            <!--android:exported="false">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.spacosa.android.catchloc.sdk.MyLocationService" />-->
-            <!--</intent-filter>-->
-        <!--</service>-->
+        <service
+            android:name="com.spacosa.android.catchloc.libs.MyLocationService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.spacosa.android.catchloc.sdk.MyLocationService" />
+            </intent-filter>
+        </service>
 
-        <!--<service-->
-            <!--android:name="com.spacosa.android.catchloc.libs.MyLocationUpdater"-->
-            <!--android:exported="false">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.spacosa.android.catchloc.libs.global.MyLocationUpdater" />-->
-            <!--</intent-filter>-->
-        <!--</service>-->
+        <service
+            android:name="com.spacosa.android.catchloc.libs.MyLocationUpdater"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.spacosa.android.catchloc.libs.global.MyLocationUpdater" />
+            </intent-filter>
+        </service>
 
         <meta-data
             android:name="com.google.android.gms.version"

@@ -212,7 +212,8 @@
                     android:gravity="left"
                     android:textColor="#000000"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:hint="방문시간 30분 전부터 확인 가능합니다." />
             </LinearLayout>
 
             <LinearLayout
@@ -334,6 +335,40 @@
                     android:enabled="false"
                     android:gravity="left"
                     android:hint="메모 없음"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:text="결제 수단   "
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textIsSelectable="false"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/paymentMethod"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:background="@android:color/transparent"
+                    android:enabled="false"
+                    android:gravity="left"
                     android:textColor="#000000"
                     android:textSize="14sp" />
 
