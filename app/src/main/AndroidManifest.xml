@@ -37,44 +37,44 @@
         android:supportsRtl="true"
         android:theme="@style/FullScreen">
 
-        <receiver
-            android:name="com.spacosa.android.catchloc.libs.MyLocationReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <category android:name="com.spacosa.android.catchloc.libs" />
-            </intent-filter>
-        </receiver>
+        <!--<receiver-->
+            <!--android:name="com.spacosa.android.catchloc.libs.MyLocationReceiver">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
+                <!--<action android:name="android.intent.action.USER_PRESENT" />-->
+                <!--<category android:name="com.spacosa.android.catchloc.libs" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
 
-        <service
-            android:name=".service.MyFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
-        </service>
+        <!--<service-->
+            <!--android:name=".service.MyFirebaseMessagingService">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.firebase.MESSAGING_EVENT"/>-->
+            <!--</intent-filter>-->
+        <!--</service>-->
 
-        <service
-            android:name=".service.MyFirebaseInstanceIdService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
+        <!--<service-->
+            <!--android:name=".service.MyFirebaseInstanceIdService">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>-->
+            <!--</intent-filter>-->
+        <!--</service>-->
 
-        <service
-            android:name="com.spacosa.android.catchloc.libs.MyLocationService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.spacosa.android.catchloc.sdk.MyLocationService" />
-            </intent-filter>
-        </service>
+        <!--<service-->
+            <!--android:name="com.spacosa.android.catchloc.libs.MyLocationService"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.spacosa.android.catchloc.sdk.MyLocationService" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
 
-        <service
-            android:name="com.spacosa.android.catchloc.libs.MyLocationUpdater"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.spacosa.android.catchloc.libs.global.MyLocationUpdater" />
-            </intent-filter>
-        </service>
+        <!--<service-->
+            <!--android:name="com.spacosa.android.catchloc.libs.MyLocationUpdater"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.spacosa.android.catchloc.libs.global.MyLocationUpdater" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
 
         <meta-data
             android:name="com.google.android.gms.version"

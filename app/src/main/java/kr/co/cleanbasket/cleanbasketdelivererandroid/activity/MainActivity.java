@@ -4,27 +4,20 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
-
-import com.spacosa.android.catchloc.libs.CatchLocResult;
-import com.spacosa.android.catchloc.libs.CatchlocLibs;
-import com.spacosa.android.catchloc.sdk.CatchlocSDK;
 
 import kr.co.cleanbasket.cleanbasketdelivererandroid.R;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.fragment.MyOrderFragment;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.fragment.SearchOrderFragmnet;
+import kr.co.cleanbasket.cleanbasketdelivererandroid.fragment.ViewAllOrderFragment;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.network.PdManager;
 import kr.co.cleanbasket.cleanbasketdelivererandroid.utils.SharedPreferenceBase;
-import kr.co.cleanbasket.cleanbasketdelivererandroid.fragment.ViewAllOrderFragment;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //setBluetooth(true);
         PdManager.getInstance();
-        startCatchloc();
+       // startCatchloc();
 
         // set DrawerLayout
         drawer = (DrawerLayout) findViewById(R.id.drawer);
@@ -87,38 +80,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return true;
     }
-
-    private void startCatchloc() {
-        mMemberKey = CatchlocSDK.getMemberKeyDefault(MainActivity.this);
-        Log.d("catchloc.sdk", "memberkey : " + mMemberKey);
-        
-        class CatchLocAsyncTask extends AsyncTask<Void, Void, String[]> {
-            CatchLocResult catchlocResult = new CatchLocResult();
-
-            @Override
-            protected String[] doInBackground(Void... params) {
-                Log.d("catchloc.sdk", "CatchLocSDK doinBackground...");
-                catchlocResult = CatchlocSDK.startCatchLoc(MainActivity.this, mApiKey, mMemberKey);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(String[] result) {
-                Log.d("catchloc.sdk", "CatchLocSDK service starting...");
-                if (!catchlocResult.IsOk) {
-                    Toast toast = Toast.makeText(MainActivity.this, "CatchLocResult : " + catchlocResult.IsOk + "/" +
-                            catchlocResult.Message, Toast.LENGTH_LONG);
-                    toast.show();
-                }
-                CatchlocSDK.startLocationService(MainActivity.this, 1
-                );
-            }
-        }
-
-        CatchLocAsyncTask catchLocAsyncTask = new CatchLocAsyncTask();
-        catchLocAsyncTask.execute();
-        CatchlocLibs.setWifiEnableOption(this, 0);
-    }
+//
+//    private void startCatchloc() {
+//        mMemberKey = CatchlocSDK.getMemberKeyDefault(MainActivity.this);
+//        Log.d("catchloc.sdk", "memberkey : " + mMemberKey);
+//
+//        class CatchLocAsyncTask extends AsyncTask<Void, Void, String[]> {
+//            CatchLocResult catchlocResult = new CatchLocResult();
+//
+//            @Override
+//            protected String[] doInBackground(Void... params) {
+//                Log.d("catchloc.sdk", "CatchLocSDK doinBackground...");
+//                catchlocResult = CatchlocSDK.startCatchLoc(MainActivity.this, mApiKey, mMemberKey);
+//                return null;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(String[] result) {
+//                Log.d("catchloc.sdk", "CatchLocSDK service starting...");
+//                if (!catchlocResult.IsOk) {
+//                    Toast toast = Toast.makeText(MainActivity.this, "CatchLocResult : " + catchlocResult.IsOk + "/" +
+//                            catchlocResult.Message, Toast.LENGTH_LONG);
+//                    toast.show();
+//                }
+//                CatchlocSDK.startLocationService(MainActivity.this, 1
+//                );
+//            }
+//        }
+//
+//        CatchLocAsyncTask catchLocAsyncTask = new CatchLocAsyncTask();
+//        catchLocAsyncTask.execute();
+//        CatchlocLibs.setWifiEnableOption(this, 0);
+//    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
