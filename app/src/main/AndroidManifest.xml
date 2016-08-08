@@ -31,7 +31,7 @@
 
         android:name=".activity.DeliveryApplication"
         android:allowBackup="true"
-        android:icon="@drawable/pdapp_logo"
+        android:icon="@drawable/icon_main_logo"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"

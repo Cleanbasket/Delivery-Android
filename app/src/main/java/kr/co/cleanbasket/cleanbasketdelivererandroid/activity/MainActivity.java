@@ -91,8 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void startCatchloc() {
         mMemberKey = CatchlocSDK.getMemberKeyDefault(MainActivity.this);
         Log.d("catchloc.sdk", "memberkey : " + mMemberKey);
-
-        CatchlocLibs.setWifiEnableOption(this, 0);
+        
         class CatchLocAsyncTask extends AsyncTask<Void, Void, String[]> {
             CatchLocResult catchlocResult = new CatchLocResult();
 
@@ -118,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         CatchLocAsyncTask catchLocAsyncTask = new CatchLocAsyncTask();
         catchLocAsyncTask.execute();
+        CatchlocLibs.setWifiEnableOption(this, 0);
     }
 
     @Override
